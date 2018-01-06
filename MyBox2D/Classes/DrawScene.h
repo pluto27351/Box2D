@@ -1,10 +1,12 @@
-#ifndef __JOINTSCENE_H__
-#define __JOINTSCENE_H__
+#ifndef __MouseDraw_SCENE_H__
+#define __MouseDraw_SCENE_H__
 
 #define BOX2D_DEBUG 1
+#define SET_GRAVITY_BUTTON 1
 
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
+#include "Common/CButton.h"
 
 #ifdef BOX2D_DEBUG
 #include "Common/GLES-Render.h"
@@ -16,39 +18,53 @@
 #define AccelerateMaxNum 2
 #define AccelerateRatio 1.5f
 
-class JointScene : public cocos2d::Layer
+struct DrawPoint {
+	cocos2d::Point pt;
+	Sprite *texture;
+	float r;
+	struct DrawPoint *next;
+};
+
+class MouseDraw : public cocos2d::Layer
 {
 public:
 
-	~JointScene();
+	~MouseDraw();
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
-	Node *_csbRoot;
 
 	// for Box2D
 	b2World* _b2World;
 	cocos2d::Label *_titleLabel;
 	cocos2d::Size _visibleSize;
 
-
-	// for MouseJoint
-	b2Body *_bottomBody; // 底部的 edgeShape
-	b2MouseJoint* _MouseJoint;
-	bool _bTouchOn;
+	b2BodyDef _BallBodyDef;
+	b2CircleShape _BallShape;
+	b2FixtureDef _BallFixtureDef;
 
 	// Box2D Examples
 	void readBlocksCSBFile(const char *);
 	void readSceneFile(const char *);
 	void createStaticBoundary();
+	void setGravityButton();
 
-	void setupMouseJoint();
-	void setupDistanceJoint();
-	void setupPrismaticJoint();
-	void setupPulleyJoint();
-	void setupGearJoint();
-	void setupWeldJoint();
-	void setupRopeJoint();
-	void setupRevoluteJoint();
+	void drawLine();
+	struct DrawPoint *_HDrawPt = NULL, *_NDrawPt = NULL;
+	bool _bDraw=false;
+
+	//cocos2d::Point startpt;
+	//b2BodyDef *_drawDef;
+	//b2Body *_drawBody;
+	//b2FixtureDef *_drawFixture;
+
+		
+
+	
+
+#ifdef SET_GRAVITY_BUTTON
+	// 四個重力方向的按鈕
+	CButton *_gravityBtn[4]; // 0 往下、1 往左、2 往上、3 往右
+#endif
 
 #ifdef BOX2D_DEBUG
 	//DebugDraw
@@ -65,8 +81,9 @@ public:
 	void onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent); //觸碰移動事件
 	void onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent); //觸碰結束事件 
 
+	
     // implement the "static create()" method manually
-    CREATE_FUNC(JointScene);
+    CREATE_FUNC(MouseDraw);
 };
 
-#endif // __JointScene_SCENE_H__
+#endif // __MouseDraw_SCENE_H__

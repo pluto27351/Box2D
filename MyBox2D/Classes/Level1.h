@@ -1,10 +1,11 @@
-#ifndef __JOINTSCENE_H__
-#define __JOINTSCENE_H__
+#ifndef __STATICDYNAMIC_SCENE_H__
+#define __STATICDYNAMIC_SCENE_H__
 
 #define BOX2D_DEBUG 1
 
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
+#include "Common/CButton.h"
 
 #ifdef BOX2D_DEBUG
 #include "Common/GLES-Render.h"
@@ -16,40 +17,34 @@
 #define AccelerateMaxNum 2
 #define AccelerateRatio 1.5f
 
-class JointScene : public cocos2d::Layer
+class Level1 : public cocos2d::Layer
 {
 public:
 
-	~JointScene();
+	~Level1();
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 	Node *_csbRoot;
 
 	// for Box2D
 	b2World* _b2World;
-	cocos2d::Label *_titleLabel;
 	cocos2d::Size _visibleSize;
 
+	b2BodyDef _BallBodyDef;
+	b2CircleShape _BallShape;
+	b2FixtureDef _BallFixtureDef;
 
 	// for MouseJoint
 	b2Body *_bottomBody; // 底部的 edgeShape
 	b2MouseJoint* _MouseJoint;
 	bool _bTouchOn;
-
+	bool _bMouseOn = false;
 	// Box2D Examples
-	void readBlocksCSBFile(const char *);
-	void readSceneFile(const char *);
 	void createStaticBoundary();
-
+	void setStaticWalls();
 	void setupMouseJoint();
-	void setupDistanceJoint();
-	void setupPrismaticJoint();
-	void setupPulleyJoint();
-	void setupGearJoint();
-	void setupWeldJoint();
-	void setupRopeJoint();
-	void setupRevoluteJoint();
-
+	void setbtn();
+	CButton *_redBtn,*_blueBtn, *_greenBtn;
 #ifdef BOX2D_DEBUG
 	//DebugDraw
 	GLESDebugDraw* _DebugDraw;
@@ -65,8 +60,9 @@ public:
 	void onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent); //觸碰移動事件
 	void onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent); //觸碰結束事件 
 
+	
     // implement the "static create()" method manually
-    CREATE_FUNC(JointScene);
+    CREATE_FUNC(Level1);
 };
 
-#endif // __JointScene_SCENE_H__
+#endif // __StaticDynamic_SCENE_H__

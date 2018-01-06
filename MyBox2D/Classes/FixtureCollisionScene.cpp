@@ -177,7 +177,7 @@ void FixtureCollision::setupDesnity()
 	float scaleY = boardSprite->getScaleY();	// 對矩形圖示 Y 軸縮放值
 
 	// 設定板子所在的位置，因為是使用 joint 可以不用設定位置
-//	bodyDef.position.Set(loc.x/ PTM_RATIO, loc.y/ PTM_RATIO); 
+	bodyDef.position.Set(loc.x/ PTM_RATIO, loc.y/ PTM_RATIO); 
 	b2Body *seesawBoardbody = _b2World->CreateBody(&bodyDef); // 在 b2World 中建立實體
 
 	// 算出 seesawBoard 的縮放後的寬高, 4 為預留的寬度，不跟其他的圖片重疊
@@ -190,10 +190,13 @@ void FixtureCollision::setupDesnity()
 
 	// 建立與基底三角形的 Joint 連結
 	b2RevoluteJointDef seesawJoint;
-	seesawJoint.bodyA = seesawBasedbody;
-	seesawJoint.localAnchorA.Set(0, 1.2f);
-	seesawJoint.bodyB = seesawBoardbody;
-	seesawJoint.localAnchorB.Set(0,0);
+	//seesawJoint.bodyA = seesawBasedbody;
+	//seesawJoint.localAnchorA.Set(0, 1.2f);
+	//seesawJoint.bodyB = seesawBoardbody;
+	//seesawJoint.localAnchorB.Set(0,0);
+	//_b2World->CreateJoint(&seesawJoint);
+
+	seesawJoint.Initialize(seesawBasedbody, seesawBoardbody, seesawBoardbody->GetWorldCenter());
 	_b2World->CreateJoint(&seesawJoint);
 
 	// 讀取並建立兩顆球的實體

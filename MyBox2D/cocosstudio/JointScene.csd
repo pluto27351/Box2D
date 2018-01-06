@@ -485,7 +485,7 @@
             <FileData Type="PlistSubImage" Path="dount03.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="wall1_01" ActionTag="1239102645" Tag="99" RotationSkewX="-24.0000" RotationSkewY="-23.9928" IconVisible="False" LeftMargin="918.0811" RightMargin="-42.0811" TopMargin="574.4443" BottomMargin="137.5557" ctype="SpriteObjectData">
+          <AbstractNodeData Name="wall1_03" ActionTag="1239102645" Tag="99" RotationSkewX="-24.0000" RotationSkewY="-23.9928" IconVisible="False" LeftMargin="918.0811" RightMargin="-42.0811" TopMargin="574.4443" BottomMargin="137.5557" ctype="SpriteObjectData">
             <Size X="404.0000" Y="8.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1120.0811" Y="141.5557" />
@@ -529,15 +529,48 @@
             <FileData Type="PlistSubImage" Path="wheel.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="carBody" ActionTag="238940106" Tag="49" IconVisible="False" LeftMargin="1121.5015" RightMargin="-35.5015" TopMargin="432.3641" BottomMargin="202.6359" ctype="SpriteObjectData">
+          <AbstractNodeData Name="carBody" ActionTag="238940106" Tag="49" IconVisible="False" LeftMargin="1120.3542" RightMargin="-34.3542" TopMargin="427.2230" BottomMargin="207.7770" ctype="SpriteObjectData">
             <Size X="194.0000" Y="85.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="1218.5015" Y="245.1359" />
+            <Position X="1217.3542" Y="250.2770" />
             <Scale ScaleX="-0.6000" ScaleY="0.6000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.9520" Y="0.3405" />
+            <PrePosition X="0.9511" Y="0.3476" />
             <PreSize X="0.1516" Y="0.1181" />
             <FileData Type="PlistSubImage" Path="car.png" Plist="box2d.plist" />
+            <BlendFunc Src="1" Dst="771" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="test01" ActionTag="1497469860" Tag="160" IconVisible="False" LeftMargin="1162.1891" RightMargin="52.8109" TopMargin="461.0241" BottomMargin="193.9759" ctype="SpriteObjectData">
+            <Size X="65.0000" Y="65.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="1194.6891" Y="226.4759" />
+            <Scale ScaleX="0.3500" ScaleY="0.3500" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.9334" Y="0.3145" />
+            <PreSize X="0.0508" Y="0.0903" />
+            <FileData Type="PlistSubImage" Path="dount02.png" Plist="box2d.plist" />
+            <BlendFunc Src="1" Dst="771" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="gear01_07" ActionTag="-1393261108" Tag="161" IconVisible="False" LeftMargin="901.7964" RightMargin="313.2036" TopMargin="275.6123" BottomMargin="379.3877" ctype="SpriteObjectData">
+            <Size X="65.0000" Y="65.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="934.2964" Y="411.8877" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.7299" Y="0.5721" />
+            <PreSize X="0.0508" Y="0.0903" />
+            <FileData Type="PlistSubImage" Path="dount02.png" Plist="box2d.plist" />
+            <BlendFunc Src="1" Dst="771" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="test02" ActionTag="511096521" Tag="162" IconVisible="False" LeftMargin="1214.8815" RightMargin="0.1185" TopMargin="462.9675" BottomMargin="192.0325" ctype="SpriteObjectData">
+            <Size X="65.0000" Y="65.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="1247.3815" Y="224.5325" />
+            <Scale ScaleX="0.3500" ScaleY="0.3500" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.9745" Y="0.3119" />
+            <PreSize X="0.0508" Y="0.0903" />
+            <FileData Type="PlistSubImage" Path="dount02.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
         </Children>

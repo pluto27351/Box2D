@@ -71,6 +71,7 @@
         <Project Name="MainScene.csd" Type="Scene" />
         <TTF Name="Marker Felt.ttf" />
         <Project Name="staticBlocks.csd" Type="Node" />
+        <Project Name="Level1.csd" Type="Scene" />
       </RootFolder>
     </Group>
   </SolutionFolder>

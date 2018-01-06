@@ -3,7 +3,7 @@
 #include "AppDelegate.h"
 
 //#include "1_DebugDrawScene.h"
-#define BOX2D_EXAMPLE 3
+#define BOX2D_EXAMPLE 5
 
 #if BOX2D_EXAMPLE == 1
 #include "StaticDynamicScene.h"
@@ -11,6 +11,10 @@
 #include "FixtureCollisionScene.h"
 #elif  BOX2D_EXAMPLE == 3
 #include "JointScene.h"
+#elif  BOX2D_EXAMPLE == 4
+#include "DrawScene.h"
+#elif  BOX2D_EXAMPLE == 5
+#include "Level1.h"
 #endif
 
 USING_NS_CC;
@@ -40,7 +44,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
 	if (!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-		glview = GLViewImpl::createWithRect("MyBox2D", Rect(0, 0, 1920, 1080), 0.75f);
+		glview = GLViewImpl::createWithRect("MyBox2D", Rect(0, 0, 1920, 1080), 0.5f);
 #else
 		glview = GLViewImpl::create("MyBox2D");
 #endif
@@ -66,6 +70,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	auto scene = FixtureCollision::createScene();
 #elif  BOX2D_EXAMPLE == 3
 	auto scene = JointScene::createScene();
+#elif  BOX2D_EXAMPLE == 4
+	auto scene = MouseDraw::createScene();
+#elif  BOX2D_EXAMPLE == 5
+	auto scene = Level1::createScene();
 #endif
 
     // run

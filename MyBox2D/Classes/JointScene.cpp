@@ -77,6 +77,7 @@ bool JointScene::init()
 	setupGearJoint();
 	setupWeldJoint();
 	setupRopeJoint();
+	setupRevoluteJoint();
 
 #ifdef BOX2D_DEBUG
 	//DebugDrawInit
@@ -286,13 +287,13 @@ void JointScene::setupGearJoint()
 	// ­º¥ý²£¥Í¤»²Õ¤£Åã¥Üªº¡i¶ê§Î¡jÀRºAª«Åé¡A¥H©T©w¥i¥HÂà°Êªº¤»­Ó°ÊºAª«Åé
 	// ¦]¬°¤»­Ó°ÊºAª«Åé¤w¸g¦b¿Ã¹õ¤W¡A¥i¥H¥ý¨ú±o¸Ó Sprite ¡A¦P®É¨ú±o®y¼Ð
 	char tmp[20] = "";
-	Sprite *gearSprite[6];
-	Point loc[6];
-	Size  size[6];
-	float scale[6];
-	b2Body* staticBody[6];
-	b2Body* dynamicBody[6];
-	b2RevoluteJoint*  RevJoint[5];
+	Sprite *gearSprite[7];
+	Point loc[7];
+	Size  size[7];
+	float scale[7];
+	b2Body* staticBody[7];
+	b2Body* dynamicBody[7];
+	b2RevoluteJoint*  RevJoint[7];
 	b2PrismaticJoint* PriJoint;
 
 	b2BodyDef staticBodyDef;
@@ -306,7 +307,7 @@ void JointScene::setupGearJoint()
 
 	// «Ø¥ß¤»­ÓÀRºAªº¶ê§Î Body
 	// ¦P®É«Ø¥ß¤»­Ó°ÊºAªºBody¡A¥H¸j¦í gear01_01 ~  gear01_06 ªº¹Ï¥Ü
-	for (int i = 0; i <  6; i++)
+	for (int i = 0; i <  7; i++)
 	{
 		sprintf(tmp, "gear01_%02d", i+1);
 		gearSprite[i] = (Sprite *)_csbRoot->getChildByName(tmp);
@@ -314,6 +315,10 @@ void JointScene::setupGearJoint()
 		size[i] = gearSprite[i]->getContentSize();
 		scale[i] = gearSprite[i]->getScale();
 
+		if (i == 6) {
+			staticBodyDef.type = b2_dynamicBody;
+			staticBodyDef.userData = NULL;
+		}
 		staticBodyDef.position.Set(loc[i].x / PTM_RATIO, loc[i].y / PTM_RATIO);
 		staticBody[i] = _b2World->CreateBody(&staticBodyDef);
 		staticBody[i]->CreateFixture(&fixtureDef);
@@ -324,20 +329,24 @@ void JointScene::setupGearJoint()
 
 	b2CircleShape circleShape;
 	b2PolygonShape polyShape;
-	fixtureDef.shape = &circleShape;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.2f;
-	fixtureDef.restitution = 0.25f;
+	
 	// ²Ä¤»­Ó¬O¯x§Î­n¥t¥~³B¸Ì
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 7; i++)
 	{
-		if (i < 5) circleShape.m_radius = (size[i].width-4) * 0.5f * scale[i] / PTM_RATIO;
-		else {
+		if (i == 5) {
 			float sx = gearSprite[i]->getScaleX();
 			float sy = gearSprite[i]->getScaleY();
 			fixtureDef.shape = &polyShape;
-			polyShape.SetAsBox((size[i].width-4) *0.5f *sx / PTM_RATIO, (size[i].height-4) *0.5f *sy / PTM_RATIO);
+			polyShape.SetAsBox((size[i].width - 4) *0.5f *sx / PTM_RATIO, (size[i].height - 4) *0.5f *sy / PTM_RATIO);
 		}
+		else {
+			fixtureDef.shape = &circleShape;
+			fixtureDef.density = 1.0f;
+			fixtureDef.friction = 0.2f;
+			fixtureDef.restitution = 0.25f;
+			circleShape.m_radius = (size[i].width - 4) * 0.5f * scale[i] / PTM_RATIO;
+		}
+		
 		dynamicBodyDef.userData = gearSprite[i];
 		dynamicBodyDef.position.Set(loc[i].x / PTM_RATIO, loc[i].y / PTM_RATIO);
 		dynamicBody[i] = _b2World->CreateBody(&dynamicBodyDef);
@@ -346,15 +355,14 @@ void JointScene::setupGearJoint()
 
 	b2RevoluteJointDef RJoint;	// ±ÛÂàÃö¸`
 	b2PrismaticJointDef PrJoint; // ¥­²¾Ãö¸`
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 7; i++)
 	{
-		if (i < 5) {
-			RJoint.Initialize(staticBody[i], dynamicBody[i], dynamicBody[i]->GetWorldCenter());
-			RevJoint[i] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
-		}
-		else {
+		if(i==5){
 			PrJoint.Initialize(staticBody[i], dynamicBody[i], dynamicBody[i]->GetWorldCenter(), b2Vec2(1.0f, 0));
 			PriJoint = (b2PrismaticJoint*)_b2World->CreateJoint(&PrJoint);
+		}else  {
+			RJoint.Initialize(staticBody[i], dynamicBody[i], dynamicBody[i]->GetWorldCenter());
+			RevJoint[i] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
 		}
 	}
 	//²£¥Í¾¦½üÃö¸`(¦P¨B¬Û¤Ï)
@@ -533,6 +541,159 @@ void JointScene::setupRopeJoint()
 	_b2World->CreateJoint(&revJoint);
 }
 
+void JointScene::setupRevoluteJoint() {
+	// ¨ú±o¨Ã³]©w wall1_01 ½u¬q¹Ï¥Ü¬°¡iÀRºAª«Åé¡j
+	auto frameSprite = _csbRoot->getChildByName("wall1_03");
+	Point locHead = frameSprite->getPosition();
+	Size sizeHead = frameSprite->getContentSize();
+	float rot = frameSprite->getRotation();
+
+
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_staticBody;
+	bodyDef.position.Set(locHead.x / PTM_RATIO, locHead.y / PTM_RATIO);
+	bodyDef.userData = frameSprite;
+	b2Body* ropeHeadBody = _b2World->CreateBody(&bodyDef);
+	// ²£¥Íªø¤è§ÎÀRºAª«Åé©Ò»Ý­nªº rectShape
+	b2PolygonShape rectShape;
+	b2FixtureDef  fixtureDef;
+	fixtureDef.shape = &rectShape;											// rectShape ªº¥|­ÓºÝÂI, 0 ¥k¤W¡B 1 ¥ª¤W¡B 2 ¥ª¤U 3 ¥k¤U
+	Point lep[4], wep[4];
+	lep[0].x = (sizeHead.width - 4) / 2.0f;;  lep[0].y = (sizeHead.height - 4) / 2.0f;
+	lep[1].x = -(sizeHead.width - 4) / 2.0f;; lep[1].y = (sizeHead.height - 4) / 2.0f;
+	lep[2].x = -(sizeHead.width - 4) / 2.0f;; lep[2].y = -(sizeHead.height - 4) / 2.0f;
+	lep[3].x = (sizeHead.width - 4) / 2.0f;;  lep[3].y = -(sizeHead.height - 4) / 2.0f;
+
+	cocos2d::Mat4 modelMatrix, rotMatrix;
+	cocos2d::Mat4::createRotationZ(rot*M_PI / 180.0f, &rotMatrix);
+	modelMatrix.multiply(rotMatrix);
+	modelMatrix.m[3] = 0; //³]©w Translation¡A¦Û¤vªº¥[¤W¤÷¿Ëªº
+	modelMatrix.m[7] = 0; //³]©w Translation¡A¦Û¤vªº¥[¤W¤÷¿Ëªº
+	for (size_t j = 0; j < 4; j++)
+	{
+		wep[j].x = lep[j].x * modelMatrix.m[0] + lep[j].y * modelMatrix.m[1] + modelMatrix.m[3];
+		wep[j].y = lep[j].x * modelMatrix.m[4] + lep[j].y * modelMatrix.m[5] + modelMatrix.m[7];
+	}
+	b2Vec2 vecs[] = {
+		b2Vec2(wep[0].x / PTM_RATIO, wep[0].y / PTM_RATIO),
+		b2Vec2(wep[1].x / PTM_RATIO, wep[1].y / PTM_RATIO),
+		b2Vec2(wep[2].x / PTM_RATIO, wep[2].y / PTM_RATIO),
+		b2Vec2(wep[3].x / PTM_RATIO, wep[3].y / PTM_RATIO) };
+
+	rectShape.Set(vecs, 4);
+	ropeHeadBody->CreateFixture(&fixtureDef);
+	
+	/*b2FixtureDef  fixtureDef;
+	fixtureDef.density = 1.0f;  fixtureDef.friction = 0.25f; fixtureDef.restitution = 0.25f;
+	b2PolygonShape boxShape;
+	boxShape.SetAsBox(sizeHead.width*0.5f / PTM_RATIO, sizeHead.height*0.5f / PTM_RATIO);
+	fixtureDef.shape = &boxShape;
+	ropeHeadBody->CreateFixture(&fixtureDef);*/
+
+	//¨ú±o¨Ã³]©w carBody ¬°¡i°ÊºAª«Åé¡j
+	b2BodyDef bodyDef2; 
+	bodyDef2.type = b2_dynamicBody;
+
+	auto carSprite = _csbRoot->getChildByName("test01");
+	Point locTail = carSprite->getPosition();
+	Size sizeTail = carSprite->getContentSize();
+	float scale = carSprite->getScale();
+	b2CircleShape circleShape;
+	circleShape.m_radius = (sizeTail.width*scale - 4)*0.5f / PTM_RATIO;
+	bodyDef2.position.Set(locTail.x / PTM_RATIO, locTail.y / PTM_RATIO);
+	bodyDef2.userData = carSprite;
+	fixtureDef.shape = &circleShape;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.2f;
+	fixtureDef.restitution = 0.25f;
+	b2Body* bodyA = _b2World->CreateBody(&bodyDef2);
+	bodyA->CreateFixture(&fixtureDef);
+
+	/*b2Body *testbody;
+	b2BodyDef staticBodyDef;
+	staticBodyDef.type = b2_dynamicBody;
+	staticBodyDef.userData = NULL;
+	staticBodyDef.position.Set(locTail.x / PTM_RATIO, locTail.y / PTM_RATIO);
+	b2CircleShape cShape;
+	cShape.m_radius = 5 / PTM_RATIO;
+	fixtureDef.shape = &cShape;
+	testbody = _b2World->CreateBody(&staticBodyDef);
+	testbody->CreateFixture(&fixtureDef);*/
+
+	b2BodyDef bodyDef3;
+	bodyDef3.type = b2_dynamicBody;
+	carSprite = _csbRoot->getChildByName("test02");
+	locTail = carSprite->getPosition();
+	sizeTail = carSprite->getContentSize();
+	scale = carSprite->getScale();
+	circleShape.m_radius = (sizeTail.width*scale - 4)*0.5f / PTM_RATIO;
+	bodyDef3.position.Set(locTail.x / PTM_RATIO, locTail.y / PTM_RATIO);
+	bodyDef3.userData = carSprite;
+	fixtureDef.shape = &circleShape;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.2f;
+	fixtureDef.restitution = 0.25f;
+	b2Body* bodyB = _b2World->CreateBody(&bodyDef3);
+	bodyB->CreateFixture(&fixtureDef);
+
+	/*b2Body *testbody;
+	b2BodyDef staticBodyDef;
+	staticBodyDef.type = b2_dynamicBody;
+	staticBodyDef.userData = NULL;
+	staticBodyDef.position.Set(locTail.x / PTM_RATIO, locTail.y / PTM_RATIO);
+	b2CircleShape cShape;
+	cShape.m_radius = 5 / PTM_RATIO;
+	fixtureDef.shape = &cShape;
+	testbody = _b2World->CreateBody(&staticBodyDef);
+	testbody->CreateFixture(&fixtureDef);*/
+
+	carSprite = _csbRoot->getChildByName("carBody");
+	Point loc = carSprite->getPosition();
+	scale = carSprite->getScale()*-1;
+	float cScaleX = carSprite->getScaleX();
+	float cScaleY = carSprite->getScaleY();
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(loc.x / PTM_RATIO, loc.y / PTM_RATIO);
+	bodyDef.userData = carSprite;
+	b2Body *bodyC = _b2World->CreateBody(&bodyDef);
+
+	Size frameSize = carSprite->getContentSize();
+	rectShape.SetAsBox((frameSize.width - 5)*0.5f*scale / PTM_RATIO, (frameSize.height - 5)*0.5f*scale / PTM_RATIO);
+	fixtureDef.shape = &rectShape;
+	fixtureDef.restitution = 0.1f;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.1f;
+	bodyC->CreateFixture(&fixtureDef);
+
+
+	
+	b2RevoluteJoint *RevJoint[2];
+	b2RevoluteJointDef RJoint;	// ±ÛÂàÃö¸`
+	RJoint.Initialize(bodyC, bodyA, bodyA->GetWorldCenter());
+	RevJoint[0] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
+	RJoint.Initialize(bodyC, bodyB, bodyB->GetWorldCenter());
+	RevJoint[1] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
+
+	//RJoint.Initialize(bodyA, bodyC, bodyC->GetWorldCenter());
+	//RevJoint[1] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
+
+	//b2RevoluteJoint *RevJointc;
+	//b2RevoluteJointDef RJointc;
+	//RJoint.Initialize(testbody, bodyB, bodyB->GetWorldCenter());
+	//RevJoint[1] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
+
+	//²£¥Í¾¦½üÃö¸`(¦P¨B¦P¦V)
+	/*b2GearJointDef GJoint;
+	GJoint.bodyA = bodyA;
+	GJoint.bodyB = bodyB;
+	GJoint.joint1 = RevJoint[0];
+	GJoint.joint2 = RevJoint[1];
+	GJoint.ratio = -1;
+	_b2World->CreateJoint(&GJoint);*/
+
+	
+}
+
 void JointScene::readBlocksCSBFile(const char *csbfilename)
 {
 	auto csbRoot = CSLoader::createNode(csbfilename);
@@ -592,7 +753,9 @@ bool JointScene::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//Ä
 		// §PÂ_ÂIªº¦ì¸m¬O§_¸¨¦b°ÊºAª«Åé¤@©wªº½d³ò
 		Sprite *spriteObj = (Sprite*)body->GetUserData();
 		Size objSize = spriteObj->getContentSize();
-		float fdist = MAX_2(objSize.width, objSize.height)/2.0f;
+		float scaleX = spriteObj->getScaleX();
+		float scaleY = spriteObj->getScaleY();
+		float fdist = MAX_2(objSize.width*scaleX, objSize.height*scaleY)/2.0f;
 		float x = body->GetPosition().x*PTM_RATIO- touchLoc.x;
 		float y = body->GetPosition().y*PTM_RATIO - touchLoc.y;
 		float tpdist = x*x + y*y;
@@ -683,7 +846,7 @@ void JointScene::createStaticBoundary()
 	b2FixtureDef fixtureDef; // ²£¥Í Fixture
 	fixtureDef.shape = &edgeShape;
 
-	for (size_t i = 1; i <= 1; i++)
+	for (size_t i = 1; i <= 2; i++)
 	{
 		// ²£¥Í©Ò»Ý­nªº Sprite file name int plist 
 		// ¦¹³B¨ú±oªº³£¬O¬Û¹ï©ó csbRoot ©Ò¦b¦ì¸mªº¬Û¹ï®y¼Ð
