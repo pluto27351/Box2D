@@ -633,63 +633,63 @@ void FixtureCollision::draw(Renderer *renderer, const Mat4 &transform, uint32_t 
 
 
 
-CContactListener::CContactListener()
-{
-	_bApplyImpulse = false;
-	_bCreateSpark = false;
-	_NumOfSparks = 5;
-}
-void CContactListener::setCollisionTarget(cocos2d::Sprite &targetSprite)
-{
-	_targetSprite = &targetSprite;
-}
-
+//CContactListener::CContactListener()
+//{
+//	_bApplyImpulse = false;
+//	_bCreateSpark = false;
+//	_NumOfSparks = 5;
+//}
+//void CContactListener::setCollisionTarget(cocos2d::Sprite &targetSprite)
+//{
+//	_targetSprite = &targetSprite;
+//}
 //
-// 只要是兩個 body 的 fixtures 碰撞，就會呼叫這個函式
+////
+//// 只要是兩個 body 的 fixtures 碰撞，就會呼叫這個函式
+////
+//void CContactListener::BeginContact(b2Contact* contact)
+//{
+//	b2Body* BodyA = contact->GetFixtureA()->GetBody();
+//	b2Body* BodyB = contact->GetFixtureB()->GetBody();
 //
-void CContactListener::BeginContact(b2Contact* contact)
-{
-	b2Body* BodyA = contact->GetFixtureA()->GetBody();
-	b2Body* BodyB = contact->GetFixtureB()->GetBody();
-
-	// check 是否為落下的球經過 sensor1 ，只要經過就立刻讓他彈出去
-	if (BodyA->GetFixtureList()->GetDensity() == 10000.0f ) { // 代表 sensor1
-		BodyB->ApplyLinearImpulse(b2Vec2(0, 50 + rand() % 101), BodyB->GetWorldCenter(), true);
-		_bApplyImpulse = true;
-	}
-	else if (BodyB->GetFixtureList()->GetDensity() == 10000.0f) {// 代表 sensor1
-		BodyA->ApplyLinearImpulse(b2Vec2(0, 50+rand()%101), BodyB->GetWorldCenter(), true);
-		_bApplyImpulse = true;
-	}
-
-	if ( BodyA->GetUserData() == _targetSprite ) {
-		float lengthV = BodyB->GetLinearVelocity().Length();
-		if (lengthV >= 4.25f) { // 接觸時的速度超過一定的值才噴出火花
-			_bCreateSpark = true;
-			_createLoc = BodyA->GetWorldCenter() + b2Vec2(0, -30 / PTM_RATIO);
-		}
-	}
-	else if ( BodyB->GetUserData() == _targetSprite) {
-		float lengthV = BodyB->GetLinearVelocity().Length();
-		if (lengthV >= 4.25f) { // 接觸時的速度超過一定的值才噴出火花
-			_bCreateSpark = true;
-			_createLoc = BodyB->GetWorldCenter() + b2Vec2(0, -30 / PTM_RATIO);
-		}
-	}
-}
-
-//碰撞結束
-void CContactListener::EndContact(b2Contact* contact)
-{
-	b2Body* BodyA = contact->GetFixtureA()->GetBody();
-	b2Body* BodyB = contact->GetFixtureB()->GetBody();
-
-	if (BodyA->GetFixtureList()->GetDensity() == 10001.0f && _bApplyImpulse ) { // 代表 sensor2
-		BodyA->GetFixtureList()->SetDensity(10002);
-		_bApplyImpulse = false;
-	}
-	else if (BodyB->GetFixtureList()->GetDensity() == 10001.0f && _bApplyImpulse ) {	// 代表 sensor2
-		BodyB->GetFixtureList()->SetDensity(10002);
-		_bApplyImpulse = false;
-	}
-}
+//	// check 是否為落下的球經過 sensor1 ，只要經過就立刻讓他彈出去
+//	if (BodyA->GetFixtureList()->GetDensity() == 10000.0f ) { // 代表 sensor1
+//		BodyB->ApplyLinearImpulse(b2Vec2(0, 50 + rand() % 101), BodyB->GetWorldCenter(), true);
+//		_bApplyImpulse = true;
+//	}
+//	else if (BodyB->GetFixtureList()->GetDensity() == 10000.0f) {// 代表 sensor1
+//		BodyA->ApplyLinearImpulse(b2Vec2(0, 50+rand()%101), BodyB->GetWorldCenter(), true);
+//		_bApplyImpulse = true;
+//	}
+//
+//	if ( BodyA->GetUserData() == _targetSprite ) {
+//		float lengthV = BodyB->GetLinearVelocity().Length();
+//		if (lengthV >= 4.25f) { // 接觸時的速度超過一定的值才噴出火花
+//			_bCreateSpark = true;
+//			_createLoc = BodyA->GetWorldCenter() + b2Vec2(0, -30 / PTM_RATIO);
+//		}
+//	}
+//	else if ( BodyB->GetUserData() == _targetSprite) {
+//		float lengthV = BodyB->GetLinearVelocity().Length();
+//		if (lengthV >= 4.25f) { // 接觸時的速度超過一定的值才噴出火花
+//			_bCreateSpark = true;
+//			_createLoc = BodyB->GetWorldCenter() + b2Vec2(0, -30 / PTM_RATIO);
+//		}
+//	}
+//}
+//
+////碰撞結束
+//void CContactListener::EndContact(b2Contact* contact)
+//{
+//	b2Body* BodyA = contact->GetFixtureA()->GetBody();
+//	b2Body* BodyB = contact->GetFixtureB()->GetBody();
+//
+//	if (BodyA->GetFixtureList()->GetDensity() == 10001.0f && _bApplyImpulse ) { // 代表 sensor2
+//		BodyA->GetFixtureList()->SetDensity(10002);
+//		_bApplyImpulse = false;
+//	}
+//	else if (BodyB->GetFixtureList()->GetDensity() == 10001.0f && _bApplyImpulse ) {	// 代表 sensor2
+//		BodyB->GetFixtureList()->SetDensity(10002);
+//		_bApplyImpulse = false;
+//	}
+//}

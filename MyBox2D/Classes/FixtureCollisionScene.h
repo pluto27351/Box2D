@@ -7,6 +7,7 @@
 #include "Box2D/Box2D.h"
 #include "Common/CButton.h"
 #include "Common/CLight.h"
+#include "Common/CContactListener.h"
 
 #ifdef BOX2D_DEBUG
 #include "Common/GLES-Render.h"
@@ -21,21 +22,21 @@
 
 //  Box2D的碰撞偵測由 b2ContactListener 控制，要取得碰撞事件必須先繼承此類別
 
-class CContactListener : public b2ContactListener
-{
-public:
-	cocos2d::Sprite *_targetSprite; // 用於判斷是否
-	bool _bCreateSpark;		//產生火花
-	bool _bApplyImpulse;	// 產生瞬間的衝力
-	b2Vec2 _createLoc;
-	int  _NumOfSparks;
-	CContactListener();
-	//碰撞開始
-	virtual void BeginContact(b2Contact* contact);
-	//碰撞結束
-	virtual void EndContact(b2Contact* contact);
-	void setCollisionTarget(cocos2d::Sprite &targetSprite);
-};
+//class CContactListener : public b2ContactListener
+//{
+//public:
+//	cocos2d::Sprite *_targetSprite; // 用於判斷是否
+//	bool _bCreateSpark;		//產生火花
+//	bool _bApplyImpulse;	// 產生瞬間的衝力
+//	b2Vec2 _createLoc;
+//	int  _NumOfSparks;
+//	CContactListener();
+//	//碰撞開始
+//	virtual void BeginContact(b2Contact* contact);
+//	//碰撞結束
+//	virtual void EndContact(b2Contact* contact);
+//	void setCollisionTarget(cocos2d::Sprite &targetSprite);
+//};
 
 
 class FixtureCollision : public cocos2d::Layer
