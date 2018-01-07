@@ -32,22 +32,23 @@ public:
 	b2World* _b2World;
 	cocos2d::Size _visibleSize;
 
-	b2BodyDef _BallBodyDef;
-	b2CircleShape _BallShape;
-	b2FixtureDef _BallFixtureDef;
-	b2Body *_mouse;
+	
 	// for MouseJoint
 	b2Body *_bottomBody; // ©³³¡ªº edgeShape
 	b2MouseJoint* _MouseJoint;
+
+	Point bornpt;
+
 	bool _bTouchOn;
 	bool _bMouseOn = false;
 	CContactListener _colliderSeneor;
 	// Box2D Examples
+	void setbtn();
 	void createStaticBoundary();
+	void setStaticWall();
 	void setBoards();
 	void setFinalBox();
 
-	void setbtn();
 
 	void renderball(char *, int);
 	CButton *_redBtn,*_blueBtn, *_greenBtn;

@@ -1,22 +1,19 @@
-#include "Level1.h"
+#include "Level3.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
 USING_NS_CC;
+using namespace cocostudio::timeline;
 
 #define MAX_CIRCLE_OBJECTS  11
 #define MAX_2(X,Y) (X)>(Y) ? (X) : (Y)
-using namespace cocostudio::timeline;
 
-char ball[MAX_CIRCLE_OBJECTS][20] = {
-	"clock01.png","clock02.png","clock03.png","clock04.png",
-	"dount01.png","dount02.png","dount03.png","dount04.png",
-	"orange01.png","orange02.png","orange03.png" };
+extern char ball[MAX_CIRCLE_OBJECTS][20];
 
-Color3B BlockColor[3] = { Color3B(208,45,45), Color3B(77,204,42), Color3B(14,201,220) };
-Color3B BlockColor2[3] = { Color3B(242, 123, 123), Color3B(149, 234, 126), Color3B(141, 230, 239) };
+extern Color3B BlockColor[3];
+extern Color3B BlockColor2[3];
 
-Level1::~Level1()
+Level3::~Level3()
 {
 
 #ifdef BOX2D_DEBUG
@@ -30,16 +27,16 @@ Level1::~Level1()
 
 }
 
-Scene* Level1::createScene()
+Scene* Level3::createScene()
 {
     auto scene = Scene::create();
-    auto layer = Level1::create();
+    auto layer = Level3::create();
     scene->addChild(layer);
     return scene;
 }
 
 // on "init" you need to initialize your instance
-bool Level1::init()
+bool Level3::init()
 {   
     //////////////////////////////
     // 1. super init first
@@ -63,7 +60,7 @@ bool Level1::init()
 	_b2World->SetAllowSleeping(AllowSleep);	//³]©wª«¥ó¤¹³\ºÎµÛ
 
 	// Åª¤J CSB ÀÉ
-	_csbRoot = CSLoader::createNode("Level1.csb");
+	_csbRoot = CSLoader::createNode("Level3.csb");
 	
 
 #ifdef BOX2D_DEBUG
@@ -74,13 +71,13 @@ bool Level1::init()
 #endif
 
 	addChild(_csbRoot, 1);
-	// ¦b¿Ã¹õªº¥|­ÓÃä¬É«Ø¥ß Static Body °µ¬°³òÀð
-	setbtn();
+
 	createStaticBoundary();
 	setStaticWall();
 	setBoards();
 	setFinalBox();
-	
+	setCar();
+	setbtn();
 
 #ifdef BOX2D_DEBUG
 	//DebugDrawInit
@@ -101,17 +98,17 @@ bool Level1::init()
 
 	_b2World->SetContactListener(&_colliderSeneor);
 	_listener1 = EventListenerTouchOneByOne::create();	//³Ð«Ø¤@­Ó¤@¹ï¤@ªº¨Æ¥ó²âÅ¥¾¹
-	_listener1->onTouchBegan = CC_CALLBACK_2(Level1::onTouchBegan, this);		//¥[¤JÄ²¸I¶}©l¨Æ¥ó
-	_listener1->onTouchMoved = CC_CALLBACK_2(Level1::onTouchMoved, this);		//¥[¤JÄ²¸I²¾°Ê¨Æ¥ó
-	_listener1->onTouchEnded = CC_CALLBACK_2(Level1::onTouchEnded, this);		//¥[¤JÄ²¸IÂ÷¶}¨Æ¥ó
+	_listener1->onTouchBegan = CC_CALLBACK_2(Level3::onTouchBegan, this);		//¥[¤JÄ²¸I¶}©l¨Æ¥ó
+	_listener1->onTouchMoved = CC_CALLBACK_2(Level3::onTouchMoved, this);		//¥[¤JÄ²¸I²¾°Ê¨Æ¥ó
+	_listener1->onTouchEnded = CC_CALLBACK_2(Level3::onTouchEnded, this);		//¥[¤JÄ²¸IÂ÷¶}¨Æ¥ó
 
 	this->_eventDispatcher->addEventListenerWithSceneGraphPriority(_listener1, this);	//¥[¤J­è³Ð«Øªº¨Æ¥ó²âÅ¥¾¹
-	this->schedule(CC_SCHEDULE_SELECTOR(Level1::doStep));
+	this->schedule(CC_SCHEDULE_SELECTOR(Level3::doStep));
 
     return true;
 }
 
-void  Level1::setbtn() {
+void  Level3::setbtn() {
 	auto btnSprite = _csbRoot->getChildByName("redbtn");
 	_redBtn = CButton::create();
 	_redBtn->setButtonInfo("clock03.png", "clock01.png", btnSprite->getPosition());
@@ -134,7 +131,7 @@ void  Level1::setbtn() {
 	btnSprite->setVisible(false);
 }
 
-void Level1::createStaticBoundary()
+void Level3::createStaticBoundary()
 {
 	// ¥ý²£¥Í Body, ³]©w¬ÛÃöªº°Ñ¼Æ
 
@@ -166,11 +163,11 @@ void Level1::createStaticBoundary()
 	body->CreateFixture(&edgeFixtureDef);
 }
 
-void Level1::setStaticWall() {
+void Level3::setStaticWall() {
 	char tmp[20] = "";
 
 	b2BodyDef bodyDef;
-	bodyDef.type = b2_staticBody; 
+	bodyDef.type = b2_staticBody;
 	bodyDef.userData = NULL;
 	b2Body *body = _b2World->CreateBody(&bodyDef);
 
@@ -178,7 +175,7 @@ void Level1::setStaticWall() {
 	b2FixtureDef fixtureDef; // ²£¥Í Fixture
 	fixtureDef.shape = &polyshape;
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		sprintf(tmp, "wall_%02d", i);
 		auto wallSprite = (Sprite *)_csbRoot->getChildByName(tmp);
@@ -213,17 +210,44 @@ void Level1::setStaticWall() {
 			b2Vec2(wep[3].x / PTM_RATIO, wep[3].y / PTM_RATIO) };
 
 		polyshape.Set(vecs, 4);
+		if (i == 1)fixtureDef.density = 900;
+		else fixtureDef.density = 10;
 		body->CreateFixture(&fixtureDef);
 	}
+
+	auto bornSprite = (Sprite *)_csbRoot->getChildByName("born");
+	Point pt = bornSprite->getPosition();
+	bornpt = pt;
+
+	auto sensorSprite = (Sprite *)_csbRoot->getChildByName("sensor_00");
+	Size ts = sensorSprite->getContentSize();
+	Point loc = sensorSprite->getPosition();
+	float scaleX = sensorSprite->getScaleX();
+	float scaleY = sensorSprite->getScaleY();
+	b2Body *sensorbody;
+	b2BodyDef sensorDef;
+	sensorDef.position.Set(loc.x / PTM_RATIO, loc.y / PTM_RATIO);
+	sensorDef.type = b2_staticBody;
+	sensorDef.userData = NULL;
+	b2PolygonShape sensorShape;
+	sensorShape.SetAsBox( (ts.width - 4) *0.5f *scaleX / PTM_RATIO, (ts.height - 4) *0.5f *scaleY / PTM_RATIO);
+	sensorbody = _b2World->CreateBody(&sensorDef);
+	b2FixtureDef sensorfix;
+	sensorfix.shape = &sensorShape;
+	sensorfix.density = 800.0f;
+	sensorfix.isSensor = true;
+	sensorbody->CreateFixture(&sensorfix);
+	
 }
 
-void Level1::setBoards() {
+void Level3::setBoards() {
 	char tmp[20] = "";
-	Sprite *gearSprite[6];
-	Point loc[6];
-	Size  size[6];
-	b2Body* staticBody[6];
-	b2Body* dynamicBody[6];
+	Sprite *gearSprite[2];
+	Point loc[2];
+	Size  size[2];
+	float sx,sy ;
+	b2Body* staticBody[2];
+	b2Body* dynamicBody[2];
 
 	b2BodyDef staticBodyDef;
 	staticBodyDef.type = b2_staticBody;
@@ -234,26 +258,24 @@ void Level1::setBoards() {
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &staticShape;
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 2; i++)
 	{
-		if(i<2)sprintf(tmp, "redblock_%02d", i + 1);
-		else if (i < 4) sprintf(tmp, "greenblock_%02d", i -1);
-		else sprintf(tmp, "blueblock_%02d", i - 3);
+		sprintf(tmp, "greenblock_%02d", i);
 
 		gearSprite[i] = (Sprite *)_csbRoot->getChildByName(tmp);
 		loc[i] = gearSprite[i]->getPosition();
 		size[i] = gearSprite[i]->getContentSize();
+		sx = gearSprite[i]->getScaleX();
+		sy = gearSprite[i]->getScaleY();
 
-
-		staticBodyDef.position.Set(loc[i].x / PTM_RATIO, loc[i].y / PTM_RATIO);
+		staticBodyDef.position.Set((loc[i].x) / PTM_RATIO, loc[i].y / PTM_RATIO);
 		staticBody[i] = _b2World->CreateBody(&staticBodyDef);
-		fixtureDef.filter.categoryBits = 1 << (i / 2 + 1);   // 0.1 =1  2.3 =2  4.5 =3
+		fixtureDef.filter.categoryBits = 1 << 2;  // 0=2 green
 		staticBody[i]->CreateFixture(&fixtureDef);
 	}
 
 	b2BodyDef dynamicBodyDef;
 	dynamicBodyDef.type = b2_dynamicBody;
-	//dynamicBodyDef.type = b2_staticBody;
 
 	b2PolygonShape polyShape;
 	fixtureDef.shape = &polyShape;
@@ -261,30 +283,102 @@ void Level1::setBoards() {
 	fixtureDef.friction = 0.2f;
 	fixtureDef.restitution = 0.25f;
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 2; i++)
 	{
-		float sx = gearSprite[i]->getScaleX();
-		float sy = gearSprite[i]->getScaleY();
 		polyShape.SetAsBox((size[i].width - 4) *0.5f *sx / PTM_RATIO, (size[i].height - 4) *0.5f *sy / PTM_RATIO);
 
 		dynamicBodyDef.userData = gearSprite[i];
-		gearSprite[i]->setColor(BlockColor[(i/2)]);	// ¨Ï¥Î filterColor ¤w¸g«Ø¥ßªºÃC¦â
+		gearSprite[i]->setColor(BlockColor[1]);
 		dynamicBodyDef.position.Set(loc[i].x / PTM_RATIO, loc[i].y / PTM_RATIO);
 		dynamicBody[i] = _b2World->CreateBody(&dynamicBodyDef);
-		fixtureDef.filter.categoryBits = 1 << (i / 2 + 1);   // 0.1 =1  2.3 =2  4.5 =3
+		fixtureDef.filter.categoryBits = 1 << 2;  // 0=2 green
 		dynamicBody[i]->CreateFixture(&fixtureDef);
 	}
 
 	b2RevoluteJointDef RJoint;	// ±ÛÂàÃö¸`
-	for (int i = 0; i < 6; i++)
-	{		
+	for (int i = 0; i < 2; i++)
+	{
 		b2RevoluteJoint*  RevJoint;
 		RJoint.Initialize(staticBody[i], dynamicBody[i], dynamicBody[i]->GetWorldCenter());
 		RevJoint = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
 	}
 }
 
-void Level1::setFinalBox() {
+void Level3::setPendulum() {
+	//°ò©³
+	auto *basic = _csbRoot->getChildByName("Pendulum_basic_00");
+	basic->setVisible(true);
+	Point loc = basic->getPosition();
+	Size size = basic->getContentSize();
+	float scale = basic->getScale();
+	b2BodyDef staticBodyDef;
+	staticBodyDef.type = b2_staticBody;
+	staticBodyDef.position.Set(loc.x / PTM_RATIO, loc.y / PTM_RATIO);
+	staticBodyDef.userData = basic;
+	b2Body* basicBody = _b2World->CreateBody(&staticBodyDef);
+
+	b2PolygonShape boxShape;
+	boxShape.SetAsBox(size.width*0.5f*scale / PTM_RATIO, size.height*0.5f*scale / PTM_RATIO);
+
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &boxShape;
+	basicBody->CreateFixture(&fixtureDef);
+
+	// ³æÂ\
+	auto circleSprite = _csbRoot->getChildByName("Pendulum_cir_00");
+	circleSprite->setVisible(true);
+	loc = circleSprite->getPosition();
+	size = circleSprite->getContentSize();
+	b2CircleShape circleShape;
+	circleShape.m_radius = size.width*0.5f / PTM_RATIO;
+
+	b2BodyDef circleBodyDef;
+	circleBodyDef.type = b2_dynamicBody;
+	circleBodyDef.position.Set(loc.x / PTM_RATIO, loc.y / PTM_RATIO);
+	circleBodyDef.userData = circleSprite;
+	b2Body* circleBody = _b2World->CreateBody(&circleBodyDef);
+	fixtureDef.shape = &circleShape;
+	fixtureDef.density = 100000;
+	circleBody->CreateFixture(&fixtureDef);
+
+	//²£¥Í¶ZÂ÷Ãö¸`
+	b2DistanceJointDef JointDef;
+	JointDef.Initialize(basicBody, circleBody, basicBody->GetPosition(), circleBody->GetPosition());
+	_b2World->CreateJoint(&JointDef);
+
+	//¨ú±o¨Ã³]©w circle01_weld ¬°¡i°ÊºAª«Åé¡j
+	auto ropeSprite = _csbRoot->getChildByName("Pendulum_rope_00");
+	ropeSprite->setVisible(true);
+	loc = ropeSprite->getPosition();
+	size = ropeSprite->getContentSize();
+	float scaleX = ropeSprite->getScaleX();
+	float scaleY = ropeSprite->getScaleY();
+
+	b2BodyDef rpoeBodyDef;
+	rpoeBodyDef.type = b2_dynamicBody;
+	rpoeBodyDef.position.Set(loc.x / PTM_RATIO, loc.y / PTM_RATIO);
+	rpoeBodyDef.userData = ropeSprite;
+	b2Body* ropeBody = _b2World->CreateBody(&rpoeBodyDef);
+	b2PolygonShape ropeShape;
+	ropeShape.SetAsBox(size.width*0.5f*scaleX / PTM_RATIO, size.height*0.5f*scaleY / PTM_RATIO);
+	fixtureDef.shape = &ropeShape;
+	fixtureDef.density = 1.0f;  fixtureDef.friction = 0.25f; fixtureDef.restitution = 0.25f;
+	ropeBody->CreateFixture(&fixtureDef);
+
+	//b2WeldJointDef ropeJointDef;
+	//ropeJointDef.Initialize(circleBody, ropeBody, circleBody->GetPosition());
+	//_b2World->CreateJoint(&ropeJointDef); // ¨Ï¥Î¹w³]­È²k±µ
+
+	b2RevoluteJointDef revolutrJointDef;
+	revolutrJointDef.Initialize(basicBody, ropeBody, basicBody->GetPosition());
+	_b2World->CreateJoint(&revolutrJointDef);
+
+	revolutrJointDef.Initialize(circleBody, ropeBody, circleBody->GetPosition());
+	_b2World->CreateJoint(&revolutrJointDef);
+
+}
+
+void Level3::setFinalBox() {
 	//²×ÂI½c¤l
 	char tmp[20] = "";
 	Sprite *boxSprite[12];
@@ -344,8 +438,105 @@ void Level1::setFinalBox() {
 	
 }
 
+void Level3::setCar() {
+	//½ü¤l
+	b2Body *wheelbody[2];
+	char tmp[20] = "";
 
-void Level1::doStep(float dt)
+	for (int i = 0; i < 2; i++) {
+		b2BodyDef wheelDef;
+		wheelDef.type = b2_dynamicBody;
+		sprintf(tmp, "wheel_%02d", i);
+		auto carSprite = _csbRoot->getChildByName(tmp);
+		Point locTail = carSprite->getPosition();
+		Size sizeTail = carSprite->getContentSize();
+		float scale = carSprite->getScale();
+		wheelDef.position.Set(locTail.x / PTM_RATIO, locTail.y / PTM_RATIO);
+		wheelDef.userData = carSprite;
+
+		b2CircleShape circleShape;
+		circleShape.m_radius = (sizeTail.width*scale - 4)*0.5f / PTM_RATIO;
+		b2FixtureDef wheelfix;
+		wheelfix.shape = &circleShape;
+		wheelfix.density = 1.0f;
+		wheelfix.friction = 0.2f;
+		wheelfix.restitution = 0.25f;
+
+		wheelbody[i] = _b2World->CreateBody(&wheelDef);
+		wheelbody[i]->CreateFixture(&wheelfix);
+	}
+
+	// ¤ÞÀº
+	auto carSprite = _csbRoot->getChildByName("carengine");
+	Point locTail = carSprite->getPosition();
+	Size sizeTail = carSprite->getContentSize();
+	float scale = carSprite->getScale();
+
+	b2Body* staticBody;
+	b2BodyDef staticBodyDef;
+	staticBodyDef.type = b2_staticBody;
+	staticBodyDef.userData = NULL;
+	b2CircleShape staticShape;
+	staticShape.m_radius = 5 / PTM_RATIO;
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &staticShape;
+	staticBodyDef.position.Set(locTail.x / PTM_RATIO, locTail.y / PTM_RATIO);
+	staticBody = _b2World->CreateBody(&staticBodyDef);
+	staticBody->CreateFixture(&fixtureDef);
+
+	b2Body *enginebody;
+	b2FixtureDef enginefix;
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(locTail.x / PTM_RATIO, locTail.y / PTM_RATIO);
+	bodyDef.userData = carSprite;
+	b2CircleShape circleShape;
+	circleShape.m_radius = (sizeTail.width*scale - 4)*0.5f / PTM_RATIO;
+	fixtureDef.shape = &circleShape;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.2f;
+	fixtureDef.restitution = 0.25f;
+	enginebody = _b2World->CreateBody(&bodyDef);
+	enginebody->CreateFixture(&fixtureDef);
+	
+	//¨®¤l
+	carSprite = _csbRoot->getChildByName("car");
+	Point loc = carSprite->getPosition();
+	scale = carSprite->getScale()*-1;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(loc.x / PTM_RATIO, loc.y / PTM_RATIO);
+	bodyDef.userData = carSprite;
+	b2Body *carbody = _b2World->CreateBody(&bodyDef);
+	Size frameSize = carSprite->getContentSize();
+	b2PolygonShape rectShape;
+	rectShape.SetAsBox((frameSize.width - 5)*0.5f*scale / PTM_RATIO, (frameSize.height - 5)*0.5f*scale / PTM_RATIO);
+	fixtureDef.shape = &rectShape;
+	fixtureDef.restitution = 0.1f;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.1f;
+	carbody->CreateFixture(&fixtureDef);
+
+	//³sµ²
+	b2RevoluteJoint *RevJoint[3];
+	b2RevoluteJointDef RJoint;	// ±ÛÂàÃö¸`
+	RJoint.Initialize(carbody, wheelbody[0], wheelbody[0]->GetWorldCenter());
+	RevJoint[0] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
+	RJoint.Initialize(carbody, wheelbody[1], wheelbody[1]->GetWorldCenter());
+	RevJoint[1] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
+	RJoint.Initialize(staticBody, enginebody, enginebody->GetWorldCenter());
+	RevJoint[2] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
+
+	b2GearJointDef GJoint;
+	GJoint.bodyA = wheelbody[1];
+	GJoint.bodyB = enginebody;
+	GJoint.joint1 = RevJoint[1];
+	GJoint.joint2 = RevJoint[2];
+	GJoint.ratio = 2;
+	_b2World->CreateJoint(&GJoint);
+}
+
+
+void Level3::doStep(float dt)
 {
 	int velocityIterations = 8;	// ³t«×­¡¥N¦¸¼Æ
 	int positionIterations = 1; // ¦ì¸m­¡¥N¦¸¼Æ ­¡¥N¦¸¼Æ¤@¯ë³]©w¬°8~10 ¶V°ª¶V¯u¹ê¦ý®Ä²v¶V®t
@@ -383,13 +574,17 @@ void Level1::doStep(float dt)
 
 	}
 
-	if (_colliderSeneor.inBox == true) {
-		CCLOG("!!!!");
-		_colliderSeneor.inBox = false;
+	if (!open && _colliderSeneor.lv3Open == true) {
+		open = true;
+		setPendulum();
+		auto bornSprite = (Sprite *)_csbRoot->getChildByName("born");
+		bornSprite->setPosition(Vec2(845, bornSprite->getPositionY()));
+		Point pt = bornSprite->getPosition();
+		bornpt = pt;
 	}
 }
 
-bool Level1::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//Ä²¸I¶}©l¨Æ¥ó
+bool Level3::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//Ä²¸I¶}©l¨Æ¥ó
 {
 	Point touchLoc = pTouch->getLocation();
 
@@ -461,7 +656,7 @@ bool Level1::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//Ä²¸I¶
 	return true;
 }
 
-void  Level1::onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸I²¾°Ê¨Æ¥ó
+void  Level3::onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸I²¾°Ê¨Æ¥ó
 {
 	Point touchLoc = pTouch->getLocation();
 	if (_bTouchOn)
@@ -474,7 +669,7 @@ void  Level1::onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 	_blueBtn->touchesBegin(touchLoc);
 }
 
-void  Level1::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸Iµ²§ô¨Æ¥ó 
+void  Level3::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸Iµ²§ô¨Æ¥ó 
 {
 	Point touchLoc = pTouch->getLocation();
 	if (_bTouchOn)
@@ -494,7 +689,7 @@ void  Level1::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 	if (_blueBtn->touchesEnded(touchLoc))   renderball("clock04.png", 3);
 	
 }
-void Level1::renderball(char *name, int mask) {
+void Level3::renderball(char *name, int mask) {
 	auto ballSprite = Sprite::createWithSpriteFrameName(name);
 	ballSprite->setScale(0.5f);
 	this->addChild(ballSprite, 2);
@@ -503,7 +698,7 @@ void Level1::renderball(char *name, int mask) {
 	b2BodyDef bodyDef;	// ¥ý¥Hµ²ºc b2BodyDef «Å§i¤@­Ó Body ªºÅÜ¼Æ
 	bodyDef.type = b2_dynamicBody; // ³]©w¬°°ÊºAª«Åé
 	bodyDef.userData = ballSprite;	// ³]©w Sprite ¬°°ÊºAª«ÅéªºÅã¥Ü¹Ï¥Ü
-	bodyDef.position.Set(260.0f / PTM_RATIO, 700.0f / PTM_RATIO);
+	bodyDef.position.Set(bornpt.x / PTM_RATIO, bornpt.y / PTM_RATIO);
 	// ¥H bodyDef ¦b b2World  ¤¤«Ø¥ß¹êÅé¨Ã¶Ç¦^¸Ó¹êÅéªº«ü¼Ð
 	b2Body *ballBody = _b2World->CreateBody(&bodyDef);
 
@@ -521,9 +716,10 @@ void Level1::renderball(char *name, int mask) {
 	ballBody->CreateFixture(&fixtureDef);	// ¦b Body ¤W²£¥Í³o­Ó­èÅéªº³]©w
 }
 
+
 #ifdef BOX2D_DEBUG
 //§ï¼gÃ¸»s¤èªk
-void Level1::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
+void Level3::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
 	Director* director = Director::getInstance();
 

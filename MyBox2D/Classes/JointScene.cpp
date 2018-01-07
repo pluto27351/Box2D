@@ -583,12 +583,6 @@ void JointScene::setupRevoluteJoint() {
 	rectShape.Set(vecs, 4);
 	ropeHeadBody->CreateFixture(&fixtureDef);
 	
-	/*b2FixtureDef  fixtureDef;
-	fixtureDef.density = 1.0f;  fixtureDef.friction = 0.25f; fixtureDef.restitution = 0.25f;
-	b2PolygonShape boxShape;
-	boxShape.SetAsBox(sizeHead.width*0.5f / PTM_RATIO, sizeHead.height*0.5f / PTM_RATIO);
-	fixtureDef.shape = &boxShape;
-	ropeHeadBody->CreateFixture(&fixtureDef);*/
 
 	//取得並設定 carBody 為【動態物體】
 	b2BodyDef bodyDef2; 
@@ -609,17 +603,6 @@ void JointScene::setupRevoluteJoint() {
 	b2Body* bodyA = _b2World->CreateBody(&bodyDef2);
 	bodyA->CreateFixture(&fixtureDef);
 
-	/*b2Body *testbody;
-	b2BodyDef staticBodyDef;
-	staticBodyDef.type = b2_dynamicBody;
-	staticBodyDef.userData = NULL;
-	staticBodyDef.position.Set(locTail.x / PTM_RATIO, locTail.y / PTM_RATIO);
-	b2CircleShape cShape;
-	cShape.m_radius = 5 / PTM_RATIO;
-	fixtureDef.shape = &cShape;
-	testbody = _b2World->CreateBody(&staticBodyDef);
-	testbody->CreateFixture(&fixtureDef);*/
-
 	b2BodyDef bodyDef3;
 	bodyDef3.type = b2_dynamicBody;
 	carSprite = _csbRoot->getChildByName("test02");
@@ -636,16 +619,6 @@ void JointScene::setupRevoluteJoint() {
 	b2Body* bodyB = _b2World->CreateBody(&bodyDef3);
 	bodyB->CreateFixture(&fixtureDef);
 
-	/*b2Body *testbody;
-	b2BodyDef staticBodyDef;
-	staticBodyDef.type = b2_dynamicBody;
-	staticBodyDef.userData = NULL;
-	staticBodyDef.position.Set(locTail.x / PTM_RATIO, locTail.y / PTM_RATIO);
-	b2CircleShape cShape;
-	cShape.m_radius = 5 / PTM_RATIO;
-	fixtureDef.shape = &cShape;
-	testbody = _b2World->CreateBody(&staticBodyDef);
-	testbody->CreateFixture(&fixtureDef);*/
 
 	carSprite = _csbRoot->getChildByName("carBody");
 	Point loc = carSprite->getPosition();
@@ -673,23 +646,6 @@ void JointScene::setupRevoluteJoint() {
 	RevJoint[0] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
 	RJoint.Initialize(bodyC, bodyB, bodyB->GetWorldCenter());
 	RevJoint[1] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
-
-	//RJoint.Initialize(bodyA, bodyC, bodyC->GetWorldCenter());
-	//RevJoint[1] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
-
-	//b2RevoluteJoint *RevJointc;
-	//b2RevoluteJointDef RJointc;
-	//RJoint.Initialize(testbody, bodyB, bodyB->GetWorldCenter());
-	//RevJoint[1] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
-
-	//產生齒輪關節(同步同向)
-	/*b2GearJointDef GJoint;
-	GJoint.bodyA = bodyA;
-	GJoint.bodyB = bodyB;
-	GJoint.joint1 = RevJoint[0];
-	GJoint.joint2 = RevJoint[1];
-	GJoint.ratio = -1;
-	_b2World->CreateJoint(&GJoint);*/
 
 	
 }

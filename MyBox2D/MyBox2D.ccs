@@ -73,6 +73,7 @@
         <TTF Name="Marker Felt.ttf" />
         <Project Name="staticBlocks.csd" Type="Node" />
         <Project Name="Level2.csd" Type="Scene" />
+        <Project Name="Level3.csd" Type="Scene" />
       </RootFolder>
     </Group>
   </SolutionFolder>

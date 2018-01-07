@@ -12,6 +12,7 @@ public:
 	b2Vec2 _createLoc;
 	int  _NumOfSparks;
 	bool inBox = false;
+	bool lv3Open = false;
 	CContactListener();
 	//¸I¼²¶}©l
 	virtual void BeginContact(b2Contact* contact);

@@ -60,6 +60,9 @@
     <ClCompile Include="..\Classes\Level2.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Level3.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -105,6 +108,9 @@
       <Filter>src\Common</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Level2.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Level3.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
