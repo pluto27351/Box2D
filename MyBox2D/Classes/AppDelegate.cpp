@@ -3,7 +3,7 @@
 #include "AppDelegate.h"
 
 //#include "1_DebugDrawScene.h"
-#define BOX2D_EXAMPLE 7
+#define BOX2D_EXAMPLE 8
 
 #if BOX2D_EXAMPLE == 1
 #include "StaticDynamicScene.h"
@@ -19,6 +19,8 @@
 #include "Level2.h"
 #elif  BOX2D_EXAMPLE == 7
 #include "Level3.h"
+#elif  BOX2D_EXAMPLE == 8
+#include "Level4.h"
 #endif
 
 USING_NS_CC;
@@ -82,6 +84,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	auto scene = Level2::createScene();
 #elif  BOX2D_EXAMPLE == 7
 	auto scene = Level3::createScene();
+#elif  BOX2D_EXAMPLE == 8
+	auto scene = Level4::createScene();
 #endif
 
     // run
