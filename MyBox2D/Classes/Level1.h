@@ -41,6 +41,7 @@ public:
 
 	bool _bTouchOn;
 	bool _bMouseOn = false;
+	bool _bboxR = false, _bboxG = false, _bboxB = false;
 	CContactListener _colliderSeneor;
 	// Box2D Examples
 	void setbtn();

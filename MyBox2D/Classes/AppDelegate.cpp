@@ -3,7 +3,7 @@
 #include "AppDelegate.h"
 
 //#include "1_DebugDrawScene.h"
-#define BOX2D_EXAMPLE 8
+#define BOX2D_EXAMPLE 5
 
 #if BOX2D_EXAMPLE == 1
 #include "StaticDynamicScene.h"

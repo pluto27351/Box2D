@@ -83,13 +83,13 @@
             <FileData Type="PlistSubImage" Path="rect03.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="wall_00" ActionTag="-971360263" Tag="125" RotationSkewX="21.3251" RotationSkewY="21.2863" IconVisible="False" LeftMargin="1071.8853" RightMargin="144.1147" TopMargin="336.3459" BottomMargin="319.6541" ctype="SpriteObjectData">
+          <AbstractNodeData Name="wall_00" ActionTag="-971360263" Tag="125" RotationSkewX="21.3251" RotationSkewY="21.2864" IconVisible="False" LeftMargin="1120.4098" RightMargin="95.5902" TopMargin="355.4369" BottomMargin="300.5631" ctype="SpriteObjectData">
             <Size X="64.0000" Y="64.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="1103.8853" Y="351.6541" />
-            <Scale ScaleX="2.9954" ScaleY="0.1336" />
+            <Position X="1152.4098" Y="332.5631" />
+            <Scale ScaleX="4.7468" ScaleY="0.1336" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.8624" Y="0.4884" />
+            <PrePosition X="0.9003" Y="0.4619" />
             <PreSize X="0.0500" Y="0.0889" />
             <FileData Type="PlistSubImage" Path="square02.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
@@ -105,11 +105,11 @@
             <FileData Type="PlistSubImage" Path="square02.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="wall_03" ActionTag="-1491564713" Tag="193" IconVisible="False" LeftMargin="551.6335" RightMargin="664.3665" TopMargin="274.8110" BottomMargin="381.1890" ctype="SpriteObjectData">
+          <AbstractNodeData Name="wall_03" ActionTag="-1491564713" Tag="193" IconVisible="False" LeftMargin="551.6336" RightMargin="664.3664" TopMargin="274.8109" BottomMargin="381.1891" ctype="SpriteObjectData">
             <Size X="64.0000" Y="64.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="583.6335" Y="413.1890" />
-            <Scale ScaleX="3.9975" ScaleY="0.1684" />
+            <Position X="583.6336" Y="413.1891" />
+            <Scale ScaleX="4.5091" ScaleY="0.1684" />
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition X="0.4560" Y="0.5739" />
             <PreSize X="0.0500" Y="0.0889" />
@@ -853,13 +853,13 @@
             <FileData Type="PlistSubImage" Path="rope08.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="wall_02" ActionTag="-1307787657" Tag="235" RotationSkewX="21.3251" RotationSkewY="21.2874" IconVisible="False" LeftMargin="1237.3243" RightMargin="-21.3243" TopMargin="400.5653" BottomMargin="255.4347" ctype="SpriteObjectData">
+          <AbstractNodeData Name="wall_02" ActionTag="-1307787657" Tag="235" RotationSkewY="-0.3011" IconVisible="False" LeftMargin="684.6667" RightMargin="531.3333" TopMargin="267.4549" BottomMargin="388.5451" ctype="SpriteObjectData">
             <Size X="64.0000" Y="64.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="1269.3243" Y="287.4347" />
-            <Scale ScaleX="2.9954" ScaleY="0.1336" />
+            <Position X="716.6667" Y="420.5451" />
+            <Scale ScaleX="0.1859" ScaleY="0.4015" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.9917" Y="0.3992" />
+            <PrePosition X="0.5599" Y="0.5841" />
             <PreSize X="0.0500" Y="0.0889" />
             <FileData Type="PlistSubImage" Path="square02.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />

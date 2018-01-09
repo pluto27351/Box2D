@@ -556,22 +556,6 @@ void Level3::doStep(float dt)
 			ballData->setPosition(body->GetPosition().x*PTM_RATIO, body->GetPosition().y*PTM_RATIO);
 			ballData->setRotation(-1 * CC_RADIANS_TO_DEGREES(body->GetAngle()));
 		}
-
-		//if (body->GetType() == b2BodyType::b2_dynamicBody) {
-		//	float x = body->GetPosition().x * PTM_RATIO;
-		//	float y = body->GetPosition().y * PTM_RATIO;
-		//	if (x > _visibleSize.width || x < 0 || y >  _visibleSize.height || y < 0) {
-		//		if (body->GetUserData() != NULL) {
-		//			Sprite* spriteData = (Sprite *)body->GetUserData();
-		//			this->removeChild(spriteData);
-		//		}
-		//		_b2World->DestroyBody(body);
-		//		body = NULL;
-		//	}
-		//	else body = body->GetNext(); //§_«h´NÄ~Äò§ó·s¤U¤@­ÓBody
-		//}
-		//else body = body->GetNext(); //§_«h´NÄ~Äò§ó·s¤U¤@­ÓBody
-
 	}
 
 	if (!open && _colliderSeneor.lv3Open == true) {
@@ -581,6 +565,19 @@ void Level3::doStep(float dt)
 		bornSprite->setPosition(Vec2(845, bornSprite->getPositionY()));
 		Point pt = bornSprite->getPosition();
 		bornpt = pt;
+	}
+
+	if (_bboxR && _bboxG && _bboxB) {
+		CCLOG("LEVEL UP!");
+	}
+	if (!_bboxR) {
+		if (_colliderSeneor.inBoxR == true) _bboxR = true;
+	}
+	if (!_bboxG) {
+		if (_colliderSeneor.inBoxG == true) _bboxG = true;
+	}
+	if (!_bboxB) {
+		if (_colliderSeneor.inBoxB == true) _bboxB = true;
 	}
 }
 
@@ -619,35 +616,6 @@ bool Level3::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//Ä²¸I¶
 				break;
 			}
 		}
-	}
-
-	if(!_bMouseOn) {
-		// ¥ý«Ø¥ß ballSprite ªº Sprite ¨Ã¥[¤J³õ´º¤¤
-		auto ballSprite = Sprite::createWithSpriteFrameName(ball[rand()% MAX_CIRCLE_OBJECTS]);
-		ballSprite->setScale(0.75f);
-	//	ballSprite->setPosition(touchLoc);
-		this->addChild(ballSprite, 2);
-
-		// «Ø¥ß¤@­ÓÂ²³æªº°ÊºA²yÅé
-		b2BodyDef bodyDef;	// ¥ý¥Hµ²ºc b2BodyDef «Å§i¤@­Ó Body ªºÅÜ¼Æ
-		bodyDef.type = b2_dynamicBody; // ³]©w¬°°ÊºAª«Åé
-		bodyDef.userData = ballSprite;	// ³]©w Sprite ¬°°ÊºAª«ÅéªºÅã¥Ü¹Ï¥Ü
-		bodyDef.position.Set(touchLoc.x / PTM_RATIO, touchLoc.y / PTM_RATIO);
-		// ¥H bodyDef ¦b b2World  ¤¤«Ø¥ß¹êÅé¨Ã¶Ç¦^¸Ó¹êÅéªº«ü¼Ð
-		b2Body *ballBody = _b2World->CreateBody(&bodyDef);
-		// ³]©w¸Óª«Åéªº¥~«¬
-		b2CircleShape ballShape;	//  «Å§iª«Åéªº¥~«¬ª«¥óÅÜ¼Æ¡A¦¹³B¬O¶ê§Îª«Åé
-		Size ballsize = ballSprite->getContentSize();	// ®Ú¾Ú Sprite ¹Ï§Îªº¤j¤p¨Ó³]©w¶ê§Îªº¥b®|
-		ballShape.m_radius = 0.75f*(ballsize.width - 4) *0.5f / PTM_RATIO;
-		// ¥H b2FixtureDef  µ²ºc«Å§i­èÅéµ²ºcÅÜ¼Æ¡A¨Ã³]©w­èÅéªº¬ÛÃöª«²z«Y¼Æ
-		b2FixtureDef fixtureDef;
-		fixtureDef.shape = &ballShape;			// «ü©w­èÅéªº¥~«¬¬°¶ê§Î
-		fixtureDef.restitution = 0.15f;			// ³]©w¼u©Ê«Y¼Æ
-		fixtureDef.density = 5.0f;				// ³]©w±K«×
-		fixtureDef.friction = 0.15f;			// ³]©w¼¯À¿«Y¼Æ
-		ballBody->CreateFixture(&fixtureDef);	// ¦b Body ¤W²£¥Í³o­Ó­èÅéªº³]©w
-		//ballBody->ApplyLinearImpulse(b2Vec2(0, 250), ballBody->GetWorldCenter(), true);
-		// GetWorldCenter():Get the world position of the center of mass
 	}
 
 	_redBtn->touchesBegin(touchLoc);

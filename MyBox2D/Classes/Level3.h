@@ -37,6 +37,7 @@ public:
 	b2MouseJoint* _MouseJoint;
 	bool _bTouchOn;   //與場景物件產生關西
 	bool _bMouseOn = false;  //滑鼠移動
+	bool _bboxR = false, _bboxG = false, _bboxB = false;
 	CContactListener _colliderSeneor;
 	Point bornpt;
 	bool open = false;

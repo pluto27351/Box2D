@@ -11,7 +11,7 @@ public:
 	bool _bApplyImpulse;	// 產生瞬間的衝力
 	b2Vec2 _createLoc;
 	int  _NumOfSparks;
-	bool inBox = false;
+	bool inBoxR = false, inBoxG = false, inBoxB = false;
 	bool lv3Open = false;
 	CContactListener();
 	//碰撞開始

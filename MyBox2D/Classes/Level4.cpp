@@ -729,22 +729,19 @@ void Level4::doStep(float dt)
 			ballData->setPosition(body->GetPosition().x*PTM_RATIO, body->GetPosition().y*PTM_RATIO);
 			ballData->setRotation(-1 * CC_RADIANS_TO_DEGREES(body->GetAngle()));
 		}
+	}
 
-		//if (body->GetType() == b2BodyType::b2_dynamicBody) {
-		//	float x = body->GetPosition().x * PTM_RATIO;
-		//	float y = body->GetPosition().y * PTM_RATIO;
-		//	if (x > _visibleSize.width || x < 0 || y >  _visibleSize.height || y < 0) {
-		//		if (body->GetUserData() != NULL) {
-		//			Sprite* spriteData = (Sprite *)body->GetUserData();
-		//			this->removeChild(spriteData);
-		//		}
-		//		_b2World->DestroyBody(body);
-		//		body = NULL;
-		//	}
-		//	else body = body->GetNext(); //否則就繼續更新下一個Body
-		//}
-		//else body = body->GetNext(); //否則就繼續更新下一個Body
-
+	if (_bboxR && _bboxG && _bboxB) {
+		CCLOG("LEVEL UP!");
+	}
+	if (!_bboxR) {
+		if (_colliderSeneor.inBoxR == true) _bboxR = true;
+	}
+	if (!_bboxG) {
+		if (_colliderSeneor.inBoxG == true) _bboxG = true;
+	}
+	if (!_bboxB) {
+		if (_colliderSeneor.inBoxB == true) _bboxB = true;
 	}
 
 }

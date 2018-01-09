@@ -49,14 +49,13 @@ void CContactListener::BeginContact(b2Contact* contact)
 		}
 	}
 
-	if (DensityA == 500.0f || DensityA == 600.0f || DensityA == 700.0f) { // 代表 r.g.b box
-		inBox = true;
-		
-	}
-	else if (DensityB == 500.0f || DensityB == 600.0f || DensityB == 700.0f) { // 代表 r.g.b box
-		inBox = true;
-	}
-
+	if      (DensityA == 500.0f)  inBoxR = true;  //RED
+	else if (DensityB == 500.0f)  inBoxR = true;
+	if      (DensityA == 600.0f)  inBoxG = true;  //GREEN
+	else if (DensityB == 600.0f)  inBoxG = true;
+	if      (DensityA == 700.0f)  inBoxB = true;  //BLUE
+	else if (DensityB == 700.0f)  inBoxB = true;
+	
 	if (DensityA == 800.0f ) { // 代表 lv3
 		CCLOG("open");
 		lv3Open = true;
