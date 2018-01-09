@@ -47,6 +47,7 @@ public:
 	void setPendulum();
 	void setFinalBox();
 	void setCar();
+	void setRope();
 	//void setSensor();
 	void setbtn();
 

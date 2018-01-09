@@ -71,10 +71,10 @@
         <Project Name="Level1.csd" Type="Scene" />
         <Project Name="Level2.csd" Type="Scene" />
         <Project Name="Level3.csd" Type="Scene" />
+        <Project Name="Level4.csd" Type="Scene" />
         <Project Name="MainScene.csd" Type="Scene" />
         <TTF Name="Marker Felt.ttf" />
         <Project Name="staticBlocks.csd" Type="Node" />
-        <Project Name="Level4.csd" Type="Scene" />
       </RootFolder>
     </Group>
   </SolutionFolder>
