@@ -1,7 +1,7 @@
 #ifndef __STATICDYNAMIC_SCENE_H__
 #define __STATICDYNAMIC_SCENE_H__
 
-#define BOX2D_DEBUG 1
+//#define BOX2D_DEBUG 1
 
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
@@ -17,7 +17,15 @@
 #define RepeatCreateBallTime 3
 #define AccelerateMaxNum 2
 #define AccelerateRatio 1.5f
+#define DRAW_MIN 5
+#define DRAW_HEIGHT 3
 
+struct DrawPoint {
+	cocos2d::Point pt;
+	Sprite *texture;
+	float r;
+	struct DrawPoint *next;
+};
 
 class Level4 : public cocos2d::Layer
 {
@@ -40,6 +48,14 @@ public:
 	CContactListener _colliderSeneor;
 	Point bornpt;
 	bool open = false;
+
+	//§‚√∏
+	int pencolor = 0;
+	bool drawOn = false;
+	void drawLine();
+	struct DrawPoint *_HDrawPt = NULL, *_NDrawPt = NULL;
+	bool _bDraw = false;
+
 	// Box2D Examples
 	void createStaticBoundary();
 	void setStaticWall();
@@ -52,7 +68,7 @@ public:
 	void setbtn();
 
 	void renderball(char *, int);
-	CButton *_redBtn,*_blueBtn, *_greenBtn;
+	CButton *_redBtn,*_blueBtn, *_greenBtn,*_penBtn;
 #ifdef BOX2D_DEBUG
 	//DebugDraw
 	GLESDebugDraw* _DebugDraw;

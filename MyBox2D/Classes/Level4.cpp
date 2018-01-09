@@ -131,6 +131,13 @@ void  Level4::setbtn() {
 	_blueBtn->setScale(btnSprite->getScale());
 	this->addChild(_blueBtn, 5);
 	btnSprite->setVisible(false);
+
+	btnSprite = _csbRoot->getChildByName("penbtn");
+	_penBtn = CButton::create();
+	_penBtn->setButtonInfo("orange02.png", "clock01.png", btnSprite->getPosition());
+	_penBtn->setScale(btnSprite->getScale());
+	this->addChild(_penBtn, 5);
+	btnSprite->setVisible(false);
 }
 
 void Level4::createStaticBoundary()
@@ -652,14 +659,6 @@ void Level4::setRope() {
 	JointDef.maxLength = (locHead[0].y - boxpt.y) / PTM_RATIO;
 	JointDef.collideConnected = true;
 	b2RopeJoint* J = (b2RopeJoint*)_b2World->CreateJoint(&JointDef);
-	//b2RopeJointDef JointDef;
-	//JointDef.bodyA = ropecir[2];
-	//JointDef.bodyB = ropebox;
-	//JointDef.localAnchorA = b2Vec2(0, 0);
-	//JointDef.localAnchorB = b2Vec2(0, 0);
-	//JointDef.maxLength = (locHead[0].y - boxpt.y) / PTM_RATIO;
-	//JointDef.collideConnected = true;
-	//_b2World->CreateJoint(&JointDef);
 
 	//Ã·¤l¹êÅé
 	Sprite *ropeSprite[37];  //24+13
@@ -787,38 +786,18 @@ bool Level4::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//Ä²¸I¶
 		}
 	}
 
-	if(!_bMouseOn) {
-		// ¥ý«Ø¥ß ballSprite ªº Sprite ¨Ã¥[¤J³õ´º¤¤
-		auto ballSprite = Sprite::createWithSpriteFrameName(ball[rand()% MAX_CIRCLE_OBJECTS]);
-		ballSprite->setScale(0.75f);
-	//	ballSprite->setPosition(touchLoc);
-		this->addChild(ballSprite, 2);
-
-		// «Ø¥ß¤@­ÓÂ²³æªº°ÊºA²yÅé
-		b2BodyDef bodyDef;	// ¥ý¥Hµ²ºc b2BodyDef «Å§i¤@­Ó Body ªºÅÜ¼Æ
-		bodyDef.type = b2_dynamicBody; // ³]©w¬°°ÊºAª«Åé
-		bodyDef.userData = ballSprite;	// ³]©w Sprite ¬°°ÊºAª«ÅéªºÅã¥Ü¹Ï¥Ü
-		bodyDef.position.Set(touchLoc.x / PTM_RATIO, touchLoc.y / PTM_RATIO);
-		// ¥H bodyDef ¦b b2World  ¤¤«Ø¥ß¹êÅé¨Ã¶Ç¦^¸Ó¹êÅéªº«ü¼Ð
-		b2Body *ballBody = _b2World->CreateBody(&bodyDef);
-		// ³]©w¸Óª«Åéªº¥~«¬
-		b2CircleShape ballShape;	//  «Å§iª«Åéªº¥~«¬ª«¥óÅÜ¼Æ¡A¦¹³B¬O¶ê§Îª«Åé
-		Size ballsize = ballSprite->getContentSize();	// ®Ú¾Ú Sprite ¹Ï§Îªº¤j¤p¨Ó³]©w¶ê§Îªº¥b®|
-		ballShape.m_radius = 0.75f*(ballsize.width - 4) *0.5f / PTM_RATIO;
-		// ¥H b2FixtureDef  µ²ºc«Å§i­èÅéµ²ºcÅÜ¼Æ¡A¨Ã³]©w­èÅéªº¬ÛÃöª«²z«Y¼Æ
-		b2FixtureDef fixtureDef;
-		fixtureDef.shape = &ballShape;			// «ü©w­èÅéªº¥~«¬¬°¶ê§Î
-		fixtureDef.restitution = 0.15f;			// ³]©w¼u©Ê«Y¼Æ
-		fixtureDef.density = 5.0f;				// ³]©w±K«×
-		fixtureDef.friction = 0.15f;			// ³]©w¼¯À¿«Y¼Æ
-		ballBody->CreateFixture(&fixtureDef);	// ¦b Body ¤W²£¥Í³o­Ó­èÅéªº³]©w
-		//ballBody->ApplyLinearImpulse(b2Vec2(0, 250), ballBody->GetWorldCenter(), true);
-		// GetWorldCenter():Get the world position of the center of mass
+	if (drawOn) {
+		_bDraw = true;
+		_HDrawPt = new DrawPoint;
+		_HDrawPt->pt = touchLoc;
+		_HDrawPt->next = NULL;
+		_NDrawPt = _HDrawPt;
 	}
 
 	_redBtn->touchesBegin(touchLoc);
 	_greenBtn->touchesBegin(touchLoc);
 	_blueBtn->touchesBegin(touchLoc);
+	_penBtn->touchesBegin(touchLoc);
 	return true;
 }
 
@@ -830,9 +809,31 @@ void  Level4::onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		_MouseJoint->SetTarget(b2Vec2(touchLoc.x / PTM_RATIO, touchLoc.y / PTM_RATIO));
 	}
 
+	if (_bDraw) {
+		float len = ccpDistance(_NDrawPt->pt, touchLoc);
+		if (len > DRAW_MIN) {
+			struct DrawPoint *newPt;
+			newPt = new DrawPoint;
+			newPt->pt = touchLoc;
+			float x = newPt->pt.x - _NDrawPt->pt.x;
+			float y = newPt->pt.y - _NDrawPt->pt.y;
+			newPt->r = atan2f(y, x);
+			newPt->texture = Sprite::createWithSpriteFrameName("square06.png");
+			newPt->texture->setPosition(touchLoc);
+			newPt->texture->setScale(0.3f,0.07f);
+			newPt->texture->setColor(BlockColor[pencolor]);
+			newPt->texture->setRotation(-(newPt->r * 180 / M_PI));
+			this->addChild(newPt->texture, 2);
+			newPt->next = NULL;
+			_NDrawPt->next = newPt;
+			_NDrawPt = newPt;
+		}
+	}
+
 	_redBtn->touchesBegin(touchLoc);
 	_greenBtn->touchesBegin(touchLoc);
 	_blueBtn->touchesBegin(touchLoc);
+	_penBtn->touchesBegin(touchLoc);
 }
 
 void  Level4::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸Iµ²§ô¨Æ¥ó 
@@ -850,9 +851,26 @@ void  Level4::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		}
 	}
 
-	if (_redBtn->touchesEnded(touchLoc))   renderball("clock03.png", 1);
-	if (_greenBtn->touchesEnded(touchLoc)) renderball("clock02.png", 2);
-	if (_blueBtn->touchesEnded(touchLoc))   renderball("clock04.png", 3);
+	if (_bDraw) {
+		drawLine();
+		_bDraw = false;
+	}
+
+	if (_redBtn->touchesEnded(touchLoc)) {
+		if(!drawOn) renderball("clock03.png", 1);
+		else pencolor = 0;
+	}
+	if (_greenBtn->touchesEnded(touchLoc)) {
+		if (!drawOn)renderball("clock02.png", 2);
+		else pencolor = 1;
+	}
+	if (_blueBtn->touchesEnded(touchLoc)) {
+		if (!drawOn)renderball("clock04.png", 3);
+		else pencolor = 2;
+	}
+	if (_penBtn->touchesEnded(touchLoc)) {
+		drawOn = !drawOn;
+	}
 	
 }
 void Level4::renderball(char *name, int mask) {
@@ -880,6 +898,54 @@ void Level4::renderball(char *name, int mask) {
 	fixtureDef.friction = 0.15f;			// ³]©w¼¯À¿«Y¼Æ
 	fixtureDef.filter.maskBits = 1 << mask | 1; //³]©w¸s²Õ
 	ballBody->CreateFixture(&fixtureDef);	// ¦b Body ¤W²£¥Í³o­Ó­èÅéªº³]©w
+}
+
+void Level4::drawLine() {
+	struct DrawPoint *DiePt;
+	_NDrawPt = _HDrawPt;
+
+	if (_HDrawPt->next) {  //¦Ü¤Ö2ÂI
+		b2BodyDef drawDef;
+		drawDef.type = b2_staticBody;
+		//drawDef.userData = _HDrawPt->texture;
+		drawDef.position.Set(0, 0);
+		b2Body *drawBody = _b2World->CreateBody(&drawDef);
+
+		while (_NDrawPt->next != NULL) {
+			float x = _NDrawPt->pt.x - _NDrawPt->next->pt.x;
+			float y = _NDrawPt->pt.y - _NDrawPt->next->pt.y;
+			float r = atan2f(y, x);
+			cocos2d::Point pt[2], pos[4];
+			pt[0].x = _NDrawPt->pt.x;  pt[0].y = _NDrawPt->pt.y;
+			pt[1].x = _NDrawPt->next->pt.x;  pt[1].y = _NDrawPt->next->pt.y;
+			for (int i = 0; i < 2; i++) {
+				pos[i].x = pt[i].x + (0 * cosf(r) + DRAW_MIN / 2 * sinf(r));
+				pos[i].y = pt[i].y + (0 * sinf(r)*(-1) + DRAW_MIN / 2 * cosf(r));
+				pos[i + 2].x = pt[i].x + (0 * cosf(r) - DRAW_MIN / 2 * sinf(r));
+				pos[i + 2].y = pt[i].y + (0 * sinf(r)*(-1) - DRAW_MIN / 2 * cosf(r));
+
+			}
+			b2PolygonShape shape;
+			b2FixtureDef drawFixture;
+			drawFixture.shape = &shape;
+			drawFixture.density = 2.0f;
+			drawFixture.friction = 0;
+			drawFixture.restitution = 0.3f;
+			drawFixture.filter.categoryBits = 1 << pencolor+1;  // 123
+			b2Vec2 vec[] = {
+				b2Vec2(pos[0].x / PTM_RATIO, pos[0].y / PTM_RATIO),
+				b2Vec2(pos[1].x / PTM_RATIO, pos[1].y / PTM_RATIO),
+				b2Vec2(pos[2].x / PTM_RATIO, pos[2].y / PTM_RATIO),
+				b2Vec2(pos[3].x / PTM_RATIO, pos[3].y / PTM_RATIO) };
+			shape.Set(vec, 4);
+			drawBody->CreateFixture(&drawFixture);
+
+			DiePt = _NDrawPt;
+			_NDrawPt = DiePt->next;
+			delete DiePt;
+		}
+	}
+
 }
 
 

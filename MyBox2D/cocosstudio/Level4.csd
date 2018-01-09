@@ -61,7 +61,7 @@
             <FileData Type="PlistSubImage" Path="orange01.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="orange01_14_3" ActionTag="1547097722" Tag="145" IconVisible="False" LeftMargin="30.9955" RightMargin="1175.0045" TopMargin="601.5811" BottomMargin="44.4189" ctype="SpriteObjectData">
+          <AbstractNodeData Name="penbtn" ActionTag="1547097722" Tag="145" IconVisible="False" LeftMargin="30.9955" RightMargin="1175.0045" TopMargin="601.5811" BottomMargin="44.4189" ctype="SpriteObjectData">
             <Size X="74.0000" Y="74.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="67.9955" Y="81.4189" />
@@ -380,17 +380,6 @@
             <FileData Type="PlistSubImage" Path="square06.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="ropebox_01" ActionTag="1267794401" Tag="146" RotationSkewX="-90.7121" RotationSkewY="-90.7379" IconVisible="False" LeftMargin="871.6731" RightMargin="344.3269" TopMargin="717.5427" BottomMargin="-61.5427" ctype="SpriteObjectData">
-            <Size X="64.0000" Y="64.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="903.6731" Y="-29.5427" />
-            <Scale ScaleX="0.7962" ScaleY="0.7453" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.7060" Y="-0.0410" />
-            <PreSize X="0.0500" Y="0.0889" />
-            <FileData Type="PlistSubImage" Path="square03.png" Plist="box2d.plist" />
-            <BlendFunc Src="1" Dst="771" />
-          </AbstractNodeData>
           <AbstractNodeData Name="ropecir_00" ActionTag="-1555258681" Tag="174" IconVisible="False" LeftMargin="943.4906" RightMargin="271.5094" TopMargin="174.8730" BottomMargin="480.1270" ctype="SpriteObjectData">
             <Size X="65.0000" Y="65.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
@@ -675,6 +664,17 @@
             <PrePosition X="0.7060" Y="0.4490" />
             <PreSize X="0.0063" Y="0.0278" />
             <FileData Type="PlistSubImage" Path="rope08.png" Plist="box2d.plist" />
+            <BlendFunc Src="1" Dst="771" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="ropebox_01" ActionTag="1267794401" Tag="146" RotationSkewX="-90.7121" RotationSkewY="-90.7379" IconVisible="False" LeftMargin="871.6729" RightMargin="344.3271" TopMargin="717.5427" BottomMargin="-61.5427" ctype="SpriteObjectData">
+            <Size X="64.0000" Y="64.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="903.6729" Y="-29.5427" />
+            <Scale ScaleX="0.7962" ScaleY="1.1670" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.7060" Y="-0.0410" />
+            <PreSize X="0.0500" Y="0.0889" />
+            <FileData Type="PlistSubImage" Path="square03.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
           <AbstractNodeData Name="wall_04" ActionTag="-1036498998" Tag="139" IconVisible="False" LeftMargin="364.7368" RightMargin="851.2632" TopMargin="176.1879" BottomMargin="479.8121" ctype="SpriteObjectData">
