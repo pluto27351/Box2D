@@ -1,11 +1,12 @@
-#ifndef __STATICDYNAMIC_SCENE_H__
-#define __STATICDYNAMIC_SCENE_H__
+#ifndef __LEVEL3_SCENE_H__
+#define __LEVEL3_SCENE_H__
 
 #define BOX2D_DEBUG 1
 
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
 #include "Common/CButton.h"
+#include "Common/CSwitchButton.h"
 #include "Common/CContactListener.h"
 
 #ifdef BOX2D_DEBUG
@@ -19,11 +20,11 @@
 #define AccelerateRatio 1.5f
 
 
-class Level2 : public cocos2d::Layer
+class Level3 : public cocos2d::Layer
 {
 public:
 
-	~Level2();
+	~Level3();
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 	Node *_csbRoot;
@@ -40,16 +41,20 @@ public:
 	bool _bboxR = false, _bboxG = false, _bboxB = false;
 	CContactListener _colliderSeneor;
 	Point bornpt;
+	bool open = false;
 	// Box2D Examples
 	void createStaticBoundary();
 	void setStaticWall();
-	//void setBoards();
+	void setBoards();
 	void setPendulum();
 	void setFinalBox();
+	void setCar();
+	//void setSensor();
 	void setbtn();
 
 	void renderball(char *, int);
 	CButton *_redBtn,*_blueBtn, *_greenBtn;
+	CSwitchButton *_penBtn, *_homeBtn, *_replayBtn;
 #ifdef BOX2D_DEBUG
 	//DebugDraw
 	GLESDebugDraw* _DebugDraw;
@@ -67,7 +72,7 @@ public:
 
 	
     // implement the "static create()" method manually
-    CREATE_FUNC(Level2);
+    CREATE_FUNC(Level3);
 };
 
-#endif // __StaticDynamic_SCENE_H__
+#endif // __LEVEL3_SCENE_H__

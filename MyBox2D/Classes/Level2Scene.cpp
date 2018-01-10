@@ -1,4 +1,4 @@
-#include "Level2.h"
+#include "Level2Scene.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
@@ -22,7 +22,7 @@ Level2::~Level2()
 
 	if (_b2World != nullptr) delete _b2World;
 //  for releasing Plist&Texture
-	SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
+	//SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 	Director::getInstance()->getTextureCache()->removeUnusedTextures();
 
 }
@@ -47,6 +47,7 @@ bool Level2::init()
 
 //  For Loading Plist+Texture
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("box2d.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("UIBTN.plist");
 
 	_visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -111,23 +112,30 @@ bool Level2::init()
 void  Level2::setbtn() {
 	auto btnSprite = _csbRoot->getChildByName("redbtn");
 	_redBtn = CButton::create();
-	_redBtn->setButtonInfo("clock03.png", "clock01.png", btnSprite->getPosition());
+	_redBtn->setButtonInfo("playBtn01_01.png", "playBtn01_02.png", btnSprite->getPosition());
 	_redBtn->setScale(btnSprite->getScale());
 	this->addChild(_redBtn, 5);
 	btnSprite->setVisible(false);
 
 	btnSprite = _csbRoot->getChildByName("greenbtn");
 	_greenBtn = CButton::create();
-	_greenBtn->setButtonInfo("clock02.png", "clock01.png", btnSprite->getPosition());
+	_greenBtn->setButtonInfo("playBtn02_01.png", "playBtn02_02.png", btnSprite->getPosition());
 	_greenBtn->setScale(btnSprite->getScale());
 	this->addChild(_greenBtn, 5);
 	btnSprite->setVisible(false);
 
 	btnSprite = _csbRoot->getChildByName("bluebtn");
 	_blueBtn = CButton::create();
-	_blueBtn->setButtonInfo("clock04.png", "clock01.png", btnSprite->getPosition());
+	_blueBtn->setButtonInfo("playBtn03_01.png", "playBtn03_02.png", btnSprite->getPosition());
 	_blueBtn->setScale(btnSprite->getScale());
 	this->addChild(_blueBtn, 5);
+	btnSprite->setVisible(false);
+
+	btnSprite = _csbRoot->getChildByName("penbtn");
+	_penBtn = CSwitchButton::create();
+	_penBtn->setButtonInfo("playBtn00_01.png", "playBtn00_02.png", "playBtn00_01.png", btnSprite->getPosition());
+	_penBtn->setScale(btnSprite->getScale());
+	this->addChild(_penBtn, 5);
 	btnSprite->setVisible(false);
 }
 
@@ -524,14 +532,13 @@ void  Level2::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		}
 	}
 
-	if (_redBtn->touchesEnded(touchLoc))   renderball("clock03.png", 1);
-	if (_greenBtn->touchesEnded(touchLoc)) renderball("clock02.png", 2);
-	if (_blueBtn->touchesEnded(touchLoc))   renderball("clock04.png", 3);
+	if (_redBtn->touchesEnded(touchLoc))   renderball("ball_01.png", 1);
+	if (_greenBtn->touchesEnded(touchLoc)) renderball("ball_02.png", 2);
+	if (_blueBtn->touchesEnded(touchLoc))  renderball("ball_03.png", 3);
 	
 }
 void Level2::renderball(char *name, int mask) {
 	auto ballSprite = Sprite::createWithSpriteFrameName(name);
-	ballSprite->setScale(0.5f);
 	this->addChild(ballSprite, 2);
 
 	// «Ø¥ß¤@­ÓÂ²³æªº°ÊºA²yÅé
@@ -545,7 +552,7 @@ void Level2::renderball(char *name, int mask) {
 	// ³]©w¸Óª«Åéªº¥~«¬
 	b2CircleShape ballShape;	//  «Å§iª«Åéªº¥~«¬ª«¥óÅÜ¼Æ¡A¦¹³B¬O¶ê§Îª«Åé
 	Size ballsize = ballSprite->getContentSize();	// ®Ú¾Ú Sprite ¹Ï§Îªº¤j¤p¨Ó³]©w¶ê§Îªº¥b®|
-	ballShape.m_radius = 0.5f*(ballsize.width - 4) *0.5f / PTM_RATIO;
+	ballShape.m_radius = 0.5f*(ballsize.width - 4) / PTM_RATIO;
 	// ¥H b2FixtureDef  µ²ºc«Å§i­èÅéµ²ºcÅÜ¼Æ¡A¨Ã³]©w­èÅéªº¬ÛÃöª«²z«Y¼Æ
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &ballShape;			// «ü©w­èÅéªº¥~«¬¬°¶ê§Î

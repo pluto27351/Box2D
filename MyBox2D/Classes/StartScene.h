@@ -1,63 +1,46 @@
-#ifndef __STATICDYNAMIC_SCENE_H__
-#define __STATICDYNAMIC_SCENE_H__
-
-#define BOX2D_DEBUG 1
+#ifndef __START_SCENE_H__
+#define __START_SCENE_H__
 
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
 #include "Common/CButton.h"
-#include "Common/CContactListener.h"
-
-#ifdef BOX2D_DEBUG
-#include "Common/GLES-Render.h"
-#include "Common/GB2ShapeCache-x.h"
-#endif
+#include "Common/CSwitchButton.h"
+#include "Level1Scene.h"
+#include "Level2Scene.h"
+#include "Level3Scene.h"
+#include "Level4Scene.h"
 
 #define PTM_RATIO 32.0f
 #define RepeatCreateBallTime 3
 #define AccelerateMaxNum 2
 #define AccelerateRatio 1.5f
+#define DRAW_MIN 5
+#define DRAW_HEIGHT 3
 
 
-class Level1 : public cocos2d::Layer
+class StartScene : public cocos2d::Layer
 {
 public:
 
-	~Level1();
+	~StartScene();
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 	Node *_csbRoot;
-
 	// for Box2D
 	b2World* _b2World;
 	cocos2d::Size _visibleSize;
-
+	cocos2d::Point bornpt;
+	int LV = 1;
 	
-	// for MouseJoint
-	b2Body *_bottomBody; // ©³³¡ªº edgeShape
-	b2MouseJoint* _MouseJoint;
 
-	Point bornpt;
-
-	bool _bTouchOn;
-	bool _bMouseOn = false;
-	bool _bboxR = false, _bboxG = false, _bboxB = false;
-	CContactListener _colliderSeneor;
-	// Box2D Examples
-	void setbtn();
-	void createStaticBoundary();
 	void setStaticWall();
-	void setBoards();
-	void setFinalBox();
 
-
+	void setbtn();
+	void setUIbtn();
 	void renderball(char *, int);
 	CButton *_redBtn,*_blueBtn, *_greenBtn;
-#ifdef BOX2D_DEBUG
-	//DebugDraw
-	GLESDebugDraw* _DebugDraw;
-	virtual void draw(cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags);
-#endif
+	CButton *_startBtn;
+	CSwitchButton *_LevelBtn[4];
 
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();
@@ -70,7 +53,7 @@ public:
 
 	
     // implement the "static create()" method manually
-    CREATE_FUNC(Level1);
+    CREATE_FUNC(StartScene);
 };
 
-#endif // __StaticDynamic_SCENE_H__
+#endif // __START_SCENE_H__

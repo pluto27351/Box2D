@@ -17,6 +17,17 @@
             <FileData Type="PlistSubImage" Path="bg64.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
+          <AbstractNodeData Name="pencolor" ActionTag="1266823493" Tag="312" RotationSkewX="0.5702" RotationSkewY="0.5848" IconVisible="False" LeftMargin="36.5848" RightMargin="1179.4153" TopMargin="592.4373" BottomMargin="63.5627" ctype="SpriteObjectData">
+            <Size X="64.0000" Y="64.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="68.5848" Y="95.5627" />
+            <Scale ScaleX="0.6922" ScaleY="0.5244" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.0536" Y="0.1327" />
+            <PreSize X="0.0500" Y="0.0889" />
+            <FileData Type="PlistSubImage" Path="square06.png" Plist="box2d.plist" />
+            <BlendFunc Src="1" Dst="771" />
+          </AbstractNodeData>
           <AbstractNodeData Name="orange01_14" ActionTag="-1774236587" Tag="137" IconVisible="False" LeftMargin="30.9948" RightMargin="1175.0052" TopMargin="61.4230" BottomMargin="584.5770" ctype="SpriteObjectData">
             <Size X="74.0000" Y="74.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
@@ -352,7 +363,7 @@
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="660.0000" Y="445.2065" />
             <Scale ScaleX="0.0928" ScaleY="0.6633" />
-            <CColor A="255" R="255" G="255" B="255" />
+            <CColor A="255" R="0" G="128" B="0" />
             <PrePosition X="0.5156" Y="0.6183" />
             <PreSize X="0.0500" Y="0.0889" />
             <FileData Type="PlistSubImage" Path="square05.png" Plist="box2d.plist" />
@@ -363,7 +374,7 @@
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="705.0000" Y="445.2066" />
             <Scale ScaleX="0.0928" ScaleY="0.6633" />
-            <CColor A="255" R="255" G="255" B="255" />
+            <CColor A="255" R="0" G="128" B="0" />
             <PrePosition X="0.5508" Y="0.6183" />
             <PreSize X="0.0500" Y="0.0889" />
             <FileData Type="PlistSubImage" Path="square05.png" Plist="box2d.plist" />

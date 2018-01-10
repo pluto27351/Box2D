@@ -28,17 +28,6 @@
             <FileData Type="PlistSubImage" Path="square06.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="orange01_14" ActionTag="-1774236587" Tag="137" IconVisible="False" LeftMargin="30.9948" RightMargin="1175.0052" TopMargin="61.4230" BottomMargin="584.5770" ctype="SpriteObjectData">
-            <Size X="74.0000" Y="74.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="67.9948" Y="621.5770" />
-            <Scale ScaleX="1.2500" ScaleY="1.2500" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.0531" Y="0.8633" />
-            <PreSize X="0.0578" Y="0.1028" />
-            <FileData Type="PlistSubImage" Path="orange01.png" Plist="box2d.plist" />
-            <BlendFunc Src="1" Dst="771" />
-          </AbstractNodeData>
           <AbstractNodeData Name="bluebtn" ActionTag="-299717885" Tag="142" IconVisible="False" LeftMargin="30.9956" RightMargin="1175.0044" TopMargin="483.7899" BottomMargin="162.2101" ctype="SpriteObjectData">
             <Size X="74.0000" Y="74.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
@@ -72,7 +61,7 @@
             <FileData Type="PlistSubImage" Path="orange01.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="orange01_14_3" ActionTag="1547097722" Tag="145" IconVisible="False" LeftMargin="30.9955" RightMargin="1175.0045" TopMargin="601.5811" BottomMargin="44.4189" ctype="SpriteObjectData">
+          <AbstractNodeData Name="penbtn" ActionTag="1547097722" Tag="145" IconVisible="False" LeftMargin="30.9955" RightMargin="1175.0045" TopMargin="601.5811" BottomMargin="44.4189" ctype="SpriteObjectData">
             <Size X="74.0000" Y="74.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="67.9955" Y="81.4189" />
@@ -149,13 +138,13 @@
             <FileData Type="PlistSubImage" Path="square06.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="boxSensor_01" ActionTag="1314538211" Tag="156" IconVisible="False" LeftMargin="400.0251" RightMargin="815.9750" TopMargin="638.7880" BottomMargin="17.2120" ctype="SpriteObjectData">
+          <AbstractNodeData Name="boxSensor_01" ActionTag="1314538211" Tag="156" IconVisible="False" LeftMargin="400.0251" RightMargin="815.9749" TopMargin="638.7880" BottomMargin="17.2120" ctype="SpriteObjectData">
             <Size X="64.0000" Y="64.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="432.0251" Y="49.2120" />
             <Scale ScaleX="1.7847" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.3375" Y="0.0683" />
+            <PrePosition X="0.3375" Y="0.0684" />
             <PreSize X="0.0500" Y="0.0889" />
             <FileData Type="PlistSubImage" Path="square06.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
@@ -204,7 +193,7 @@
             <FileData Type="PlistSubImage" Path="square06.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="finbox_02" ActionTag="-973360483" Tag="89" IconVisible="False" LeftMargin="448.9107" RightMargin="767.0892" TopMargin="640.0022" BottomMargin="15.9978" ctype="SpriteObjectData">
+          <AbstractNodeData Name="finbox_02" ActionTag="-973360483" Tag="89" IconVisible="False" LeftMargin="448.9107" RightMargin="767.0893" TopMargin="640.0022" BottomMargin="15.9978" ctype="SpriteObjectData">
             <Size X="64.0000" Y="64.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="480.9107" Y="47.9978" />
