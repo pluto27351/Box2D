@@ -18,27 +18,23 @@ CSwitchButton* CSwitchButton::create()
 CSwitchButton::CSwitchButton()
 {
 	_SwitchOffPic = nullptr;
-	_SwitchTDPic = nullptr;
 	_SwitchOnPic = nullptr;
 }
 
-void CSwitchButton::setButtonInfo(const char *offImg, const char *onImg, const char *tdImg, const cocos2d::Point locPt)
+void CSwitchButton::setButtonInfo(const char *offImg, const char *onImg, const cocos2d::Point locPt)
 {
 	_SwitchOffPic = (Sprite *)Sprite::createWithSpriteFrameName(offImg);
-	_SwitchTDPic  = (Sprite *)Sprite::createWithSpriteFrameName(tdImg);
 	_SwitchOnPic = (Sprite *)Sprite::createWithSpriteFrameName(onImg);
 
 	_BtnLoc = locPt;
 	_SwitchOffPic->setPosition(_BtnLoc); // 設定位置
-	_SwitchTDPic->setPosition(_BtnLoc); // 設定位置
 	_SwitchOnPic->setPosition(_BtnLoc); // 設定位置
 	_SwitchOffPic->setVisible(true);
-	_SwitchTDPic->setVisible(false);
 	_SwitchOnPic->setVisible(false);
-	_SwitchTDPic->setScale(1.25f);
+
+	_ShowBtn = _SwitchOffPic;
 
 	this->addChild(_SwitchOffPic,1);
-	this->addChild(_SwitchTDPic, 1);
 	this->addChild(_SwitchOnPic, 1);
 
 	// 取得大小
@@ -59,9 +55,7 @@ bool CSwitchButton::touchesBegan(cocos2d::Point inPos)
 	if( _BtnRect.containsPoint(inPos) && _bVisible )
 	{
 		_bTouched = true;
-		_SwitchOnPic->setVisible(false);
-		_SwitchTDPic->setVisible(true);
-		_SwitchOffPic->setVisible(false);
+		_ShowBtn->setScale(_fScale+0.05f);
 		return(true); // 有按在上面
 	}
 	return(false);
@@ -72,14 +66,7 @@ bool CSwitchButton::touchesMoved(cocos2d::Point inPos)
 	if( _bTouched ) { // 只有被按住的時候才處理
 		if( !_BtnRect.containsPoint(inPos) ) { // 手指頭位置離開按鈕
 			_bTouched = false;
-			if (_bSwitchOn) { // 顯示亮起來的圖示
-				_SwitchOnPic->setVisible(true);
-				_SwitchTDPic->setVisible(false);
-			}
-			else {
-				_SwitchOffPic->setVisible(true);
-				_SwitchTDPic->setVisible(false);
-			}
+			_ShowBtn->setScale(_fScale);
 			return(false);
 		}
 		else return(true);
@@ -90,18 +77,14 @@ bool CSwitchButton::touchesMoved(cocos2d::Point inPos)
 bool CSwitchButton::touchesEnded(cocos2d::Point inPos)
 {
 	if( _bTouched ) {
-		if (_bSwitchOn) { // 狀態切換，按鈕設定為關閉
-			_SwitchOnPic->setVisible(false);
-			_SwitchTDPic->setVisible(false);
-			_SwitchOffPic->setVisible(true);
-		}
-		else { // 狀態切換，按鈕設定為開啟
-			_SwitchOnPic->setVisible(true);
-			_SwitchTDPic->setVisible(false);
-			_SwitchOffPic->setVisible(false);
-		}
-		_bTouched = false;
 		_bSwitchOn = !_bSwitchOn;
+		_ShowBtn->setScale(_fScale);
+		_ShowBtn->setVisible(false);
+		if (_bSwitchOn) _ShowBtn = _SwitchOnPic;
+		else _ShowBtn = _SwitchOffPic;
+		_ShowBtn->setVisible(true);
+
+		_bTouched = false;
 		if( _BtnRect.containsPoint(inPos) ) return(true);  // 手指頭位置按鈕時，還在該按鈕上
 	}
 	return false;
@@ -122,7 +105,6 @@ void CSwitchButton::setScale(float scale)
 {
 	_fScale = scale;
 	_SwitchOnPic->setScale(_fScale);
-	_SwitchTDPic->setScale(_fScale*1.25f);
 	_SwitchOffPic->setScale(_fScale);
 }
 
@@ -131,9 +113,8 @@ bool CSwitchButton::getStatus()
 	return(_bSwitchOn); // 傳回目前按鈕的狀態為開或是關
 }
 
-void CSwitchButton::setStatusfalse() {
-	_SwitchOnPic->setVisible(false);
-	_SwitchTDPic->setVisible(false);
-	_SwitchOffPic->setVisible(true);
-	_bSwitchOn = false;
+void CSwitchButton::setStatus(bool status) {
+	_SwitchOnPic->setVisible(status);
+	_SwitchOffPic->setVisible(!status);
+	_bSwitchOn = status;
 }

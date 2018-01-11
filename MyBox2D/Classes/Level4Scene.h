@@ -1,7 +1,7 @@
 #ifndef __LEVEL4_SCENE_H__
 #define __LEVEL4_SCENE_H__
 
-//#define BOX2D_DEBUG 1
+#define BOX2D_DEBUG 1
 
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
@@ -68,10 +68,11 @@ public:
 	void setRope();
 	//void setSensor();
 	void setbtn();
+	void setUIbtn();
 
 	void renderball(char *, int);
-	CButton *_redBtn, *_blueBtn, *_greenBtn;
-	CSwitchButton *_penBtn, *_homeBtn, *_replayBtn;
+	CButton *_redBtn, *_blueBtn, *_greenBtn, *_homeBtn, *_replayBtn;
+	CSwitchButton *_penBtn;
 #ifdef BOX2D_DEBUG
 	//DebugDraw
 	GLESDebugDraw* _DebugDraw;

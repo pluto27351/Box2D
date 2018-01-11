@@ -48,10 +48,11 @@ public:
 	void setPendulum();
 	void setFinalBox();
 	void setbtn();
+	void setUIbtn();
 
 	void renderball(char *, int);
-	CButton *_redBtn,*_blueBtn, *_greenBtn;
-	CSwitchButton *_penBtn, *_homeBtn, *_replayBtn;
+	CButton *_redBtn,*_blueBtn, *_greenBtn, *_homeBtn, *_replayBtn;
+	CSwitchButton *_penBtn;
 #ifdef BOX2D_DEBUG
 	//DebugDraw
 	GLESDebugDraw* _DebugDraw;

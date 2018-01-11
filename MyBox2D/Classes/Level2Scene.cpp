@@ -1,4 +1,5 @@
 #include "Level2Scene.h"
+#include "StartScene.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
@@ -79,6 +80,7 @@ bool Level2::init()
 	setPendulum();
 	setFinalBox();
 	setbtn();
+	setUIbtn();
 
 #ifdef BOX2D_DEBUG
 	//DebugDrawInit
@@ -133,11 +135,29 @@ void  Level2::setbtn() {
 
 	btnSprite = _csbRoot->getChildByName("penbtn");
 	_penBtn = CSwitchButton::create();
-	_penBtn->setButtonInfo("playBtn00_01.png", "playBtn00_02.png", "playBtn00_01.png", btnSprite->getPosition());
+	_penBtn->setButtonInfo("playBtn00_01.png", "playBtn00_02.png", btnSprite->getPosition());
 	_penBtn->setScale(btnSprite->getScale());
 	this->addChild(_penBtn, 5);
 	btnSprite->setVisible(false);
 }
+
+void  Level2::setUIbtn() {
+	auto btnSprite = _csbRoot->getChildByName("homebtn");
+	_homeBtn = CButton::create();
+	_homeBtn->setButtonInfo("uiBtn01_01.png", "uiBtn01_02.png", btnSprite->getPosition());
+	_homeBtn->setScale(btnSprite->getScale());
+	this->addChild(_homeBtn, 5);
+	btnSprite->setVisible(false);
+
+
+	btnSprite = _csbRoot->getChildByName("replaybtn");
+	_replayBtn = CButton::create();
+	_replayBtn->setButtonInfo("uiBtn02_01.png", "uiBtn02_02.png", btnSprite->getPosition());
+	_replayBtn->setScale(btnSprite->getScale());
+	this->addChild(_replayBtn, 5);
+	btnSprite->setVisible(false);
+}
+
 
 void Level2::createStaticBoundary()
 {
@@ -501,6 +521,8 @@ bool Level2::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//Ä²¸I¶
 	_redBtn->touchesBegin(touchLoc);
 	_greenBtn->touchesBegin(touchLoc);
 	_blueBtn->touchesBegin(touchLoc);
+	_homeBtn->touchesBegin(touchLoc);
+	_replayBtn->touchesBegin(touchLoc);
 	return true;
 }
 
@@ -515,6 +537,8 @@ void  Level2::onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 	_redBtn->touchesBegin(touchLoc);
 	_greenBtn->touchesBegin(touchLoc);
 	_blueBtn->touchesBegin(touchLoc);
+	_homeBtn->touchesBegin(touchLoc);
+	_replayBtn->touchesBegin(touchLoc);
 }
 
 void  Level2::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸Iµ²§ô¨Æ¥ó 
@@ -535,7 +559,22 @@ void  Level2::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 	if (_redBtn->touchesEnded(touchLoc))   renderball("ball_01.png", 1);
 	if (_greenBtn->touchesEnded(touchLoc)) renderball("ball_02.png", 2);
 	if (_blueBtn->touchesEnded(touchLoc))  renderball("ball_03.png", 3);
-	
+	if (_homeBtn->touchesEnded(touchLoc)) {
+		this->unschedule(schedule_selector(Level2::doStep));
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		TransitionFade *pageTurn;
+		pageTurn = TransitionFade::create(1.0F, StartScene::createScene());
+		Director::getInstance()->replaceScene(pageTurn);
+	}
+	if (_replayBtn->touchesEnded(touchLoc)) {
+		this->unschedule(schedule_selector(Level2::doStep));
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		TransitionFade *pageTurn;
+		pageTurn = TransitionFade::create(1.0F, Level2::createScene());
+		Director::getInstance()->replaceScene(pageTurn);
+	}
 }
 void Level2::renderball(char *name, int mask) {
 	auto ballSprite = Sprite::createWithSpriteFrameName(name);

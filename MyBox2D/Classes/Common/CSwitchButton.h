@@ -9,8 +9,8 @@ class CSwitchButton :public Node
 { 
 private:
 	cocos2d::Sprite *_SwitchOffPic;
-	cocos2d::Sprite *_SwitchTDPic;
 	cocos2d::Sprite *_SwitchOnPic;
+	cocos2d::Sprite *_ShowBtn;
 
 	cocos2d::Size  _BtnSize;
 	cocos2d::Point _BtnLoc;
@@ -24,14 +24,15 @@ private:
 public:
 	CSwitchButton();
 	static CSwitchButton* create(); // 建立物件的實體
-	void setButtonInfo(const char *offImg, const char *onImg, const char *tdImg, const cocos2d::Point locPt);
+	void setButtonInfo(const char *offImg, const char *onImg, const cocos2d::Point locPt);
 	bool touchesBegan(cocos2d::Point inPos);
 	bool touchesMoved(cocos2d::Point inPos); 
 	bool touchesEnded(cocos2d::Point inPos); 
 	void setVisible(bool bVis);
 	void setScale(float scale);
 	bool getStatus();
-	void setStatusfalse();
+	void setStatus(bool);
+
 
 };
 

@@ -95,13 +95,6 @@ void  StartScene::setbtn() {
 	_blueBtn->setScale(btnSprite->getScale());
 	this->addChild(_blueBtn, 5);
 	btnSprite->setVisible(false);
-
-	//btnSprite = _csbRoot->getChildByName("penbtn");
-	//_penBtn = CButton::create();
-	//_penBtn->setButtonInfo("orange02.png", "clock01.png", btnSprite->getPosition());
-	//_penBtn->setScale(btnSprite->getScale());
-	//this->addChild(_penBtn, 5);
-	//btnSprite->setVisible(false);
 }
 
 void  StartScene::setUIbtn() {
@@ -114,7 +107,7 @@ void  StartScene::setUIbtn() {
 		_LevelBtn[i-1] = CSwitchButton::create();
 		sprintf(tmp, "levelBtn%02d_01.png", i);
 		sprintf(tmp2, "levelBtn%02d_02.png", i);
-		_LevelBtn[i-1]->setButtonInfo(tmp, tmp2,"levelBtn00.png", btnSprite->getPosition());
+		_LevelBtn[i-1]->setButtonInfo(tmp, tmp2, btnSprite->getPosition());
 		this->addChild(_LevelBtn[i-1], 5);
 		btnSprite->setVisible(false);
 	}
@@ -125,6 +118,8 @@ void  StartScene::setUIbtn() {
 	this->addChild(_startBtn, 5);
 	btnSprite->setVisible(false);
 
+	_NowLevel = _LevelBtn[0];
+	_LevelBtn[0]->setStatus(true);
 }
 
 void StartScene::setStaticWall() {
@@ -243,10 +238,26 @@ void  StartScene::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) /
 	if (_greenBtn->touchesEnded(touchLoc)) renderball("ball_02.png", 2);
 	if (_blueBtn->touchesEnded(touchLoc))  renderball("ball_03.png", 3);
 
-	if (_LevelBtn[0]->touchesEnded(touchLoc)) LV = 1;
-	if (_LevelBtn[1]->touchesEnded(touchLoc)) LV = 2;
-	if (_LevelBtn[2]->touchesEnded(touchLoc)) LV = 3;
-	if (_LevelBtn[3]->touchesEnded(touchLoc)) LV = 4;
+	if (_LevelBtn[0]->touchesEnded(touchLoc)) {
+		if (_NowLevel != _LevelBtn[0]) _NowLevel->setStatus(false);
+		LV = 1;
+		_NowLevel = _LevelBtn[0];
+	}
+	if (_LevelBtn[1]->touchesEnded(touchLoc)) {
+		if (_NowLevel != _LevelBtn[1]) _NowLevel->setStatus(false);
+		LV = 2;
+		_NowLevel = _LevelBtn[1];
+	}
+	if (_LevelBtn[2]->touchesEnded(touchLoc)) {
+		if (_NowLevel != _LevelBtn[2]) _NowLevel->setStatus(false);
+		LV = 3;
+		_NowLevel = _LevelBtn[2];
+	}
+	if (_LevelBtn[3]->touchesEnded(touchLoc)) {
+		if (_NowLevel != _LevelBtn[3]) _NowLevel->setStatus(false);
+		LV = 4;
+		_NowLevel = _LevelBtn[3];
+	}
 	if (_startBtn->touchesEnded(touchLoc)) {
 		this->unschedule(schedule_selector(StartScene::doStep));
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");

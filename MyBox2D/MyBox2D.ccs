@@ -81,10 +81,6 @@
           <PlistImageFile Name="levelBtn04_02.png" Key="levelBtn04_02.png" />
           <PlistImageFile Name="playBtn00_01.png" Key="playBtn00_01.png" />
           <PlistImageFile Name="playBtn00_02.png" Key="playBtn00_02.png" />
-          <PlistImageFile Name="uiBtn01_01.png" Key="uiBtn01_01.png" />
-          <PlistImageFile Name="uiBtn01_02.png" Key="uiBtn01_02.png" />
-          <PlistImageFile Name="uiBtn02_01.png" Key="uiBtn02_01.png" />
-          <PlistImageFile Name="uiBtn02_02.png" Key="uiBtn02_02.png" />
           <PlistImageFile Name="playBtn01_01.png" Key="playBtn01_01.png" />
           <PlistImageFile Name="playBtn01_02.png" Key="playBtn01_02.png" />
           <PlistImageFile Name="playBtn02_01.png" Key="playBtn02_01.png" />
@@ -93,6 +89,10 @@
           <PlistImageFile Name="playBtn03_02.png" Key="playBtn03_02.png" />
           <PlistImageFile Name="startBtn_01.png" Key="startBtn_01.png" />
           <PlistImageFile Name="startBtn_02.png" Key="startBtn_02.png" />
+          <PlistImageFile Name="uiBtn01_01.png" Key="uiBtn01_01.png" />
+          <PlistImageFile Name="uiBtn01_02.png" Key="uiBtn01_02.png" />
+          <PlistImageFile Name="uiBtn02_01.png" Key="uiBtn02_01.png" />
+          <PlistImageFile Name="uiBtn02_02.png" Key="uiBtn02_02.png" />
         </PlistImageFolder>
         <Project Name="FixtureCollision.csd" Type="Scene" />
         <Project Name="JointScene.csd" Type="Scene" />

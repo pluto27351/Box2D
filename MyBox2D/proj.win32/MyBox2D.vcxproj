@@ -151,16 +151,18 @@ xcopy /Y /Q "$(COCOS_X_ROOT)\cocos2d-x-3.10\prebuilt\win32\*.*" "$(OutDir)"
     <ClCompile Include="..\Classes\Common\CButton.cpp" />
     <ClCompile Include="..\Classes\Common\CContactListener.cpp" />
     <ClCompile Include="..\Classes\Common\CLight.cpp" />
+    <ClCompile Include="..\Classes\Common\CSwitchButton.cpp" />
     <ClCompile Include="..\Classes\Common\GB2ShapeCache-x.cpp" />
     <ClCompile Include="..\Classes\Common\GLES-Render.cpp" />
     <ClCompile Include="..\Classes\DrawScene.cpp" />
     <ClCompile Include="..\Classes\FixtureCollisionScene.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\JointScene.cpp" />
-    <ClCompile Include="..\Classes\Level1.cpp" />
-    <ClCompile Include="..\Classes\Level2.cpp" />
-    <ClCompile Include="..\Classes\Level3.cpp" />
-    <ClCompile Include="..\Classes\Level4.cpp" />
+    <ClCompile Include="..\Classes\Level1Scene.cpp" />
+    <ClCompile Include="..\Classes\Level2Scene.cpp" />
+    <ClCompile Include="..\Classes\Level3Scene.cpp" />
+    <ClCompile Include="..\Classes\Level4Scene.cpp" />
+    <ClCompile Include="..\Classes\StartScene.cpp" />
     <ClCompile Include="..\Classes\StaticDynamicScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -170,16 +172,18 @@ xcopy /Y /Q "$(COCOS_X_ROOT)\cocos2d-x-3.10\prebuilt\win32\*.*" "$(OutDir)"
     <ClInclude Include="..\Classes\Common\CButton.h" />
     <ClInclude Include="..\Classes\Common\CContactListener.h" />
     <ClInclude Include="..\Classes\Common\CLight.h" />
+    <ClInclude Include="..\Classes\Common\CSwitchButton.h" />
     <ClInclude Include="..\Classes\Common\GB2ShapeCache-x.h" />
     <ClInclude Include="..\Classes\Common\GLES-Render.h" />
     <ClInclude Include="..\Classes\DrawScene.h" />
     <ClInclude Include="..\Classes\FixtureCollisionScene.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\JointScene.h" />
-    <ClInclude Include="..\Classes\Level1.h" />
-    <ClInclude Include="..\Classes\Level2.h" />
-    <ClInclude Include="..\Classes\Level3.h" />
-    <ClInclude Include="..\Classes\Level4.h" />
+    <ClInclude Include="..\Classes\Level1Scene.h" />
+    <ClInclude Include="..\Classes\Level2Scene.h" />
+    <ClInclude Include="..\Classes\Level3Scene.h" />
+    <ClInclude Include="..\Classes\Level4Scene.h" />
+    <ClInclude Include="..\Classes\StartScene.h" />
     <ClInclude Include="..\Classes\StaticDynamicScene.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>

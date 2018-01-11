@@ -51,20 +51,26 @@
     <ClCompile Include="..\Classes\DrawScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Level1.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Common\CContactListener.cpp">
       <Filter>src\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Level2.cpp">
+    <ClCompile Include="..\Classes\StartScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Level3.cpp">
+    <ClCompile Include="..\Classes\Level1Scene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Level4.cpp">
+    <ClCompile Include="..\Classes\Level2Scene.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Level3Scene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Level4Scene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Common\CSwitchButton.cpp">
+      <Filter>src\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,20 +110,26 @@
     <ClInclude Include="..\Classes\DrawScene.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Level1.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Common\CContactListener.h">
       <Filter>src\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Level2.h">
+    <ClInclude Include="..\Classes\StartScene.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Level3.h">
+    <ClInclude Include="..\Classes\Level1Scene.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Level4.h">
+    <ClInclude Include="..\Classes\Level2Scene.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Level3Scene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Level4Scene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\CSwitchButton.h">
+      <Filter>src\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 #include "Level1Scene.h"
+#include "StartScene.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
@@ -10,7 +11,7 @@ using namespace cocostudio::timeline;
 
 
 Color3B BlockColor[3] = { Color3B(208,45,45), Color3B(77,204,42), Color3B(252,223,56) };
-Color3B BlockColor2[3] = { Color3B(242, 123, 123), Color3B(149, 234, 126), Color3B(141, 230, 239) };
+Color3B BlockColor2[3] = { Color3B(242, 123, 123), Color3B(149, 234, 126), Color3B(255, 240, 158) };
 
 Level1::~Level1()
 {
@@ -133,26 +134,27 @@ void  Level1::setbtn() {
 
 	btnSprite = _csbRoot->getChildByName("penbtn");
 	_penBtn = CSwitchButton::create();
-	_penBtn->setButtonInfo("playBtn00_01.png", "playBtn00_02.png","playBtn00_01.png", btnSprite->getPosition());
+	_penBtn->setButtonInfo("playBtn00_01.png", "playBtn00_02.png", btnSprite->getPosition());
 	_penBtn->setScale(btnSprite->getScale());
 	this->addChild(_penBtn, 5);
 	btnSprite->setVisible(false);
 }
 
 void  Level1::setUIbtn() {
-	/*_homeBtn = CButton::create();
-	_homeBtn->setButtonInfo("clock03.png", "clock01.png", btnSprite->getPosition());
+	auto btnSprite = _csbRoot->getChildByName("homebtn");
+	_homeBtn = CButton::create();
+	_homeBtn->setButtonInfo("uiBtn01_01.png", "uiBtn01_02.png", btnSprite->getPosition());
 	_homeBtn->setScale(btnSprite->getScale());
-	this->addChild(_redBtn, 5);
+	this->addChild(_homeBtn, 5);
 	btnSprite->setVisible(false);
 
 
-	btnSprite = _csbRoot->getChildByName("bluebtn");
-	_blueBtn = CButton::create();
-	_blueBtn->setButtonInfo("clock04.png", "clock01.png", btnSprite->getPosition());
-	_blueBtn->setScale(btnSprite->getScale());
-	this->addChild(_blueBtn, 5);
-	btnSprite->setVisible(false);*/
+	btnSprite = _csbRoot->getChildByName("replaybtn");
+	_replayBtn = CButton::create();
+	_replayBtn->setButtonInfo("uiBtn02_01.png", "uiBtn02_02.png", btnSprite->getPosition());
+	_replayBtn->setScale(btnSprite->getScale());
+	this->addChild(_replayBtn, 5);
+	btnSprite->setVisible(false);
 }
 
 void Level1::createStaticBoundary()
@@ -442,6 +444,8 @@ bool Level1::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//Ä²¸I¶
 	_redBtn->touchesBegin(touchLoc);
 	_greenBtn->touchesBegin(touchLoc);
 	_blueBtn->touchesBegin(touchLoc);
+	_homeBtn->touchesBegin(touchLoc);
+	_replayBtn->touchesBegin(touchLoc);
 	return true;
 }
 
@@ -456,6 +460,8 @@ void  Level1::onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 	_redBtn->touchesBegin(touchLoc);
 	_greenBtn->touchesBegin(touchLoc);
 	_blueBtn->touchesBegin(touchLoc);
+	_homeBtn->touchesBegin(touchLoc);
+	_replayBtn->touchesBegin(touchLoc);
 }
 
 void  Level1::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸Iµ²§ô¨Æ¥ó 
@@ -476,6 +482,22 @@ void  Level1::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 	if (_redBtn->touchesEnded(touchLoc))   renderball("ball_01.png", 1);
 	if (_greenBtn->touchesEnded(touchLoc)) renderball("ball_02.png", 2);
 	if (_blueBtn->touchesEnded(touchLoc))  renderball("ball_03.png", 3);
+	if (_homeBtn->touchesEnded(touchLoc)) {
+		this->unschedule(schedule_selector(Level1::doStep));
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		TransitionFade *pageTurn;
+		pageTurn = TransitionFade::create(1.0F, StartScene::createScene());
+		Director::getInstance()->replaceScene(pageTurn);
+	}
+	if (_replayBtn->touchesEnded(touchLoc)) {
+		this->unschedule(schedule_selector(Level1::doStep));
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		TransitionFade *pageTurn;
+		pageTurn = TransitionFade::create(1.0F, Level1::createScene());
+		Director::getInstance()->replaceScene(pageTurn);
+	}
 	
 }
 void Level1::renderball(char *name, int mask) {  //mask = 0.1.2
