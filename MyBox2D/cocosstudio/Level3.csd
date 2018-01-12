@@ -303,7 +303,7 @@
             <FileData Type="PlistSubImage" Path="boxedge2.png" Plist="UIBTN.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="boxSensor_02" ActionTag="1011734977" Tag="588" IconVisible="False" LeftMargin="194.8352" RightMargin="971.1648" TopMargin="617.1771" BottomMargin="8.8230" ctype="SpriteObjectData">
+          <AbstractNodeData Name="boxSensor_02" ActionTag="1011734977" Tag="588" IconVisible="False" LeftMargin="194.8352" RightMargin="971.1648" TopMargin="617.1770" BottomMargin="8.8230" ctype="SpriteObjectData">
             <Size X="114.0000" Y="94.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="251.8352" Y="55.8230" />
@@ -325,7 +325,7 @@
             <FileData Type="PlistSubImage" Path="boxedge.png" Plist="UIBTN.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="finbox_05" ActionTag="-604627662" Tag="590" IconVisible="False" LeftMargin="289.3331" RightMargin="965.6669" TopMargin="616.4504" BottomMargin="8.5495" ctype="SpriteObjectData">
+          <AbstractNodeData Name="finbox_05" ActionTag="-604627662" Tag="590" IconVisible="False" LeftMargin="289.3331" RightMargin="965.6669" TopMargin="616.4505" BottomMargin="8.5495" ctype="SpriteObjectData">
             <Size X="25.0000" Y="95.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="301.8331" Y="56.0495" />
@@ -477,6 +477,17 @@
             <PrePosition X="0.5000" Y="0.3394" />
             <PreSize X="0.0500" Y="0.0889" />
             <FileData Type="PlistSubImage" Path="uiBtn03_01.png" Plist="UIBTN.plist" />
+            <BlendFunc Src="1" Dst="771" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="star" ActionTag="-1480607713" Tag="469" IconVisible="False" LeftMargin="1157.6183" RightMargin="58.3817" TopMargin="628.4828" BottomMargin="27.5172" ctype="SpriteObjectData">
+            <Size X="64.0000" Y="64.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="1189.6183" Y="59.5172" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.9294" Y="0.0827" />
+            <PreSize X="0.0500" Y="0.0889" />
+            <FileData Type="PlistSubImage" Path="bubble.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
         </Children>

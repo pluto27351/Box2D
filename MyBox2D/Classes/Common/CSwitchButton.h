@@ -10,6 +10,7 @@ class CSwitchButton :public Node
 private:
 	cocos2d::Sprite *_SwitchOffPic;
 	cocos2d::Sprite *_SwitchOnPic;
+	cocos2d::Sprite *_Unable;  //only for level
 	cocos2d::Sprite *_ShowBtn;
 
 	cocos2d::Size  _BtnSize;
@@ -32,6 +33,7 @@ public:
 	void setScale(float scale);
 	bool getStatus();
 	void setStatus(bool);
+	void setUneable();
 
 
 };

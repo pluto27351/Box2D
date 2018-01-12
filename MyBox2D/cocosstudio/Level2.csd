@@ -149,7 +149,7 @@
             <FileData Type="PlistSubImage" Path="box.png" Plist="UIBTN.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="finbox_00" ActionTag="1830907391" Tag="469" IconVisible="False" LeftMargin="184.9835" RightMargin="1070.0166" TopMargin="173.1244" BottomMargin="451.8756" ctype="SpriteObjectData">
+          <AbstractNodeData Name="finbox_00" ActionTag="1830907391" Tag="469" IconVisible="False" LeftMargin="184.9835" RightMargin="1070.0165" TopMargin="173.1244" BottomMargin="451.8756" ctype="SpriteObjectData">
             <Size X="25.0000" Y="95.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="197.4835" Y="499.3756" />
@@ -160,7 +160,7 @@
             <FileData Type="PlistSubImage" Path="boxedge.png" Plist="UIBTN.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="finbox_02" ActionTag="-1908212406" Tag="471" IconVisible="False" LeftMargin="289.1344" RightMargin="965.8656" TopMargin="172.6462" BottomMargin="452.3537" ctype="SpriteObjectData">
+          <AbstractNodeData Name="finbox_02" ActionTag="-1908212406" Tag="471" IconVisible="False" LeftMargin="289.1344" RightMargin="965.8656" TopMargin="172.6463" BottomMargin="452.3537" ctype="SpriteObjectData">
             <Size X="25.0000" Y="95.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="301.6344" Y="499.8537" />
@@ -171,7 +171,7 @@
             <FileData Type="PlistSubImage" Path="boxedge.png" Plist="UIBTN.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="finbox_01" ActionTag="-539012092" Tag="535" IconVisible="False" LeftMargin="203.0689" RightMargin="982.9310" TopMargin="242.0705" BottomMargin="452.9295" ctype="SpriteObjectData">
+          <AbstractNodeData Name="finbox_01" ActionTag="-539012092" Tag="535" IconVisible="False" LeftMargin="203.0689" RightMargin="982.9311" TopMargin="242.0705" BottomMargin="452.9295" ctype="SpriteObjectData">
             <Size X="94.0000" Y="25.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="250.0689" Y="465.4295" />
@@ -312,6 +312,17 @@
             <PrePosition X="0.5781" Y="0.3394" />
             <PreSize X="0.0500" Y="0.0889" />
             <FileData Type="PlistSubImage" Path="uiBtn02_01.png" Plist="UIBTN.plist" />
+            <BlendFunc Src="1" Dst="771" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="star" ActionTag="-848887651" Tag="468" IconVisible="False" LeftMargin="567.1771" RightMargin="648.8229" TopMargin="599.3472" BottomMargin="56.6528" ctype="SpriteObjectData">
+            <Size X="64.0000" Y="64.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="599.1771" Y="88.6528" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.4681" Y="0.1231" />
+            <PreSize X="0.0500" Y="0.0889" />
+            <FileData Type="PlistSubImage" Path="bubble.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
         </Children>

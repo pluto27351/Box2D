@@ -29,12 +29,35 @@ Level2::~Level2()
 
 }
 
-Scene* Level2::createScene()
+Scene* Level2::createScene(int num[4][3],int level)
 {
     auto scene = Scene::create();
     auto layer = Level2::create();
+	layer->addBall(num);
+	layer->maxLevel = level;
     scene->addChild(layer);
     return scene;
+}
+
+void Level2::addBall(int num[4][3]) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 3; j++) {
+			levelball[i][j] = num[i][j];
+		}
+	}
+	nr = 5 + num[1][0];  ng = 5 + num[1][1];  ny = 5 + num[1][2];
+
+	CCString* sr = CCString::createWithFormat("%d", nr);
+	const char* cr = sr->getCString();
+	_redNum->setString(cr);
+
+	CCString* sg = CCString::createWithFormat("%d", ng);
+	const char* cg = sg->getCString();
+	_greenNum->setString(cg);
+
+	CCString* sy = CCString::createWithFormat("%d", ny);
+	const char* cy = sy->getCString();
+	_yellowNum->setString(cy);
 }
 
 // on "init" you need to initialize your instance
@@ -114,45 +137,43 @@ bool Level2::init()
 }
 
 void  Level2::setbtn() {
+	//red
 	auto btnSprite = _csbRoot->getChildByName("redbtn");
 	_redBtn = CButton::create();
 	_redBtn->setButtonInfo("playBtn01_01.png", "playBtn01_02.png", btnSprite->getPosition());
 	_redBtn->setScale(btnSprite->getScale());
 	this->addChild(_redBtn, 5);
 	_csbRoot->removeChildByName("redbtn");
-	nr = 30;
-	CCString* sr = CCString::createWithFormat("%d", nr);
-	const char* cr = sr->getCString();
-	_redNum = cocos2d::ui::Text::create(cr, "Marker Felt.ttf", 36);
+
+	_redNum = cocos2d::ui::Text::create("0", "Marker Felt.ttf", 36);
 	_redNum->setPosition(btnSprite->getPosition());
 	this->addChild(_redNum, 6);
 
+	//green
 	btnSprite = _csbRoot->getChildByName("greenbtn");
 	_greenBtn = CButton::create();
 	_greenBtn->setButtonInfo("playBtn02_01.png", "playBtn02_02.png", btnSprite->getPosition());
 	_greenBtn->setScale(btnSprite->getScale());
 	this->addChild(_greenBtn, 5);
 	_csbRoot->removeChildByName("greenbtn");
-	ng = 20;
-	CCString* sg = CCString::createWithFormat("%d", ng);
-	const char* cg = sg->getCString();
-	_greenNum = cocos2d::ui::Text::create(cg, "Marker Felt.ttf", 36);
+
+	_greenNum = cocos2d::ui::Text::create("0", "Marker Felt.ttf", 36);
 	_greenNum->setPosition(btnSprite->getPosition());
 	this->addChild(_greenNum, 6);
 
+	//yellow
 	btnSprite = _csbRoot->getChildByName("bluebtn");
 	_blueBtn = CButton::create();
 	_blueBtn->setButtonInfo("playBtn03_01.png", "playBtn03_02.png", btnSprite->getPosition());
 	_blueBtn->setScale(btnSprite->getScale());
 	this->addChild(_blueBtn, 5);
 	_csbRoot->removeChildByName("bluebtn");
-	ny = 10;
-	CCString* sy = CCString::createWithFormat("%d", ny);
-	const char* cy = sy->getCString();
-	_yellowNum = cocos2d::ui::Text::create(cy, "Marker Felt.ttf", 36);
+
+	_yellowNum = cocos2d::ui::Text::create("0", "Marker Felt.ttf", 36);
 	_yellowNum->setPosition(btnSprite->getPosition());
 	this->addChild(_yellowNum, 6);
 
+	//pen
 	btnSprite = _csbRoot->getChildByName("penbtn");
 	_penBtn = CSwitchButton::create();
 	_penBtn->setButtonInfo("playBtn00_01.png", "playBtn00_02.png", btnSprite->getPosition());
@@ -591,6 +612,10 @@ void Level2::doStep(float dt)
 		CCLOG("LEVEL UP!");
 		startGame = false;
 		_endUi->setVisible(true);
+		levelball[2][0] = nr;
+		levelball[2][1] = ng;
+		levelball[2][2] = ny;
+		if (maxLevel < 3)maxLevel = 3;
 	}
 	if (!_bboxR) {
 		if (_colliderSeneor.inBoxR == true) _bboxR = true;
@@ -722,7 +747,7 @@ void  Level2::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
 		TransitionFade *pageTurn;
-		pageTurn = TransitionFade::create(1.0F, StartScene::createScene());
+		pageTurn = TransitionFade::create(1.0F, StartScene::createScene(levelball, maxLevel));
 		Director::getInstance()->replaceScene(pageTurn);
 	}
 	if (_replayBtn->touchesEnded(touchLoc)) {
@@ -730,7 +755,7 @@ void  Level2::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
 		TransitionFade *pageTurn;
-		pageTurn = TransitionFade::create(1.0F, Level2::createScene());
+		pageTurn = TransitionFade::create(1.0F, Level2::createScene(levelball, maxLevel));
 		Director::getInstance()->replaceScene(pageTurn);
 	}
 
@@ -739,7 +764,7 @@ void  Level2::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
 		TransitionFade *pageTurn;
-		pageTurn = TransitionFade::create(1.0F, StartScene::createScene());
+		pageTurn = TransitionFade::create(1.0F, StartScene::createScene(levelball, maxLevel));
 		Director::getInstance()->replaceScene(pageTurn);
 	}
 	if (_replayBtn2->touchesEnded(touchLoc)) {
@@ -747,7 +772,7 @@ void  Level2::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
 		TransitionFade *pageTurn;
-		pageTurn = TransitionFade::create(1.0F, Level2::createScene());
+		pageTurn = TransitionFade::create(1.0F, Level2::createScene(levelball, maxLevel));
 		Director::getInstance()->replaceScene(pageTurn);
 	}
 	if (_nextBtn->touchesEnded(touchLoc)) {
@@ -755,7 +780,8 @@ void  Level2::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
 		TransitionFade *pageTurn;
-		pageTurn = TransitionFade::create(1.0F, Level3::createScene());
+
+		pageTurn = TransitionFade::create(1.0F, Level3::createScene(levelball, maxLevel));
 		Director::getInstance()->replaceScene(pageTurn);
 	}
 }

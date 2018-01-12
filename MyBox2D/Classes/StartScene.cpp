@@ -21,13 +21,28 @@ StartScene::~StartScene()
 
 }
 
-Scene* StartScene::createScene()
+Scene* StartScene::createScene(int num[4][3],int level)
 {
     auto scene = Scene::create();
     auto layer = StartScene::create();
+	layer->setballNum(num,level);
     scene->addChild(layer);
     return scene;
 }
+
+void StartScene::setballNum(int num[4][3],int level) {
+	if (level > maxLevel)maxLevel = level;
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 3; j++) {
+			levelball[i][j] = num[i][j];
+		}
+	}
+
+	for (int i = 4; i > maxLevel; i--) {
+		_LevelBtn[i - 1]->setUneable();
+	}
+}
+
 
 // on "init" you need to initialize your instance
 bool StartScene::init()
@@ -121,6 +136,7 @@ void  StartScene::setUIbtn() {
 	_NowLevel = _LevelBtn[0];
 	_LevelBtn[0]->setStatus(true);
 }
+
 
 void StartScene::setStaticWall() {
 	char tmp[20] = "";
@@ -228,7 +244,6 @@ void  StartScene::onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) /
 	_redBtn->touchesBegin(touchLoc);
 	_greenBtn->touchesBegin(touchLoc);
 	_blueBtn->touchesBegin(touchLoc);
-	//_penBtn->touchesBegin(touchLoc);
 	for (int i = 0; i < 4; i++) _LevelBtn[i]->touchesMoved(touchLoc);
 	_startBtn->touchesBegin(touchLoc);
 }
@@ -265,16 +280,14 @@ void  StartScene::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) /
 		this->unschedule(schedule_selector(StartScene::doStep));
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
-		// 上面這行何時需要放在這裡稍後會說明
-		// 設定場景切換的特效
-		//TransitionFade *pageTurn = TransitionFade::create(1.0F, FixtureCollision::createScene());
 		TransitionFade *pageTurn;
-		if(LV == 1)pageTurn = TransitionFade::create(1.0F, Level1::createScene());
-		else if (LV == 2)pageTurn = TransitionFade::create(1.0F, Level2::createScene());
-		else if (LV == 3)pageTurn = TransitionFade::create(1.0F, Level3::createScene());
-		else if (LV == 4)pageTurn = TransitionFade::create(1.0F, Level4::createScene());
+		if(LV == 1)pageTurn = TransitionFade::create(1.0F, Level1::createScene(levelball, maxLevel));
+		else if (LV == 2)pageTurn = TransitionFade::create(1.0F, Level2::createScene(levelball,maxLevel));
+		else if (LV == 3)pageTurn = TransitionFade::create(1.0F, Level3::createScene(levelball,maxLevel));
+		else if (LV == 4)pageTurn = TransitionFade::create(1.0F, Level4::createScene(levelball,maxLevel));
+		
 		Director::getInstance()->replaceScene(pageTurn);
-		//SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+
 
 
 	}

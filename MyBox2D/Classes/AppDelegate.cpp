@@ -76,7 +76,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 #elif  BOX2D_EXAMPLE == 8
 	auto scene = Level4::createScene();
 #elif  BOX2D_EXAMPLE == 9
-	auto scene = StartScene::createScene();
+	int num[4][3] = { 0 };
+	auto scene = StartScene::createScene(num,1);
 #endif
 
     // run

@@ -24,7 +24,7 @@ public:
 
 	~StartScene();
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
-    static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createScene(int [4][3],int);
 	Node *_csbRoot;
 	// for Box2D
 	b2World* _b2World;
@@ -32,9 +32,11 @@ public:
 	cocos2d::Point bornpt;
 	int LV = 1;
 	
+	int levelball[4][3];
+	int maxLevel=0;
 
+	void setballNum(int [4][3],int);
 	void setStaticWall();
-
 	void setbtn();
 	void setUIbtn();
 	void renderball(char *, int);

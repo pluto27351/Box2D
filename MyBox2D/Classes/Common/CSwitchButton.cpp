@@ -118,3 +118,13 @@ void CSwitchButton::setStatus(bool status) {
 	_SwitchOffPic->setVisible(!status);
 	_bSwitchOn = status;
 }
+
+void CSwitchButton::setUneable() {
+	_Unable = (Sprite *)Sprite::createWithSpriteFrameName("levelBtn00.png");
+
+	_BtnLoc = _SwitchOffPic->getPosition();
+	_Unable->setPosition(_BtnLoc); // ³]©w¦ì¸m
+
+	this->addChild(_Unable, 10);
+
+}

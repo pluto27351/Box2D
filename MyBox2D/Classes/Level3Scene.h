@@ -27,7 +27,7 @@ public:
 
 	~Level3();
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(int [4][3],int);
 	Node *_csbRoot;
 
 	// for Box2D
@@ -37,24 +37,38 @@ public:
 	//num
 	cocos2d::ui::Text *_redNum, *_greenNum, *_yellowNum;
 	int nr, ng, ny;
+	int maxLevel;
+	int levelball[4][3];
 
 	// for MouseJoint
 	b2Body *_bottomBody; // 底部的 edgeShape
 	b2MouseJoint* _MouseJoint;
 	bool _bTouchOn;   //與場景物件產生關西
 	bool _bMouseOn = false;  //滑鼠移動
+
+	//過關
 	bool _bboxR = false, _bboxG = false, _bboxB = false;
-	CContactListener _colliderSeneor;
+	
+	//出生點
 	Point bornpt;
-	bool open = false;
 	Sprite *_born;
+
+	//分子特效
 	cocos2d::BlendFunc blendFunc;
-	float _tdelayTime; // 用於火花的產生，不要事件進入太多而導致一下產生過多的火花
-	bool  _bSparking;  // true: 可以噴出火花，false: 不行
+	float _tdelayTime; 
+	bool  _bSparking;  
 
 	bool startGame = true;
+	bool open = false;
+	CContactListener _colliderSeneor;
 
-	// Box2D Examples
+	//按鈕類
+	CButton *_redBtn, *_blueBtn, *_greenBtn, *_homeBtn, *_replayBtn;
+	CButton *_homeBtn2, *_replayBtn2, *_nextBtn;
+	CSwitchButton *_penBtn;
+	Node *_endUi;
+
+	void addBall(int [4][3]);
 	void createStaticBoundary();
 	void setStaticWall();
 	void setBoards();
@@ -65,12 +79,7 @@ public:
 	void setbtn();
 	void setUIbtn();
 	void setEndUi();
-
 	void renderball(char *, int);
-	CButton *_redBtn, *_blueBtn, *_greenBtn, *_homeBtn, *_replayBtn;
-	CButton *_homeBtn2, *_replayBtn2, *_nextBtn;
-	CSwitchButton *_penBtn;
-	Node *_endUi;
 
 #ifdef BOX2D_DEBUG
 	//DebugDraw
