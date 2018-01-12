@@ -378,7 +378,7 @@ void Level1::doStep(float dt)
 
 	// ¨ú±o _b2World ¤¤©Ò¦³ªº body ¶i¦æ³B²z
 	// ³Ì¥D­n¬O®Ú¾Ú¥Ø«e¹Bºâªºµ²ªG¡A§ó·sªþÄÝ¦b body ¤¤ sprite ªº¦ì¸m
-	for (b2Body* body = _b2World->GetBodyList(); body; body = body->GetNext())
+	for (b2Body* body = _b2World->GetBodyList(); body;)
 	{
 		//body->ApplyForce(b2Vec2(10.0f, 10.0f), body->GetWorldCenter(), true);
 		// ¥H¤U¬O¥H Body ¦³¥]§t Sprite Åã¥Ü¬°¨Ò
@@ -388,7 +388,23 @@ void Level1::doStep(float dt)
 			ballData->setPosition(body->GetPosition().x*PTM_RATIO, body->GetPosition().y*PTM_RATIO);
 			ballData->setRotation(-1 * CC_RADIANS_TO_DEGREES(body->GetAngle()));
 		}
+		// ¶]¥X¿Ã¹õ¥~­±´NÅýª«Åé±q b2World ¤¤²¾°£
+		if (body->GetType() == b2BodyType::b2_dynamicBody) {
+			float x = body->GetPosition().x * PTM_RATIO;
+			float y = body->GetPosition().y * PTM_RATIO;
+			if (x > _visibleSize.width || x < 0 || y >  _visibleSize.height || y < 0) {
+				if (body->GetUserData() != NULL) {
+					Sprite* spriteData = (Sprite *)body->GetUserData();
+					this->removeChild(spriteData);
+				}
+				_b2World->DestroyBody(body);
+				body = NULL;
+			}
+			else body = body->GetNext(); //§_«h´NÄ~Äò§ó·s¤U¤@­ÓBody
+		}
+		else body = body->GetNext(); //§_«h´NÄ~Äò§ó·s¤U¤@­ÓBody
 	}
+
 	if (_bboxR && _bboxG && _bboxB) {
 		CCLOG("LEVEL UP!");
 	}
@@ -417,26 +433,25 @@ bool Level1::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//Ä²¸I¶
 			Point pt = spriteObj->getPosition();
 			float scaleX = spriteObj->getScaleX();
 			float scaleY = spriteObj->getScaleY();
-			/*objSize.width *= scaleX;   objSize.height *= scaleY;
-			Rect collider(pt.x- objSize.width/2 , pt.y - objSize.height/2, objSize.width, objSize.height);*/
-			float fdist = MAX_2(objSize.width*scaleX, objSize.height*scaleY) / 2.0f;
-			float x = body->GetPosition().x*PTM_RATIO - touchLoc.x;
-			float y = body->GetPosition().y*PTM_RATIO - touchLoc.y;
-			float tpdist = x*x + y*y;
-			if (tpdist < fdist*fdist)
-			
-			{
-				_bTouchOn = true;
-				b2MouseJointDef mouseJointDef;
-				mouseJointDef.bodyA = _bottomBody;
-				mouseJointDef.bodyB = body;
-				mouseJointDef.target = b2Vec2(touchLoc.x / PTM_RATIO, touchLoc.y / PTM_RATIO);
-				mouseJointDef.collideConnected = true;
-				mouseJointDef.maxForce = 1000.0f * body->GetMass();
-				_MouseJoint = (b2MouseJoint*)_b2World->CreateJoint(&mouseJointDef); // ·s¼W Mouse Joint
-				body->SetAwake(true);
-				_bMouseOn = true;
-				break;
+
+			float d = body->GetFixtureList()->GetDensity();
+		    if (d == 1000) {
+				objSize.width *= scaleX;   objSize.height *= scaleY;
+				float w = (objSize.width + objSize.height) / 2;
+				Rect collider(pt.x - w / 2, pt.y - w / 2, w, w);
+				if (collider.containsPoint(touchLoc)) {
+					_bTouchOn = true;
+					b2MouseJointDef mouseJointDef;
+					mouseJointDef.bodyA = _bottomBody;
+					mouseJointDef.bodyB = body;
+					mouseJointDef.target = b2Vec2(touchLoc.x / PTM_RATIO, touchLoc.y / PTM_RATIO);
+					mouseJointDef.collideConnected = true;
+					mouseJointDef.maxForce = 1000.0f * body->GetMass();
+					_MouseJoint = (b2MouseJoint*)_b2World->CreateJoint(&mouseJointDef); // ·s¼W Mouse Joint
+					body->SetAwake(true);
+					_bMouseOn = true;
+					break;
+				}
 			}
 		}
 	}

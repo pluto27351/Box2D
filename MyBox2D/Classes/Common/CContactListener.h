@@ -6,7 +6,7 @@
 class CContactListener : public b2ContactListener
 {
 public:
-	cocos2d::Sprite *_targetSprite; // 用於判斷是否
+	cocos2d::Sprite *_PendulumSprite; // 用於判斷是否
 	bool _bCreateSpark;		//產生火花
 	bool _bApplyImpulse;	// 產生瞬間的衝力
 	b2Vec2 _createLoc;

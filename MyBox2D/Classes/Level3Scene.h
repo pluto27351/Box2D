@@ -1,9 +1,10 @@
 #ifndef __LEVEL3_SCENE_H__
 #define __LEVEL3_SCENE_H__
 
-#define BOX2D_DEBUG 1
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
+#include "ui/UIWidget.h"
 #include "Box2D/Box2D.h"
 #include "Common/CButton.h"
 #include "Common/CSwitchButton.h"
@@ -25,13 +26,17 @@ class Level3 : public cocos2d::Layer
 public:
 
 	~Level3();
-    // there's no 'id' in cpp, so we recommend returning the class instance pointer
-    static cocos2d::Scene* createScene();
+	// there's no 'id' in cpp, so we recommend returning the class instance pointer
+	static cocos2d::Scene* createScene();
 	Node *_csbRoot;
 
 	// for Box2D
 	b2World* _b2World;
 	cocos2d::Size _visibleSize;
+
+	//num
+	cocos2d::ui::Text *_redNum, *_greenNum, *_yellowNum;
+	int nr, ng, ny;
 
 	// for MouseJoint
 	b2Body *_bottomBody; // 底部的 edgeShape
@@ -42,6 +47,13 @@ public:
 	CContactListener _colliderSeneor;
 	Point bornpt;
 	bool open = false;
+	Sprite *_born;
+	cocos2d::BlendFunc blendFunc;
+	float _tdelayTime; // 用於火花的產生，不要事件進入太多而導致一下產生過多的火花
+	bool  _bSparking;  // true: 可以噴出火花，false: 不行
+
+	bool startGame = true;
+
 	// Box2D Examples
 	void createStaticBoundary();
 	void setStaticWall();
@@ -52,18 +64,22 @@ public:
 	//void setSensor();
 	void setbtn();
 	void setUIbtn();
+	void setEndUi();
 
 	void renderball(char *, int);
-	CButton *_redBtn,*_blueBtn, *_greenBtn, *_homeBtn, *_replayBtn;
+	CButton *_redBtn, *_blueBtn, *_greenBtn, *_homeBtn, *_replayBtn;
+	CButton *_homeBtn2, *_replayBtn2, *_nextBtn;
 	CSwitchButton *_penBtn;
+	Node *_endUi;
+
 #ifdef BOX2D_DEBUG
 	//DebugDraw
 	GLESDebugDraw* _DebugDraw;
 	virtual void draw(cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags);
 #endif
 
-    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
-    virtual bool init();
+	// Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+	virtual bool init();
 	void doStep(float dt);
 
 	cocos2d::EventListenerTouchOneByOne *_listener1;
@@ -71,9 +87,9 @@ public:
 	void onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent); //觸碰移動事件
 	void onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent); //觸碰結束事件 
 
-	
-    // implement the "static create()" method manually
-    CREATE_FUNC(Level3);
+
+																	   // implement the "static create()" method manually
+	CREATE_FUNC(Level3);
 };
 
 #endif // __LEVEL3_SCENE_H__

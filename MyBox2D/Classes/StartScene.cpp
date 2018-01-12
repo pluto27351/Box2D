@@ -177,7 +177,10 @@ void StartScene::setStaticWall() {
 	auto bornSprite = (Sprite *)_csbRoot->getChildByName("born");
 	Point pt = bornSprite->getPosition();
 	bornpt = pt;
-
+	auto _born = Sprite::createWithSpriteFrameName("pipe01.png");
+	_born->setPosition(pt);
+	this->addChild(_born, 10);
+	_csbRoot->removeChildByName("born");
 }
 
 void StartScene::doStep(float dt)

@@ -52,7 +52,6 @@ bool Level4::init()
 
 	_visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-   
 
 	// «Ø¥ß Box2D world
 	_b2World = nullptr;
@@ -83,6 +82,7 @@ bool Level4::init()
 	setRope();
 	setbtn();
 	setUIbtn();
+	setEndUi();
 
 #ifdef BOX2D_DEBUG
 	//DebugDrawInit
@@ -119,28 +119,46 @@ void  Level4::setbtn() {
 	_redBtn->setButtonInfo("playBtn01_01.png", "playBtn01_02.png", btnSprite->getPosition());
 	_redBtn->setScale(btnSprite->getScale());
 	this->addChild(_redBtn, 5);
-	btnSprite->setVisible(false);
+	_csbRoot->removeChildByName("redbtn");
+	nr = 30;
+	CCString* sr = CCString::createWithFormat("%d", nr);
+	const char* cr = sr->getCString();
+	_redNum = cocos2d::ui::Text::create(cr, "Marker Felt.ttf", 36);
+	_redNum->setPosition(btnSprite->getPosition());
+	this->addChild(_redNum, 6);
 
 	btnSprite = _csbRoot->getChildByName("greenbtn");
 	_greenBtn = CButton::create();
 	_greenBtn->setButtonInfo("playBtn02_01.png", "playBtn02_02.png", btnSprite->getPosition());
 	_greenBtn->setScale(btnSprite->getScale());
 	this->addChild(_greenBtn, 5);
-	btnSprite->setVisible(false);
+	_csbRoot->removeChildByName("greenbtn");
+	ng = 20;
+	CCString* sg = CCString::createWithFormat("%d", ng);
+	const char* cg = sg->getCString();
+	_greenNum = cocos2d::ui::Text::create(cg, "Marker Felt.ttf", 36);
+	_greenNum->setPosition(btnSprite->getPosition());
+	this->addChild(_greenNum, 6);
 
 	btnSprite = _csbRoot->getChildByName("bluebtn");
 	_blueBtn = CButton::create();
 	_blueBtn->setButtonInfo("playBtn03_01.png", "playBtn03_02.png", btnSprite->getPosition());
 	_blueBtn->setScale(btnSprite->getScale());
 	this->addChild(_blueBtn, 5);
-	btnSprite->setVisible(false);
+	_csbRoot->removeChildByName("bluebtn");
+	ny = 10;
+	CCString* sy = CCString::createWithFormat("%d", ny);
+	const char* cy = sy->getCString();
+	_yellowNum = cocos2d::ui::Text::create(cy, "Marker Felt.ttf", 36);
+	_yellowNum->setPosition(btnSprite->getPosition());
+	this->addChild(_yellowNum, 6);
 
 	btnSprite = _csbRoot->getChildByName("penbtn");
 	_penBtn = CSwitchButton::create();
 	_penBtn->setButtonInfo("playBtn00_01.png", "playBtn00_02.png", btnSprite->getPosition());
 	_penBtn->setScale(btnSprite->getScale());
 	this->addChild(_penBtn, 5);
-	btnSprite->setVisible(false);
+	_csbRoot->removeChildByName("penbtn");
 }
 
 void  Level4::setUIbtn() {
@@ -149,17 +167,53 @@ void  Level4::setUIbtn() {
 	_homeBtn->setButtonInfo("uiBtn01_01.png", "uiBtn01_02.png", btnSprite->getPosition());
 	_homeBtn->setScale(btnSprite->getScale());
 	this->addChild(_homeBtn, 5);
-	btnSprite->setVisible(false);
-
+	_csbRoot->removeChildByName("homebtn");
 
 	btnSprite = _csbRoot->getChildByName("replaybtn");
 	_replayBtn = CButton::create();
 	_replayBtn->setButtonInfo("uiBtn02_01.png", "uiBtn02_02.png", btnSprite->getPosition());
 	_replayBtn->setScale(btnSprite->getScale());
 	this->addChild(_replayBtn, 5);
-	btnSprite->setVisible(false);
+	_csbRoot->removeChildByName("replaybtn");
 }
 
+void Level4::setEndUi() {
+	_endUi = new Node;
+	this->addChild(_endUi, 20);
+
+	auto bg = Sprite::createWithSpriteFrameName("bgwhite.png");
+	bg->setPosition(640, 360);
+	bg->setScale(20);
+	_endUi->addChild(bg, 1);
+
+	auto level = Sprite::createWithSpriteFrameName("levelup.png");
+	level->setPosition(640, 360);
+	level->setScale(2);
+	_endUi->addChild(level, 2);
+
+	auto btnSprite = _csbRoot->getChildByName("endhome");
+	_homeBtn2 = CButton::create();
+	_homeBtn2->setButtonInfo("uiBtn01_01.png", "uiBtn01_02.png", btnSprite->getPosition());
+	_homeBtn2->setScale(btnSprite->getScale());
+	_endUi->addChild(_homeBtn2, 5);
+	_csbRoot->removeChildByName("endhome");
+
+	btnSprite = _csbRoot->getChildByName("endreplay");
+	_replayBtn2 = CButton::create();
+	_replayBtn2->setButtonInfo("uiBtn02_01.png", "uiBtn02_02.png", btnSprite->getPosition());
+	_replayBtn2->setScale(btnSprite->getScale());
+	_endUi->addChild(_replayBtn2, 5);
+	_csbRoot->removeChildByName("endreplay");
+
+	btnSprite = _csbRoot->getChildByName("endplay");
+	_nextBtn = CButton::create();
+	_nextBtn->setButtonInfo("uiBtn03_01.png", "uiBtn03_02.png", btnSprite->getPosition());
+	_nextBtn->setScale(btnSprite->getScale());
+	_endUi->addChild(_nextBtn, 5);
+	_csbRoot->removeChildByName("endplay");
+
+	_endUi->setVisible(false);
+}
 
 void Level4::createStaticBoundary()
 {
@@ -205,7 +259,7 @@ void Level4::setStaticWall() {
 	b2FixtureDef fixtureDef; // ²£¥Í Fixture
 	fixtureDef.shape = &polyshape;
 
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		sprintf(tmp, "wall_%02d", i);
 		auto wallSprite = (Sprite *)_csbRoot->getChildByName(tmp);
@@ -248,6 +302,10 @@ void Level4::setStaticWall() {
 	auto bornSprite = (Sprite *)_csbRoot->getChildByName("born");
 	Point pt = bornSprite->getPosition();
 	bornpt = pt;
+	_born = Sprite::createWithSpriteFrameName("pipe01.png");
+	_born->setPosition(pt);
+	this->addChild(_born, 10);
+	_csbRoot->removeChildByName("born");
 
 	/*auto sensorSprite = (Sprite *)_csbRoot->getChildByName("sensor_00");
 	Size ts = sensorSprite->getContentSize();
@@ -362,6 +420,10 @@ void Level4::setPendulum() {
 	size = circleSprite->getContentSize();
 	b2CircleShape circleShape;
 	circleShape.m_radius = size.width*0.5f / PTM_RATIO;
+	   //·PÀ³¾¹
+	auto _collisionSprite = (Sprite *)_csbRoot->getChildByName("Pendulum_cir_00");
+	_colliderSeneor.setCollisionTarget(*_collisionSprite);
+
 
 	b2BodyDef circleBodyDef;
 	circleBodyDef.type = b2_dynamicBody;
@@ -580,17 +642,16 @@ void Level4::setCar() {
 	RJoint.Initialize(staticBody, enginebody, enginebody->GetWorldCenter());
 	RevJoint[2] = (b2RevoluteJoint*)_b2World->CreateJoint(&RJoint);
 
-	//³sµ² - ¨®ÃD»P¨®´[
+	//³sµ² - ¨®Åé»P¨®´[
 	RJoint.Initialize(carbody, boxbody[0], boxbody[0]->GetWorldCenter()+b2Vec2(-2 / PTM_RATIO,0));
-	_b2World->CreateJoint(&RJoint);
-	RJoint.Initialize(boxbody[0], boxbody[1], boxbody[1]->GetWorldCenter());
 	_b2World->CreateJoint(&RJoint);
 
 	//²k±µÃö¸`
 	b2WeldJointDef JointDef;
 	JointDef.Initialize(boxbody[1], boxbody[2], boxbody[1]->GetPosition() + b2Vec2(45 / PTM_RATIO, 0));
 	_b2World->CreateJoint(&JointDef); // ¨Ï¥Î¹w³]­È²k±µ
-
+	JointDef.Initialize(boxbody[0], boxbody[1], boxbody[1]->GetWorldCenter());
+	_b2World->CreateJoint(&JointDef);
 
 	//³sµ² - ¨®½ü»P¤ÞÀº
 	b2GearJointDef GJoint;
@@ -738,9 +799,7 @@ void Level4::doStep(float dt)
 	// It is generally best to keep the time step and iterations fixed.
 	_b2World->Step(dt, velocityIterations, positionIterations);
 
-	// ¨ú±o _b2World ¤¤©Ò¦³ªº body ¶i¦æ³B²z
-	// ³Ì¥D­n¬O®Ú¾Ú¥Ø«e¹Bºâªºµ²ªG¡A§ó·sªþÄÝ¦b body ¤¤ sprite ªº¦ì¸m
-	for (b2Body* body = _b2World->GetBodyList(); body; body = body->GetNext())
+	for (b2Body* body = _b2World->GetBodyList(); body;)
 	{
 		//body->ApplyForce(b2Vec2(10.0f, 10.0f), body->GetWorldCenter(), true);
 		// ¥H¤U¬O¥H Body ¦³¥]§t Sprite Åã¥Ü¬°¨Ò
@@ -750,10 +809,71 @@ void Level4::doStep(float dt)
 			ballData->setPosition(body->GetPosition().x*PTM_RATIO, body->GetPosition().y*PTM_RATIO);
 			ballData->setRotation(-1 * CC_RADIANS_TO_DEGREES(body->GetAngle()));
 		}
+
+		// ¶]¥X¿Ã¹õ¥~­±´NÅýª«Åé±q b2World ¤¤²¾°£
+		if (body->GetType() == b2BodyType::b2_dynamicBody) {
+			float x = body->GetPosition().x * PTM_RATIO;
+			float y = body->GetPosition().y * PTM_RATIO;
+			if (x > _visibleSize.width || x < 0 || y >  _visibleSize.height || y < -100) {
+				if (body->GetUserData() != NULL) {
+					Sprite* spriteData = (Sprite *)body->GetUserData();
+					this->removeChild(spriteData);
+				}
+				_b2World->DestroyBody(body);
+				body = NULL;
+			}
+			else body = body->GetNext(); //§_«h´NÄ~Äò§ó·s¤U¤@­ÓBody
+		}
+		else body = body->GetNext(); //§_«h´NÄ~Äò§ó·s¤U¤@­ÓBody
+	}
+
+	// ²£¥Í¤õªá
+	if (_colliderSeneor._bCreateSpark) {
+		_colliderSeneor._bCreateSpark = false;	//²£¥Í§¹Ãö³¬
+												// §PÂ_©µ¿ðªº®É¶¡¬O§_º¡¨¬
+		if (_bSparking) { //¥i¥H¼Qµo¡A¹ê²{³o¦¸ªº¼Qµo
+			_tdelayTime = 0; // ®É¶¡­«·s³]©w¡A
+			_bSparking = false; // ¶}©l­p®É
+			for (int i = 0; i < 20; i++) {
+				// «Ø¥ß Spark Sprite ¨Ã»P¥Ø«eªºª«Åéµ²¦X
+				auto sparkSprite = Sprite::createWithSpriteFrameName("spark.png");
+				sparkSprite->setColor(Color3B(rand() % 256, rand() % 256, rand() % 156));
+				sparkSprite->setBlendFunc(BlendFunc::ADDITIVE);
+				this->addChild(sparkSprite, 5);
+				//²£¥Í¤p¤è¶ô¸ê®Æ
+				b2BodyDef RectBodyDef;
+				Vec2 pt;
+				float r = i*M_PI / 10;  // 18*i*PI/180
+				pt.x = cosf(r);  pt.y = sinf(r);
+				RectBodyDef.position.Set(pt.x + _colliderSeneor._createLoc.x, pt.y + _colliderSeneor._createLoc.y);
+				RectBodyDef.type = b2_dynamicBody;
+				RectBodyDef.userData = sparkSprite;
+				b2PolygonShape RectShape;
+				RectShape.SetAsBox(5 / PTM_RATIO, 5 / PTM_RATIO);
+				b2Body* RectBody = _b2World->CreateBody(&RectBodyDef);
+				b2FixtureDef RectFixtureDef;
+				RectFixtureDef.shape = &RectShape;
+				RectFixtureDef.density = 1.0f;
+				RectFixtureDef.filter.maskBits = 0;
+				b2Fixture*RectFixture = RectBody->CreateFixture(&RectFixtureDef);
+
+				//µ¹¤O¶q
+				RectBody->ApplyForce(b2Vec2(pt.x * 10, pt.y * 10), _colliderSeneor._createLoc, true);
+			}
+		}
+	}
+	if (!_bSparking) {
+		_tdelayTime += dt;
+		if (_tdelayTime >= 0.075f) {
+			_tdelayTime = 0; // Âk¹s
+			_bSparking = true; // ¥i¶i¦æ¤U¤@¦¸ªº¼Qµo
+		}
 	}
 
 	if (_bboxR && _bboxG && _bboxB) {
 		CCLOG("LEVEL UP!");
+		startGame = false;
+		_endUi->setVisible(true);
 	}
 	if (!_bboxR) {
 		if (_colliderSeneor.inBoxR == true) _bboxR = true;
@@ -770,92 +890,125 @@ void Level4::doStep(float dt)
 bool Level4::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//Ä²¸I¶}©l¨Æ¥ó
 {
 	Point touchLoc = pTouch->getLocation();
+	if (startGame) {
+		for (b2Body* body = _b2World->GetBodyList(); body; body = body->GetNext())
+		{
+			if (body->GetUserData() != NULL) {// ÀRºAª«Åé¤£³B²z	
+				Sprite *spriteObj = (Sprite*)body->GetUserData();
+				Size objSize = spriteObj->getContentSize();
+				Point pt = spriteObj->getPosition();
+				float scaleX = spriteObj->getScaleX();
+				float scaleY = spriteObj->getScaleY();
 
-	for (b2Body* body = _b2World->GetBodyList(); body; body = body->GetNext())
-	{
-		if (body->GetUserData() != NULL) {// ÀRºAª«Åé¤£³B²z	
-			//§PÂ_ÂIªº¦ì¸m¬O§_¸¨¦b°ÊºAª«Åé¤@©wªº½d³ò
-			Sprite *spriteObj = (Sprite*)body->GetUserData();
-			Size objSize = spriteObj->getContentSize();
-			Point pt = spriteObj->getPosition();
-			float scaleX = spriteObj->getScaleX();
-			float scaleY = spriteObj->getScaleY();
-			/*objSize.width *= scaleX;   objSize.height *= scaleY;
-			Rect collider(pt.x- objSize.width/2 , pt.y - objSize.height/2, objSize.width, objSize.height);*/
-			float fdist = MAX_2(objSize.width*scaleX, objSize.height*scaleY) / 2.0f;
-			float x = body->GetPosition().x*PTM_RATIO - touchLoc.x;
-			float y = body->GetPosition().y*PTM_RATIO - touchLoc.y;
-			float tpdist = x*x + y*y;
-			if (tpdist < fdist*fdist)
-			
-			{
-				_bTouchOn = true;
-				b2MouseJointDef mouseJointDef;
-				mouseJointDef.bodyA = _bottomBody;
-				mouseJointDef.bodyB = body;
-				mouseJointDef.target = b2Vec2(touchLoc.x / PTM_RATIO, touchLoc.y / PTM_RATIO);
-				mouseJointDef.collideConnected = true;
-				mouseJointDef.maxForce = 1000.0f * body->GetMass();
-				_MouseJoint = (b2MouseJoint*)_b2World->CreateJoint(&mouseJointDef); // ·s¼W Mouse Joint
-				body->SetAwake(true);
-				_bMouseOn = true;
-				break;
+				float d = body->GetFixtureList()->GetDensity();
+				if (d == 100000) {    //ºl¤l©ÎªO¤l
+									  //§PÂ_ÂIªº¦ì¸m¬O§_¸¨¦b°ÊºAª«Åé¤@©wªº½d³ò
+					float fdist = MAX_2(objSize.width*scaleX, objSize.height*scaleY) / 2.0f;
+					float x = body->GetPosition().x*PTM_RATIO - touchLoc.x;
+					float y = body->GetPosition().y*PTM_RATIO - touchLoc.y;
+					float tpdist = x*x + y*y;
+					if (tpdist < fdist*fdist) {
+						_bTouchOn = true;
+						b2MouseJointDef mouseJointDef;
+						mouseJointDef.bodyA = _bottomBody;
+						mouseJointDef.bodyB = body;
+						mouseJointDef.target = b2Vec2(touchLoc.x / PTM_RATIO, touchLoc.y / PTM_RATIO);
+						mouseJointDef.collideConnected = true;
+						mouseJointDef.maxForce = 1000.0f * body->GetMass();
+						_MouseJoint = (b2MouseJoint*)_b2World->CreateJoint(&mouseJointDef); // ·s¼W Mouse Joint
+						body->SetAwake(true);
+						_bMouseOn = true;
+						break;
+					}
+				}
+				else if (d == 1000) {
+					objSize.width *= scaleX;   objSize.height *= scaleY;
+					float w = (objSize.width + objSize.height) / 2;
+					Rect collider(pt.x - w / 2, pt.y - w / 2, w, w);
+					if (collider.containsPoint(touchLoc)) {
+						_bTouchOn = true;
+						b2MouseJointDef mouseJointDef;
+						mouseJointDef.bodyA = _bottomBody;
+						mouseJointDef.bodyB = body;
+						mouseJointDef.target = b2Vec2(touchLoc.x / PTM_RATIO, touchLoc.y / PTM_RATIO);
+						mouseJointDef.collideConnected = true;
+						mouseJointDef.maxForce = 1000.0f * body->GetMass();
+						_MouseJoint = (b2MouseJoint*)_b2World->CreateJoint(&mouseJointDef); // ·s¼W Mouse Joint
+						body->SetAwake(true);
+						_bMouseOn = true;
+						break;
+					}
+				}
 			}
 		}
-	}
 
-	if (drawOn) {
-		_bDraw = true;
-		_HDrawPt = new DrawPoint;
-		_HDrawPt->pt = touchLoc;
-		_HDrawPt->next = NULL;
-		_NDrawPt = _HDrawPt;
-	}
+		if (drawOn) {
+			_bDraw = true;
+			_HDrawPt = new DrawPoint;
+			_HDrawPt->pt = touchLoc;
+			_HDrawPt->next = NULL;
+			_NDrawPt = _HDrawPt;
+		}
 
-	_redBtn->touchesBegin(touchLoc);
-	_greenBtn->touchesBegin(touchLoc);
-	_blueBtn->touchesBegin(touchLoc);
-	_penBtn->touchesBegan(touchLoc);
-	_homeBtn->touchesBegin(touchLoc);
-	_replayBtn->touchesBegin(touchLoc);
+		_redBtn->touchesBegin(touchLoc);
+		_greenBtn->touchesBegin(touchLoc);
+		_blueBtn->touchesBegin(touchLoc);
+		_penBtn->touchesBegan(touchLoc);
+		_homeBtn->touchesBegin(touchLoc);
+		_replayBtn->touchesBegin(touchLoc);
+	}
+	else {
+		_homeBtn2->touchesBegin(touchLoc);
+		_replayBtn2->touchesBegin(touchLoc);
+		_nextBtn->touchesBegin(touchLoc);
+	}
+	
 	return true;
 }
 
 void  Level4::onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸I²¾°Ê¨Æ¥ó
 {
 	Point touchLoc = pTouch->getLocation();
-	if (_bTouchOn)
-	{
-		_MouseJoint->SetTarget(b2Vec2(touchLoc.x / PTM_RATIO, touchLoc.y / PTM_RATIO));
-	}
-
-	if (_bDraw) {
-		float len = ccpDistance(_NDrawPt->pt, touchLoc);
-		if (len > DRAW_MIN) {
-			struct DrawPoint *newPt;
-			newPt = new DrawPoint;
-			newPt->pt = touchLoc;
-			float x = newPt->pt.x - _NDrawPt->pt.x;
-			float y = newPt->pt.y - _NDrawPt->pt.y;
-			newPt->r = atan2f(y, x);
-			newPt->texture = Sprite::createWithSpriteFrameName("square06.png");
-			newPt->texture->setPosition(touchLoc);
-			newPt->texture->setScale(0.3f,0.07f);
-			newPt->texture->setColor(BlockColor[pencolor]);
-			newPt->texture->setRotation(-(newPt->r * 180 / M_PI));
-			this->addChild(newPt->texture, 2);
-			newPt->next = NULL;
-			_NDrawPt->next = newPt;
-			_NDrawPt = newPt;
+	if (startGame) {
+		if (_bTouchOn)
+		{
+			_MouseJoint->SetTarget(b2Vec2(touchLoc.x / PTM_RATIO, touchLoc.y / PTM_RATIO));
 		}
-	}
 
-	_redBtn->touchesBegin(touchLoc);
-	_greenBtn->touchesBegin(touchLoc);
-	_blueBtn->touchesBegin(touchLoc);
-	_penBtn->touchesMoved(touchLoc);
-	_homeBtn->touchesBegin(touchLoc);
-	_replayBtn->touchesBegin(touchLoc);
+		if (_bDraw) {
+			float len = ccpDistance(_NDrawPt->pt, touchLoc);
+			if (len > DRAW_MIN) {
+				struct DrawPoint *newPt;
+				newPt = new DrawPoint;
+				newPt->pt = touchLoc;
+				float x = newPt->pt.x - _NDrawPt->pt.x;
+				float y = newPt->pt.y - _NDrawPt->pt.y;
+				newPt->r = atan2f(y, x);
+				newPt->texture = Sprite::createWithSpriteFrameName("square06.png");
+				newPt->texture->setPosition(touchLoc);
+				newPt->texture->setScale(0.3f, 0.07f);
+				newPt->texture->setColor(BlockColor[pencolor]);
+				newPt->texture->setRotation(-(newPt->r * 180 / M_PI));
+				this->addChild(newPt->texture, 2);
+				newPt->next = NULL;
+				_NDrawPt->next = newPt;
+				_NDrawPt = newPt;
+			}
+		}
+
+		_redBtn->touchesBegin(touchLoc);
+		_greenBtn->touchesBegin(touchLoc);
+		_blueBtn->touchesBegin(touchLoc);
+		_penBtn->touchesMoved(touchLoc);
+		_homeBtn->touchesBegin(touchLoc);
+		_replayBtn->touchesBegin(touchLoc);
+	}
+	else {
+		_homeBtn2->touchesBegin(touchLoc);
+		_replayBtn2->touchesBegin(touchLoc);
+		_nextBtn->touchesBegin(touchLoc);
+	}
+	
 }
 
 void  Level4::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸Iµ²§ô¨Æ¥ó 
@@ -879,15 +1032,30 @@ void  Level4::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 	}
 
 	if (_redBtn->touchesEnded(touchLoc)) {
-		if (!drawOn) renderball("ball_01.png", 1);
+		if (!drawOn) {
+			if (nr > 0) {
+				nr -= 1;
+				renderball("ball_01.png", 1);
+			}
+		}
 		else pencolor = 0;
 	}
 	if (_greenBtn->touchesEnded(touchLoc)) {
-		if (!drawOn)renderball("ball_02.png", 2);
+		if (!drawOn) {
+			if (ng > 0) {
+				ng -= 1;
+				renderball("ball_02.png", 2);
+			}
+		}
 		else pencolor = 1;
 	}
 	if (_blueBtn->touchesEnded(touchLoc)) {
-		if (!drawOn)  renderball("ball_03.png", 3);
+		if (!drawOn) {
+			if (ny > 0) {
+				ny -= 1;
+				renderball("ball_03.png", 3);
+			}
+		}
 		else pencolor = 2;
 	}
 	if (_penBtn->touchesEnded(touchLoc)) {
@@ -908,6 +1076,22 @@ void  Level4::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		Director::getInstance()->replaceScene(pageTurn);
 	}
 	if (_replayBtn->touchesEnded(touchLoc)) {
+		this->unschedule(schedule_selector(Level4::doStep));
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		TransitionFade *pageTurn;
+		pageTurn = TransitionFade::create(1.0F, Level4::createScene());
+		Director::getInstance()->replaceScene(pageTurn);
+	}
+	if (_homeBtn2->touchesEnded(touchLoc)) {
+		this->unschedule(schedule_selector(Level4::doStep));
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		TransitionFade *pageTurn;
+		pageTurn = TransitionFade::create(1.0F, StartScene::createScene());
+		Director::getInstance()->replaceScene(pageTurn);
+	}
+	if (_replayBtn2->touchesEnded(touchLoc)) {
 		this->unschedule(schedule_selector(Level4::doStep));
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
@@ -941,6 +1125,23 @@ void Level4::renderball(char *name, int mask) {
 	fixtureDef.friction = 0.15f;			// ³]©w¼¯À¿«Y¼Æ
 	fixtureDef.filter.maskBits = 1 << mask | 1; //³]©w¸s²Õ
 	ballBody->CreateFixture(&fixtureDef);	// ¦b Body ¤W²£¥Í³o­Ó­èÅéªº³]©w
+
+	if (mask == 1) {
+		CCString* s = CCString::createWithFormat("%d", nr);
+		const char* c = s->getCString();
+		_redNum->setString(c);
+	}
+	else if (mask == 2) {
+		CCString* s = CCString::createWithFormat("%d", ng);
+		const char* c = s->getCString();
+		_greenNum->setString(c);
+	}
+	else if (mask == 3) {
+		CCString* s = CCString::createWithFormat("%d", ny);
+		const char* c = s->getCString();
+		_yellowNum->setString(c);
+	}
+
 }
 
 void Level4::drawLine() {

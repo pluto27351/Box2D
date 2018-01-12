@@ -83,17 +83,6 @@
             <FileData Type="PlistSubImage" Path="clock02.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="born" ActionTag="1002192382" Tag="276" IconVisible="False" LeftMargin="174.4866" RightMargin="1043.5134" TopMargin="-20.9028" BottomMargin="666.9028" ctype="SpriteObjectData">
-            <Size X="62.0000" Y="74.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="205.4866" Y="703.9028" />
-            <Scale ScaleX="0.9955" ScaleY="0.9097" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.1605" Y="0.9776" />
-            <PreSize X="0.0484" Y="0.1028" />
-            <FileData Type="PlistSubImage" Path="rect03.png" Plist="box2d.plist" />
-            <BlendFunc Src="1" Dst="771" />
-          </AbstractNodeData>
           <AbstractNodeData Name="Title" ActionTag="-540210356" Tag="230" IconVisible="False" LeftMargin="616.5000" RightMargin="616.5000" TopMargin="143.7440" BottomMargin="553.2560" FontSize="22" LabelText="BALL" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
             <Size X="47.0000" Y="23.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
@@ -159,6 +148,17 @@
             <PrePosition X="0.5000" Y="0.3080" />
             <PreSize X="0.0500" Y="0.0889" />
             <FileData Type="PlistSubImage" Path="square05.png" Plist="box2d.plist" />
+            <BlendFunc Src="1" Dst="771" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="born" ActionTag="-702386500" Tag="988" IconVisible="False" LeftMargin="173.7060" RightMargin="1042.2939" TopMargin="-1.1366" BottomMargin="647.1366" ctype="SpriteObjectData">
+            <Size X="64.0000" Y="74.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="205.7060" Y="684.1366" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.1607" Y="0.9502" />
+            <PreSize X="0.0500" Y="0.1028" />
+            <FileData Type="PlistSubImage" Path="pipe01.png" Plist="UIBTN.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
         </Children>

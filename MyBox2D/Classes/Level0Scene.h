@@ -1,10 +1,9 @@
-#ifndef __LEVEL4_SCENE_H__
-#define __LEVEL4_SCENE_H__
+#ifndef _Level0_SCENE_H__
+#define _Level0_SCENE_H__
 
+#define BOX2D_DEBUG 1
 
 #include "cocos2d.h"
-#include "ui/CocosGUI.h"
-#include "ui/UIWidget.h"
 #include "Box2D/Box2D.h"
 #include "Common/CButton.h"
 #include "Common/CSwitchButton.h"
@@ -22,18 +21,13 @@
 #define DRAW_MIN 5
 #define DRAW_HEIGHT 3
 
-struct DrawPoint {
-	cocos2d::Point pt;
-	Sprite *texture;
-	float r;
-	struct DrawPoint *next;
-};
 
-class Level4 : public cocos2d::Layer
+
+class Level0 : public cocos2d::Layer
 {
 public:
 
-	~Level4();
+	~Level0();
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 	Node *_csbRoot;
@@ -41,10 +35,6 @@ public:
 	// for Box2D
 	b2World* _b2World;
 	cocos2d::Size _visibleSize;
-
-	//num
-	cocos2d::ui::Text *_redNum, *_greenNum, *_yellowNum;
-	int nr, ng, ny;
 
 	// for MouseJoint
 	b2Body *_bottomBody; // 底部的 edgeShape
@@ -54,13 +44,7 @@ public:
 	bool _bboxR = false, _bboxG = false, _bboxB = false;
 	CContactListener _colliderSeneor;
 	Point bornpt;
-	Sprite *_born;
-
-	cocos2d::BlendFunc blendFunc;
-	float _tdelayTime; // 用於火花的產生，不要事件進入太多而導致一下產生過多的火花
-	bool  _bSparking;  // true: 可以噴出火花，false: 不行
-
-	bool startGame = true;
+	bool open = false;
 
 	//手繪
 	int pencolor = 0;
@@ -80,14 +64,10 @@ public:
 	//void setSensor();
 	void setbtn();
 	void setUIbtn();
-	void setEndUi();
 
 	void renderball(char *, int);
 	CButton *_redBtn, *_blueBtn, *_greenBtn, *_homeBtn, *_replayBtn;
-	CButton *_homeBtn2, *_replayBtn2, *_nextBtn;
 	CSwitchButton *_penBtn;
-	Node *_endUi;
-
 #ifdef BOX2D_DEBUG
 	//DebugDraw
 	GLESDebugDraw* _DebugDraw;
@@ -105,7 +85,7 @@ public:
 
 	
     // implement the "static create()" method manually
-    CREATE_FUNC(Level4);
+    CREATE_FUNC(Level0);
 };
 
-#endif // __LEVEL4_SCENE_H__
+#endif // _Level0_SCENE_H__

@@ -86,8 +86,8 @@ bool CButton::touchesEnded(cocos2d::Point inPos)
 void CButton::setVisible(bool bVisible)
 {
 	_bVisible = bVisible;
-	if (!_bVisible) _normalPic->setVisible(false);
-	else _normalPic->setVisible(true);
+	//if (!_bVisible) _normalPic->setVisible(false);
+	//else _normalPic->setVisible(true);
 }
 
 

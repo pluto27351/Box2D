@@ -1,9 +1,9 @@
 #ifndef __LEVEL2_SCENE_H__
 #define __LEVEL2_SCENE_H__
 
-#define BOX2D_DEBUG 1
-
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
+#include "ui/UIWidget.h"
 #include "Box2D/Box2D.h"
 #include "Common/CButton.h"
 #include "Common/CSwitchButton.h"
@@ -33,26 +33,40 @@ public:
 	b2World* _b2World;
 	cocos2d::Size _visibleSize;
 
+	//num
+	cocos2d::ui::Text *_redNum, *_greenNum, *_yellowNum;
+	int nr, ng, ny;
+
 	// for MouseJoint
 	b2Body *_bottomBody; // 底部的 edgeShape
 	b2MouseJoint* _MouseJoint;
 	bool _bTouchOn;   //與場景物件產生關西
 	bool _bMouseOn = false;  //滑鼠移動
+	Sprite *_born;
 	bool _bboxR = false, _bboxG = false, _bboxB = false;
 	CContactListener _colliderSeneor;
+	//cocos2d::Sprite *_collisionSprite;
+	cocos2d::BlendFunc blendFunc;
+	float _tdelayTime; // 用於火花的產生，不要事件進入太多而導致一下產生過多的火花
+	bool  _bSparking;  // true: 可以噴出火花，false: 不行
+
+	bool startGame = true;
+
 	Point bornpt;
-	// Box2D Examples
 	void createStaticBoundary();
 	void setStaticWall();
-	//void setBoards();
 	void setPendulum();
 	void setFinalBox();
 	void setbtn();
 	void setUIbtn();
+	void setEndUi();
 
 	void renderball(char *, int);
 	CButton *_redBtn,*_blueBtn, *_greenBtn, *_homeBtn, *_replayBtn;
+	CButton *_homeBtn2, *_replayBtn2,*_nextBtn;
 	CSwitchButton *_penBtn;
+	Node *_endUi;
+
 #ifdef BOX2D_DEBUG
 	//DebugDraw
 	GLESDebugDraw* _DebugDraw;

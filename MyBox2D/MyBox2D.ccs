@@ -70,6 +70,8 @@
           <PlistImageFile Name="ball_01.png" Key="ball_01.png" />
           <PlistImageFile Name="ball_02.png" Key="ball_02.png" />
           <PlistImageFile Name="ball_03.png" Key="ball_03.png" />
+          <PlistImageFile Name="gear_00.png" Key="gear_00.png" />
+          <PlistImageFile Name="ironball_00.png" Key="ironball_00.png" />
           <PlistImageFile Name="levelBtn00.png" Key="levelBtn00.png" />
           <PlistImageFile Name="levelBtn01_01.png" Key="levelBtn01_01.png" />
           <PlistImageFile Name="levelBtn01_02.png" Key="levelBtn01_02.png" />
@@ -93,6 +95,20 @@
           <PlistImageFile Name="uiBtn01_02.png" Key="uiBtn01_02.png" />
           <PlistImageFile Name="uiBtn02_01.png" Key="uiBtn02_01.png" />
           <PlistImageFile Name="uiBtn02_02.png" Key="uiBtn02_02.png" />
+          <PlistImageFile Name="wheel_00.png" Key="wheel_00.png" />
+          <PlistImageFile Name="bgwhite.png" Key="bgwhite.png" />
+          <PlistImageFile Name="box.png" Key="box.png" />
+          <PlistImageFile Name="boxedge.png" Key="boxedge.png" />
+          <PlistImageFile Name="ironbat.png" Key="ironbat.png" />
+          <PlistImageFile Name="levelup.png" Key="levelup.png" />
+          <PlistImageFile Name="uiBtn03_01.png" Key="uiBtn03_01.png" />
+          <PlistImageFile Name="uiBtn03_02.png" Key="uiBtn03_02.png" />
+          <PlistImageFile Name="boxedge2.png" Key="boxedge2.png" />
+          <PlistImageFile Name="circle_00.png" Key="circle_00.png" />
+          <PlistImageFile Name="circle_01.png" Key="circle_01.png" />
+          <PlistImageFile Name="circle_02.png" Key="circle_02.png" />
+          <PlistImageFile Name="pipe01.png" Key="pipe01.png" />
+          <PlistImageFile Name="pipe02.png" Key="pipe02.png" />
         </PlistImageFolder>
         <Project Name="FixtureCollision.csd" Type="Scene" />
         <Project Name="JointScene.csd" Type="Scene" />

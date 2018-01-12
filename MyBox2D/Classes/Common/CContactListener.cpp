@@ -10,7 +10,7 @@ CContactListener::CContactListener()
 }
 void CContactListener::setCollisionTarget(cocos2d::Sprite &targetSprite)
 {
-	_targetSprite = &targetSprite;
+	_PendulumSprite = &targetSprite;
 }
 
 //
@@ -34,18 +34,18 @@ void CContactListener::BeginContact(b2Contact* contact)
 		_bApplyImpulse = true;
 	}
 
-	if (BodyA->GetUserData() == _targetSprite) {
+	if (BodyA->GetUserData() == _PendulumSprite) {
 		float lengthV = BodyB->GetLinearVelocity().Length();
 		if (lengthV >= 4.25f) { // 接觸時的速度超過一定的值才噴出火花
 			_bCreateSpark = true;
-			_createLoc = BodyA->GetWorldCenter() + b2Vec2(0, -30 / PTM_RATIO);
+			_createLoc = BodyA->GetWorldCenter();
 		}
 	}
-	else if (BodyB->GetUserData() == _targetSprite) {
-		float lengthV = BodyB->GetLinearVelocity().Length();
+	else if (BodyB->GetUserData() == _PendulumSprite) {
+		float lengthV = BodyA->GetLinearVelocity().Length();
 		if (lengthV >= 4.25f) { // 接觸時的速度超過一定的值才噴出火花
 			_bCreateSpark = true;
-			_createLoc = BodyB->GetWorldCenter() + b2Vec2(0, -30 / PTM_RATIO);
+			_createLoc = BodyB->GetWorldCenter();
 		}
 	}
 

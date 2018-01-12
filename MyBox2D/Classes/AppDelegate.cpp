@@ -2,18 +2,12 @@
 #include <ctime>
 #include "AppDelegate.h"
 
+//#define BOX2D_DEBUG 1
+
 //#include "1_DebugDrawScene.h"
 #define BOX2D_EXAMPLE 9
 
-#if BOX2D_EXAMPLE == 1
-#include "StaticDynamicScene.h"
-#elif  BOX2D_EXAMPLE == 2
-#include "FixtureCollisionScene.h"
-#elif  BOX2D_EXAMPLE == 3
-#include "JointScene.h"
-#elif  BOX2D_EXAMPLE == 4
-#include "DrawScene.h"
-#elif  BOX2D_EXAMPLE == 5
+#if  BOX2D_EXAMPLE == 5
 #include "Level1Scene.h"
 #elif  BOX2D_EXAMPLE == 6
 #include "Level2Scene.h"
@@ -72,15 +66,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	srand(time(NULL));
 
     // create a scene. it's an autorelease object
-#if BOX2D_EXAMPLE == 1
-	auto scene = StaticDynamic::createScene();
-#elif  BOX2D_EXAMPLE == 2
-	auto scene = FixtureCollision::createScene();
-#elif  BOX2D_EXAMPLE == 3
-	auto scene = JointScene::createScene();
-#elif  BOX2D_EXAMPLE == 4
-	auto scene = MouseDraw::createScene();
-#elif  BOX2D_EXAMPLE == 5
+
+#if  BOX2D_EXAMPLE == 5
 	auto scene = Level1::createScene();
 #elif  BOX2D_EXAMPLE == 6
 	auto scene = Level2::createScene();

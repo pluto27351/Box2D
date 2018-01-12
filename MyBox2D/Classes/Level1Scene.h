@@ -1,8 +1,6 @@
 #ifndef __LEVEL1_SCENE_H__
 #define __LEVEL1_SCENE_H__
 
-#define BOX2D_DEBUG 1
-
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
 #include "Common/CButton.h"
