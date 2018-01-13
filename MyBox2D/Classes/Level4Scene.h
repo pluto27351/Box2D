@@ -9,6 +9,7 @@
 #include "Common/CButton.h"
 #include "Common/CSwitchButton.h"
 #include "Common/CContactListener.h"
+#include "SimpleAudioEngine.h"
 
 #ifdef BOX2D_DEBUG
 #include "Common/GLES-Render.h"
@@ -21,6 +22,8 @@
 #define AccelerateRatio 1.5f
 #define DRAW_MIN 5
 #define DRAW_HEIGHT 3
+
+using namespace CocosDenshion;
 
 struct DrawPoint {
 	cocos2d::Point pt;
@@ -61,10 +64,14 @@ public:
 	Point bornpt;
 	Sprite *_born;
 
+	b2Body *_star;
+	bool _bstar = false;
+
 	//分子特效
 	cocos2d::BlendFunc blendFunc;
 	float _tdelayTime; // 用於火花的產生，不要事件進入太多而導致一下產生過多的火花
 	bool  _bSparking;  // true: 可以噴出火花，false: 不行
+	float _balltime = 0.0f;
 
 	bool startGame = true;
 	CContactListener _colliderSeneor;
@@ -83,7 +90,7 @@ public:
 	void setFinalBox();
 	void setCar();
 	void setRope();
-	//void setSensor();
+	void setStar();
 	void setbtn();
 	void setUIbtn();
 	void setEndUi();
@@ -92,6 +99,8 @@ public:
 	CButton *_redBtn, *_blueBtn, *_greenBtn, *_homeBtn, *_replayBtn;
 	CButton *_homeBtn2, *_replayBtn2, *_nextBtn;
 	CSwitchButton *_penBtn;
+
+	cocos2d::ui::Text *_score[3];
 	Node *_endUi;
 
 #ifdef BOX2D_DEBUG

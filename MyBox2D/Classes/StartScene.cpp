@@ -3,6 +3,7 @@
 #include "ui/CocosGUI.h"
 #include "Level1Scene.h"
 #include "FixtureCollisionScene.h"
+
 USING_NS_CC;
 using namespace cocostudio::timeline;
 
@@ -77,6 +78,11 @@ bool StartScene::init()
 	setStaticWall();
 	setUIbtn();
 	setbtn();
+
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("./audio/bg.mp3", true);
+
+	/*auto bkmusic = (cocostudio::ComAudio *)_csbRoot->getChildByName("BG_Music")->getComponent("BG_Music");
+	bkmusic->playBackgroundMusic();*/
 
 	_listener1 = EventListenerTouchOneByOne::create();	//創建一個一對一的事件聆聽器
 	_listener1->onTouchBegan = CC_CALLBACK_2(StartScene::onTouchBegan, this);		//加入觸碰開始事件
@@ -280,6 +286,7 @@ void  StartScene::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) /
 		this->unschedule(schedule_selector(StartScene::doStep));
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 		TransitionFade *pageTurn;
 		if(LV == 1)pageTurn = TransitionFade::create(1.0F, Level1::createScene(levelball, maxLevel));
 		else if (LV == 2)pageTurn = TransitionFade::create(1.0F, Level2::createScene(levelball,maxLevel));
@@ -287,7 +294,7 @@ void  StartScene::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) /
 		else if (LV == 4)pageTurn = TransitionFade::create(1.0F, Level4::createScene(levelball,maxLevel));
 		
 		Director::getInstance()->replaceScene(pageTurn);
-
+	
 
 
 	}

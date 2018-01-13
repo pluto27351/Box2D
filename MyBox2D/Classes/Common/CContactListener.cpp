@@ -2,15 +2,33 @@
 #include "ui/CocosGUI.h"
 #include "CContactListener.h"
 
+
+CContactListener::~CContactListener()
+{
+	_bApplyImpulse = false;
+	_bCreateSpark = false;
+	_NumOfSparks = 5;
+
+}
+
 CContactListener::CContactListener()
 {
 	_bApplyImpulse = false;
 	_bCreateSpark = false;
 	_NumOfSparks = 5;
+
 }
+
 void CContactListener::setCollisionTarget(cocos2d::Sprite &targetSprite)
 {
 	_PendulumSprite = &targetSprite;
+	_bp = true;
+}
+
+void CContactListener::setCollisionTarget2(cocos2d::Sprite &targetSprite)
+{
+	_StarSprite = &targetSprite;
+	_bs = true;
 }
 
 //
@@ -24,30 +42,50 @@ void CContactListener::BeginContact(b2Contact* contact)
 	auto DensityA = BodyA->GetFixtureList()->GetDensity();
 	auto DensityB = BodyB->GetFixtureList()->GetDensity();
 
-	// check 是否為落下的球經過 sensor1 ，只要經過就立刻讓他彈出去
-	if (BodyA->GetFixtureList()->GetDensity() == 10000.0f) { // 代表 sensor1
-		BodyB->ApplyLinearImpulse(b2Vec2(0, 50 + rand() % 101), BodyB->GetWorldCenter(), true);
-		_bApplyImpulse = true;
-	}
-	else if (BodyB->GetFixtureList()->GetDensity() == 10000.0f) {// 代表 sensor1
-		BodyA->ApplyLinearImpulse(b2Vec2(0, 50 + rand() % 101), BodyB->GetWorldCenter(), true);
-		_bApplyImpulse = true;
-	}
 
-	if (BodyA->GetUserData() == _PendulumSprite) {
+	if (_bp && BodyA->GetUserData() == _PendulumSprite) {
 		float lengthV = BodyB->GetLinearVelocity().Length();
 		if (lengthV >= 4.25f) { // 接觸時的速度超過一定的值才噴出火花
 			_bCreateSpark = true;
 			_createLoc = BodyA->GetWorldCenter();
 		}
 	}
-	else if (BodyB->GetUserData() == _PendulumSprite) {
+	else if (_bp && BodyB->GetUserData() == _PendulumSprite) {
 		float lengthV = BodyA->GetLinearVelocity().Length();
 		if (lengthV >= 4.25f) { // 接觸時的速度超過一定的值才噴出火花
 			_bCreateSpark = true;
 			_createLoc = BodyB->GetWorldCenter();
 		}
 	}
+
+	if ((int)(DensityA*100.0f) == 111) {
+		BodyA->GetFixtureList()->SetDensity(1.0f);
+	}
+	else if ((int)(DensityB*100.0f) == 111) {
+		BodyB->GetFixtureList()->SetDensity(1.0f);
+	}
+	if (_bp && BodyA->GetUserData() == _PendulumSprite && (int)DensityB == 1) {
+		float lengthV = BodyB->GetLinearVelocity().Length();
+		if (lengthV >= 4.25f) {
+			BodyB->GetFixtureList()->SetDensity(1.11f);
+		}
+
+	}else if (_bp && BodyB->GetUserData() == _PendulumSprite && (int)DensityA == 1) {
+		float lengthV = BodyB->GetLinearVelocity().Length();
+		if (lengthV >= 4.25f) {
+			BodyA->GetFixtureList()->SetDensity(1.11f);
+		}
+	}
+
+
+	if (_bs && BodyA->GetUserData() == _StarSprite) {
+		star = true;
+
+	}
+	else if (_bs && BodyB->GetUserData() == _StarSprite) {
+		star = true;
+	}
+
 
 	if      (DensityA == 500.0f)  inBoxR = true;  //RED
 	else if (DensityB == 500.0f)  inBoxR = true;

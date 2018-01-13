@@ -128,14 +128,14 @@
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
           <AbstractNodeData Name="sensor_00" ActionTag="27012363" Tag="262" IconVisible="False" LeftMargin="958.6985" RightMargin="217.3015" TopMargin="615.9874" BottomMargin="-12.9874" ctype="SpriteObjectData">
-            <Size X="104.0000" Y="117.0000" />
+            <Size X="64.0000" Y="74.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1010.6985" Y="45.5126" />
             <Scale ScaleX="0.3003" ScaleY="0.3003" />
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition X="0.7896" Y="0.0632" />
             <PreSize X="0.0812" Y="0.1625" />
-            <FileData Type="PlistSubImage" Path="uparrow.png" Plist="box2d.plist" />
+            <FileData Type="PlistSubImage" Path="pipe02.png" Plist="UIBTN.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
           <AbstractNodeData Name="wall_01" ActionTag="1271911331" Tag="263" IconVisible="False" LeftMargin="661.4063" RightMargin="554.5937" TopMargin="278.3768" BottomMargin="377.6232" ctype="SpriteObjectData">

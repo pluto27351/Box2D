@@ -1,10 +1,13 @@
 #ifndef __START_SCENE_H__
 #define __START_SCENE_H__
 
+
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
 #include "Common/CButton.h"
 #include "Common/CSwitchButton.h"
+#include "SimpleAudioEngine.h"
+
 #include "Level1Scene.h"
 #include "Level2Scene.h"
 #include "Level3Scene.h"
@@ -17,6 +20,7 @@
 #define DRAW_MIN 5
 #define DRAW_HEIGHT 3
 
+using namespace CocosDenshion;
 
 class StartScene : public cocos2d::Layer
 {

@@ -270,13 +270,13 @@
             <FileData Type="PlistSubImage" Path="boxedge2.png" Plist="UIBTN.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="born" ActionTag="-456085283" Tag="792" IconVisible="False" LeftMargin="603.7569" RightMargin="612.2431" TopMargin="-2.7063" BottomMargin="648.7063" ctype="SpriteObjectData">
+          <AbstractNodeData Name="born" ActionTag="-456085283" Tag="792" IconVisible="False" LeftMargin="599.7568" RightMargin="616.2432" TopMargin="-2.7063" BottomMargin="648.7063" ctype="SpriteObjectData">
             <Size X="64.0000" Y="74.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="635.7569" Y="685.7063" />
+            <Position X="631.7568" Y="685.7063" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.4967" Y="0.9524" />
+            <PrePosition X="0.4936" Y="0.9524" />
             <PreSize X="0.0500" Y="0.1028" />
             <FileData Type="PlistSubImage" Path="pipe01.png" Plist="UIBTN.plist" />
             <BlendFunc Src="1" Dst="771" />

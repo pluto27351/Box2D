@@ -87,6 +87,7 @@ bool Level3::init()
 
 											// Åª¤J CSB ÀÉ
 	_csbRoot = CSLoader::createNode("Level3.csb");
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("./audio/bg.mp3", true);
 
 
 #ifdef BOX2D_DEBUG
@@ -107,6 +108,7 @@ bool Level3::init()
 	setbtn();
 	setUIbtn();
 	setEndUi();
+	setStar();
 
 #ifdef BOX2D_DEBUG
 	//DebugDrawInit
@@ -234,6 +236,12 @@ void Level3::setEndUi() {
 	_nextBtn->setScale(btnSprite->getScale());
 	_endUi->addChild(_nextBtn, 5);
 	_csbRoot->removeChildByName("endplay");
+
+	for (int i = 0; i < 3; i++) {
+		_score[i] = cocos2d::ui::Text::create("0", "Marker Felt.ttf", 36);
+		_score[i]->setPosition(Vec2(495 + 145 * i, 337));  //(495,337),(640,337),(785,337)
+		_endUi->addChild(_score[i], 6);
+	}
 
 	_endUi->setVisible(false);
 
@@ -653,6 +661,30 @@ void Level3::setCar() {
 }
 
 
+void Level3::setStar() {
+	auto circleSprite = _csbRoot->getChildByName("star");
+	auto loc = circleSprite->getPosition();
+	auto size = circleSprite->getContentSize();
+	b2CircleShape circleShape;
+	circleShape.m_radius = size.width*0.5f / PTM_RATIO;
+	//·PÀ³¾¹
+	auto _collisionSprite = (Sprite *)_csbRoot->getChildByName("star");
+	_colliderSeneor.setCollisionTarget2(*_collisionSprite);
+
+	b2BodyDef circleBodyDef;
+	b2FixtureDef fixtureDef;
+	circleBodyDef.type = b2_staticBody;
+	circleBodyDef.position.Set(loc.x / PTM_RATIO, loc.y / PTM_RATIO);
+	circleBodyDef.userData = circleSprite;
+	_star = _b2World->CreateBody(&circleBodyDef);
+	fixtureDef.shape = &circleShape;
+	fixtureDef.density = 1.0f;
+	fixtureDef.isSensor = true;
+	_star->CreateFixture(&fixtureDef);
+
+
+}
+
 void Level3::doStep(float dt)
 {
 	int velocityIterations = 8;	// ³t«×­¡¥N¦¸¼Æ
@@ -672,7 +704,33 @@ void Level3::doStep(float dt)
 			Sprite *ballData = (Sprite*)body->GetUserData();
 			ballData->setPosition(body->GetPosition().x*PTM_RATIO, body->GetPosition().y*PTM_RATIO);
 			ballData->setRotation(-1 * CC_RADIANS_TO_DEGREES(body->GetAngle()));
+		
+			int d = body->GetFixtureList()->GetDensity() * 100.0;
+			if (d == 111 && _balltime == 0.0f) {
+				_balltime += dt;
+				auto sparkSprite = Sprite::createWithSpriteFrameName("flare.png");
+				sparkSprite->setScale(0.5);
+				sparkSprite->setBlendFunc(BlendFunc::ADDITIVE);
+				this->addChild(sparkSprite, 5);
+				//²£¥Í¤p¤è¶ô¸ê®Æ
+				b2BodyDef RectBodyDef;
+				RectBodyDef.position.Set(body->GetPosition().x, body->GetPosition().y);
+				RectBodyDef.type = b2_dynamicBody;
+				RectBodyDef.userData = sparkSprite;
+				b2PolygonShape RectShape;
+				RectShape.SetAsBox(5 / PTM_RATIO, 5 / PTM_RATIO);
+				b2Body* RectBody = _b2World->CreateBody(&RectBodyDef);
+				b2FixtureDef RectFixtureDef;
+				RectFixtureDef.shape = &RectShape;
+				RectFixtureDef.density = 1.0f;
+				RectFixtureDef.filter.maskBits = 0;
+				b2Fixture*RectFixture = RectBody->CreateFixture(&RectFixtureDef);
+			}
+		
 		}
+		if (_balltime > 1.0f)      _balltime = 0.0f;
+		else if (_balltime > 0.0f)  _balltime += dt;
+
 		// ¶]¥X¿Ã¹õ¥~­±´NÅýª«Åé±q b2World ¤¤²¾°£
 		if (body->GetType() == b2BodyType::b2_dynamicBody) {
 			float x = body->GetPosition().x * PTM_RATIO;
@@ -698,6 +756,9 @@ void Level3::doStep(float dt)
 		bornSprite->setPosition(_born->getPosition());
 		bornpt = pt;
 		_born->setPosition(pt);
+
+		auto sensorSprite = (Sprite *)_csbRoot->getChildByName("sensor_00");
+		sensorSprite->setVisible(false);
 	}
 
 	// ²£¥Í¤õªá
@@ -743,6 +804,41 @@ void Level3::doStep(float dt)
 		}
 	}
 
+	//¦¨´N
+	if (_colliderSeneor.star == true) {
+		for (int i = 0; i < 20; i++) {
+			// «Ø¥ß Spark Sprite ¨Ã»P¥Ø«eªºª«Åéµ²¦X
+			auto sparkSprite = Sprite::createWithSpriteFrameName("star.png");
+			sparkSprite->setScale(0.5);
+			sparkSprite->setBlendFunc(BlendFunc::ADDITIVE);
+			this->addChild(sparkSprite, 5);
+			//²£¥Í¤p¤è¶ô¸ê®Æ
+			b2BodyDef RectBodyDef;
+			Vec2 pt;
+			float r = i*M_PI / 10;  // 18*i*PI/180
+			pt.x = cosf(r);  pt.y = sinf(r);
+			RectBodyDef.position.Set(pt.x + _star->GetPosition().x, pt.y + _star->GetPosition().y);
+			RectBodyDef.type = b2_dynamicBody;
+			RectBodyDef.userData = sparkSprite;
+			b2PolygonShape RectShape;
+			RectShape.SetAsBox(5 / PTM_RATIO, 5 / PTM_RATIO);
+			b2Body* RectBody = _b2World->CreateBody(&RectBodyDef);
+			b2FixtureDef RectFixtureDef;
+			RectFixtureDef.shape = &RectShape;
+			RectFixtureDef.density = 1.0f;
+			RectFixtureDef.filter.maskBits = 0;
+			b2Fixture*RectFixture = RectBody->CreateFixture(&RectFixtureDef);
+
+			//µ¹¤O¶q
+			RectBody->ApplyForce(b2Vec2(pt.x * 10, pt.y * 10), _colliderSeneor._createLoc, true);
+		}
+		_colliderSeneor.star = false;
+		_bstar = true;
+		Sprite* spriteData = (Sprite *)_star->GetUserData();
+		_csbRoot->removeChild(spriteData);
+		_b2World->DestroyBody(_star);
+	}
+
 	//²×ÂI§PÂ_
 	if (_bboxR && _bboxG && _bboxB) {
 		CCLOG("LEVEL UP!");
@@ -752,6 +848,18 @@ void Level3::doStep(float dt)
 		levelball[3][1] = ng;
 		levelball[3][2] = ny;
 		if (maxLevel < 4)maxLevel = 4;
+		for (int i = 0; i < 3; i++) {
+			CCString* s = CCString::createWithFormat("+%d", levelball[3][i]);
+			const char* c = s->getCString();
+			_score[i]->setString(c);
+		}
+		if (_bstar) {
+			auto starsprite = Sprite::createWithSpriteFrameName("star.png");
+			starsprite->setPosition(Vec2(834, 461));
+			starsprite->setScale(1.6);
+			starsprite->setRotation(15);
+			this->addChild(starsprite, 30);
+		}
 	}
 	if (!_bboxR) {
 		if (_colliderSeneor.inBoxR == true) _bboxR = true;
@@ -897,6 +1005,7 @@ void  Level3::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		this->unschedule(schedule_selector(Level3::doStep));
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 		TransitionFade *pageTurn;
 		pageTurn = TransitionFade::create(1.0F, StartScene::createScene(levelball,maxLevel));
 		Director::getInstance()->replaceScene(pageTurn);
@@ -905,6 +1014,7 @@ void  Level3::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		this->unschedule(schedule_selector(Level3::doStep));
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 		TransitionFade *pageTurn;
 		pageTurn = TransitionFade::create(1.0F, Level3::createScene(levelball, maxLevel));
 		Director::getInstance()->replaceScene(pageTurn);
@@ -913,6 +1023,7 @@ void  Level3::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		this->unschedule(schedule_selector(Level3::doStep));
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		SimpleAudioEngine::getInstance()->stopBackgroundMusic(); 
 		TransitionFade *pageTurn;
 		pageTurn = TransitionFade::create(1.0F, StartScene::createScene(levelball, maxLevel));
 		Director::getInstance()->replaceScene(pageTurn);
@@ -921,6 +1032,7 @@ void  Level3::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		this->unschedule(schedule_selector(Level3::doStep));
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		SimpleAudioEngine::getInstance()->stopBackgroundMusic(); 
 		TransitionFade *pageTurn;
 		pageTurn = TransitionFade::create(1.0F, Level3::createScene(levelball, maxLevel));
 		Director::getInstance()->replaceScene(pageTurn);
@@ -929,6 +1041,7 @@ void  Level3::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //Ä²¸
 		this->unschedule(schedule_selector(Level3::doStep));
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		SimpleAudioEngine::getInstance()->stopBackgroundMusic(); 
 		TransitionFade *pageTurn;
 		pageTurn = TransitionFade::create(1.0F, Level4::createScene(levelball, maxLevel));
 		Director::getInstance()->replaceScene(pageTurn);

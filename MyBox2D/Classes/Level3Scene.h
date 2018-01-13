@@ -9,6 +9,7 @@
 #include "Common/CButton.h"
 #include "Common/CSwitchButton.h"
 #include "Common/CContactListener.h"
+#include "SimpleAudioEngine.h"
 
 #ifdef BOX2D_DEBUG
 #include "Common/GLES-Render.h"
@@ -20,6 +21,7 @@
 #define AccelerateMaxNum 2
 #define AccelerateRatio 1.5f
 
+using namespace CocosDenshion;
 
 class Level3 : public cocos2d::Layer
 {
@@ -57,6 +59,7 @@ public:
 	cocos2d::BlendFunc blendFunc;
 	float _tdelayTime; 
 	bool  _bSparking;  
+	float _balltime = 0.0f;
 
 	bool startGame = true;
 	bool open = false;
@@ -66,7 +69,12 @@ public:
 	CButton *_redBtn, *_blueBtn, *_greenBtn, *_homeBtn, *_replayBtn;
 	CButton *_homeBtn2, *_replayBtn2, *_nextBtn;
 	CSwitchButton *_penBtn;
+
+	cocos2d::ui::Text *_score[3];
 	Node *_endUi;
+
+	b2Body *_star;
+	bool _bstar = false;
 
 	void addBall(int [4][3]);
 	void createStaticBoundary();
@@ -75,7 +83,7 @@ public:
 	void setPendulum();
 	void setFinalBox();
 	void setCar();
-	//void setSensor();
+	void setStar();
 	void setbtn();
 	void setUIbtn();
 	void setEndUi();
