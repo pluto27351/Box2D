@@ -47,7 +47,7 @@ void CButton::setButtonInfo(const char *normalImg, const char *touchedImg, const
 
 bool CButton::touchesBegin(cocos2d::Point inPos)
 {
-	if( _BtnRect.containsPoint(inPos) && _bVisible && _bEnabled)
+	if( _BtnRect.containsPoint(inPos) && _bEnabled)
 	{
 		_bTouched = true;
 		_normalPic->setVisible(false);
@@ -83,12 +83,7 @@ bool CButton::touchesEnded(cocos2d::Point inPos)
 	return false;
 }
 
-void CButton::setVisible(bool bVisible)
-{
-	_bVisible = bVisible;
-	//if (!_bVisible) _normalPic->setVisible(false);
-	//else _normalPic->setVisible(true);
-}
+
 
 
 void CButton::setEnabled(bool bEnable)

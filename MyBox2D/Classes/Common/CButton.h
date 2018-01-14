@@ -27,7 +27,7 @@ public:
 	bool touchesBegin(cocos2d::Point inPos);
 	bool touchesMoved(cocos2d::Point inPos); 
 	bool touchesEnded(cocos2d::Point inPos); 
-	void setVisible(bool bVis);
+	//void setVisible(bool bVis);
 	void setEnabled(bool bEnable);
 	void setScale(float scale);
 

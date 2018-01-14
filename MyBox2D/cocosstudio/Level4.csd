@@ -17,6 +17,18 @@
             <FileData Type="PlistSubImage" Path="bg64.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
+          <AbstractNodeData Name="Text_1" ActionTag="-460856094" Alpha="76" Tag="230" IconVisible="False" LeftMargin="484.5000" RightMargin="484.5000" TopMargin="307.0000" BottomMargin="307.0000" FontSize="100" LabelText="Level . 4" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+            <Size X="311.0000" Y="106.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="640.0000" Y="360.0000" />
+            <Scale ScaleX="2.0000" ScaleY="1.5000" />
+            <CColor A="255" R="186" G="255" B="218" />
+            <PrePosition X="0.5000" Y="0.5000" />
+            <PreSize X="0.2430" Y="0.1472" />
+            <FontResource Type="Normal" Path="Marker Felt.ttf" Plist="" />
+            <OutlineColor A="255" R="255" G="0" B="0" />
+            <ShadowColor A="255" R="110" G="110" B="110" />
+          </AbstractNodeData>
           <AbstractNodeData Name="pencolor" ActionTag="1266823493" Tag="312" RotationSkewX="0.5708" RotationSkewY="0.5848" IconVisible="False" LeftMargin="36.5848" RightMargin="1179.4152" TopMargin="606.5365" BottomMargin="49.4635" ctype="SpriteObjectData">
             <Size X="64.0000" Y="64.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
@@ -963,15 +975,15 @@
             <FileData Type="PlistSubImage" Path="square02.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="star" ActionTag="-974134207" Tag="470" IconVisible="False" LeftMargin="204.8373" RightMargin="1011.1627" TopMargin="65.0745" BottomMargin="590.9255" ctype="SpriteObjectData">
-            <Size X="64.0000" Y="64.0000" />
+          <AbstractNodeData Name="star" ActionTag="-974134207" Tag="470" IconVisible="False" LeftMargin="209.8373" RightMargin="1016.1627" TopMargin="70.0745" BottomMargin="595.9255" ctype="SpriteObjectData">
+            <Size X="54.0000" Y="54.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="236.8373" Y="622.9255" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition X="0.1850" Y="0.8652" />
-            <PreSize X="0.0500" Y="0.0889" />
-            <FileData Type="PlistSubImage" Path="bubble.png" Plist="box2d.plist" />
+            <PreSize X="0.0422" Y="0.0750" />
+            <FileData Type="PlistSubImage" Path="star.png" Plist="UIBTN.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
         </Children>

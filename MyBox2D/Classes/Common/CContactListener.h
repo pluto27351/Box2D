@@ -16,6 +16,9 @@ public:
 	bool inBoxR = false, inBoxG = false, inBoxB = false;
 	bool lv3Open = false;
 	bool _bp = false,_bs=false;
+
+	bool level[4] = { false,false,false,false};
+
 	CContactListener();
 	~CContactListener();
 	//¸I¼²¶}©l

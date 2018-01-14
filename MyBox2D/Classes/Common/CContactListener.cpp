@@ -102,6 +102,25 @@ void CContactListener::BeginContact(b2Contact* contact)
 		CCLOG("open");
 		lv3Open = true;
 	}
+
+	if (DensityA == 7760 || DensityB == 7760) {
+		for (int i = 0; i < 4; i++)level[i] = false;
+		level[0] = true;
+	}
+	if (DensityA == 7770 || DensityB == 7770) {
+		for (int i = 0; i < 4; i++)level[i] = false;
+		level[1] = true;
+	}
+	if (DensityA == 7780 || DensityB == 7780) {
+		for (int i = 0; i < 4; i++)level[i] = false;
+		level[2] = true;
+	}
+	if (DensityA == 7790 || DensityB == 7790) {
+		for (int i = 0; i < 4; i++)level[i] = false;
+		level[3] = true;
+	}
+	
+	
 	
 }
 

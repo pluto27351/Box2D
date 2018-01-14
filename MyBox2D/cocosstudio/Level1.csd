@@ -17,6 +17,18 @@
             <FileData Type="PlistSubImage" Path="bg64.png" Plist="box2d.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
+          <AbstractNodeData Name="Text_1" ActionTag="-1634096862" Alpha="76" Tag="227" IconVisible="False" LeftMargin="499.0000" RightMargin="499.0000" TopMargin="307.0000" BottomMargin="307.0000" FontSize="100" LabelText="Level . 1" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+            <Size X="282.0000" Y="106.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="640.0000" Y="360.0000" />
+            <Scale ScaleX="2.0000" ScaleY="1.5000" />
+            <CColor A="255" R="186" G="255" B="218" />
+            <PrePosition X="0.5000" Y="0.5000" />
+            <PreSize X="0.2203" Y="0.1472" />
+            <FontResource Type="Normal" Path="Marker Felt.ttf" Plist="" />
+            <OutlineColor A="255" R="255" G="0" B="0" />
+            <ShadowColor A="255" R="110" G="110" B="110" />
+          </AbstractNodeData>
           <AbstractNodeData Name="bluebtn" ActionTag="-299717885" Tag="142" IconVisible="False" LeftMargin="30.9956" RightMargin="1175.0044" TopMargin="488.3500" BottomMargin="157.6500" ctype="SpriteObjectData">
             <Size X="74.0000" Y="74.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
@@ -204,7 +216,7 @@
             <FileData Type="PlistSubImage" Path="boxedge2.png" Plist="UIBTN.plist" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="boxSensor_03" ActionTag="-1075418963" Tag="592" IconVisible="False" LeftMargin="1018.0646" RightMargin="147.9354" TopMargin="617.2997" BottomMargin="8.7002" ctype="SpriteObjectData">
+          <AbstractNodeData Name="boxSensor_03" ActionTag="-1075418963" Tag="592" IconVisible="False" LeftMargin="1018.0646" RightMargin="147.9354" TopMargin="617.2998" BottomMargin="8.7002" ctype="SpriteObjectData">
             <Size X="114.0000" Y="94.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1075.0646" Y="55.7002" />

@@ -7,6 +7,7 @@
 #include "Common/CButton.h"
 #include "Common/CSwitchButton.h"
 #include "SimpleAudioEngine.h"
+#include "Common/CContactListener.h"
 
 #include "Level1Scene.h"
 #include "Level2Scene.h"
@@ -34,19 +35,26 @@ public:
 	b2World* _b2World;
 	cocos2d::Size _visibleSize;
 	cocos2d::Point bornpt;
-	int LV = 1;
+	int LV = 0;
+
 	
 	int levelball[4][3];
 	int maxLevel=0;
+	cocos2d::Sprite *_wallR[3];
+	b2Body *_wallbody[3];
+	int r[3] = { 0 };
 
 	void setballNum(int [4][3],int);
 	void setStaticWall();
 	void setbtn();
 	void setUIbtn();
 	void renderball(char *, int);
+	void setSensor();
+	void changeView();
 	CButton *_redBtn,*_blueBtn, *_greenBtn;
 	CButton *_startBtn;
 	CSwitchButton *_LevelBtn[4], *_NowLevel;
+	CContactListener _contactListener;
 
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();

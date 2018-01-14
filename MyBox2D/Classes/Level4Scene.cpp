@@ -690,7 +690,7 @@ void Level4::setCar() {
 	GJoint.bodyB = enginebody;
 	GJoint.joint1 = RevJoint[1];
 	GJoint.joint2 = RevJoint[2];
-	GJoint.ratio = -2;
+	GJoint.ratio = -2.5;
 	_b2World->CreateJoint(&GJoint);
 
 }

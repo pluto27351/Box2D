@@ -78,8 +78,10 @@ bool StartScene::init()
 	setStaticWall();
 	setUIbtn();
 	setbtn();
+	setSensor();
 
 	SimpleAudioEngine::getInstance()->playBackgroundMusic("./audio/bg.mp3", true);
+	_b2World->SetContactListener(&_contactListener);
 
 	/*auto bkmusic = (cocostudio::ComAudio *)_csbRoot->getChildByName("BG_Music")->getComponent("BG_Music");
 	bkmusic->playBackgroundMusic();*/
@@ -137,64 +139,38 @@ void  StartScene::setUIbtn() {
 	_startBtn = CButton::create();
 	_startBtn->setButtonInfo("startBtn_01.png", "startBtn_02.png", btnSprite->getPosition());
 	this->addChild(_startBtn, 5);
+	_startBtn->setVisible(false);
 	btnSprite->setVisible(false);
 
-	_NowLevel = _LevelBtn[0];
-	_LevelBtn[0]->setStatus(true);
+	_NowLevel = NULL;
+	//_LevelBtn[0]->setStatus(true);
 }
 
 
 void StartScene::setStaticWall() {
 	char tmp[20] = "";
 
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_staticBody;
-	bodyDef.userData = NULL;
-	b2Body *body = _b2World->CreateBody(&bodyDef);
-
-	b2PolygonShape polyshape;
-	b2FixtureDef fixtureDef; // 玻ネ Fixture
-	fixtureDef.shape = &polyshape;
-
-	for (int i = 0; i < 3; i++)
-	{
-		sprintf(tmp, "wall_%02d", i);
-		auto wallSprite = (Sprite *)_csbRoot->getChildByName(tmp);
-		Size ts = wallSprite->getContentSize();
-		Point loc = wallSprite->getPosition();
-		float angle = wallSprite->getRotation();
-		float scaleX = wallSprite->getScaleX();
-		float scaleY = wallSprite->getScaleY();
-
-		Point lep[4], wep[4];
-		lep[0].x = (ts.width - 4) / 2.0f;;  lep[0].y = (ts.height - 4) / 2.0f;
-		lep[1].x = -(ts.width - 4) / 2.0f;; lep[1].y = (ts.height - 4) / 2.0f;
-		lep[2].x = -(ts.width - 4) / 2.0f;; lep[2].y = -(ts.height - 4) / 2.0f;
-		lep[3].x = (ts.width - 4) / 2.0f;;  lep[3].y = -(ts.height - 4) / 2.0f;
-
-		cocos2d::Mat4 modelMatrix, rotMatrix;
-		modelMatrix.m[0] = scaleX;  // 砞﹚ X 禸罽
-		modelMatrix.m[5] = scaleY;  // 砞﹚ Y 禸罽
-		cocos2d::Mat4::createRotationZ(angle*M_PI / 180.0f, &rotMatrix);
-		modelMatrix.multiply(rotMatrix);
-		modelMatrix.m[3] = loc.x; //砞﹚ Translation克
-		modelMatrix.m[7] = loc.y; //砞﹚ Translation克
-		for (size_t j = 0; j < 4; j++)
-		{
-			wep[j].x = lep[j].x * modelMatrix.m[0] + lep[j].y * modelMatrix.m[1] + modelMatrix.m[3];
-			wep[j].y = lep[j].x * modelMatrix.m[4] + lep[j].y * modelMatrix.m[5] + modelMatrix.m[7];
-		}
-		b2Vec2 vecs[] = {
-			b2Vec2(wep[0].x / PTM_RATIO, wep[0].y / PTM_RATIO),
-			b2Vec2(wep[1].x / PTM_RATIO, wep[1].y / PTM_RATIO),
-			b2Vec2(wep[2].x / PTM_RATIO, wep[2].y / PTM_RATIO),
-			b2Vec2(wep[3].x / PTM_RATIO, wep[3].y / PTM_RATIO) };
-
-		polyshape.Set(vecs, 4);
-		if (i == 1)fixtureDef.density = 900;
-		else fixtureDef.density = 10;
-		body->CreateFixture(&fixtureDef);
-	}
+	for (int i = 0; i < 3; i++) {
+		sprintf(tmp, "r_%02d", i);
+		auto framesprite = (Sprite *)_csbRoot->getChildByName(tmp);
+		auto s = (Sprite *)framesprite;
+		_wallR[i] = new Sprite;
+		_wallR[i] = s;
+		auto loc = framesprite->getPosition();
+		auto size = framesprite->getContentSize();
+		float sx = framesprite->getScaleX();
+		float sy = framesprite->getScaleY();
+		b2BodyDef dynamicBodyDef;
+		dynamicBodyDef.position.Set(loc.x / PTM_RATIO, loc.y / PTM_RATIO);
+		dynamicBodyDef.userData = framesprite;
+		_wallbody[i] = _b2World->CreateBody(&dynamicBodyDef);
+		b2PolygonShape boxShape;
+		boxShape.SetAsBox(size.width*0.5f*sx / PTM_RATIO, size.height*0.5f*sy / PTM_RATIO);
+		b2FixtureDef fixtureDef;
+		fixtureDef.shape = &boxShape;
+		fixtureDef.density = 1.0f;  fixtureDef.friction = 0.25f; fixtureDef.restitution = 0.25f;
+		_wallbody[i]->CreateFixture(&fixtureDef);
+	}	
 
 	auto bornSprite = (Sprite *)_csbRoot->getChildByName("born");
 	Point pt = bornSprite->getPosition();
@@ -203,6 +179,111 @@ void StartScene::setStaticWall() {
 	_born->setPosition(pt);
 	this->addChild(_born, 10);
 	_csbRoot->removeChildByName("born");
+}
+
+void StartScene::setSensor() {
+	char tmp[20] = "";
+	for (int i = 0; i < 4; i++) {
+		sprintf(tmp, "sensor_%02d", i);
+		auto sensorSprite = (Sprite *)_csbRoot->getChildByName(tmp);
+		Point loc = sensorSprite->getPosition();
+		Size  size = sensorSprite->getContentSize();
+		float scaleX = sensorSprite->getScaleX();
+		float scaleY = sensorSprite->getScaleY();
+		_csbRoot->removeChild(sensorSprite);
+		//sensorSprite->setVisible(false);
+		b2BodyDef sensorBodyDef;
+		sensorBodyDef.position.Set(loc.x / PTM_RATIO, loc.y / PTM_RATIO);
+		sensorBodyDef.type = b2_staticBody;
+
+		b2Body* SensorBody = _b2World->CreateBody(&sensorBodyDef);
+		b2PolygonShape sensorShape;
+		sensorShape.SetAsBox(size.width *0.5f * scaleX / PTM_RATIO, size.height*0.5f*scaleY / PTM_RATIO);
+
+		b2FixtureDef SensorFixtureDef;
+		SensorFixtureDef.shape = &sensorShape;
+		SensorFixtureDef.isSensor = true;	// 砞﹚ Sensor
+		SensorFixtureDef.density = 7760 + i*10; // 珿種砞﹚Θ硂よ獽窱牟耞
+		SensorBody->CreateFixture(&SensorFixtureDef);
+
+	}
+}
+
+//void StartScene::setStaticWall() {
+//	char tmp[20] = "";
+//
+//	b2BodyDef bodyDef;
+//	bodyDef.type = b2_staticBody;
+//	bodyDef.userData = NULL;
+//	b2Body *body = _b2World->CreateBody(&bodyDef);
+//
+//	b2PolygonShape polyshape;
+//	b2FixtureDef fixtureDef; // 玻ネ Fixture
+//	fixtureDef.shape = &polyshape;
+//
+//	for (int i = 0; i < 3; i++)
+//	{
+//		sprintf(tmp, "wall_%02d", i);
+//		auto wallSprite = (Sprite *)_csbRoot->getChildByName(tmp);
+//		Size ts = wallSprite->getContentSize();
+//		Point loc = wallSprite->getPosition();
+//		float angle = wallSprite->getRotation();
+//		float scaleX = wallSprite->getScaleX();
+//		float scaleY = wallSprite->getScaleY();
+//
+//		Point lep[4], wep[4];
+//		lep[0].x = (ts.width - 4) / 2.0f;;  lep[0].y = (ts.height - 4) / 2.0f;
+//		lep[1].x = -(ts.width - 4) / 2.0f;; lep[1].y = (ts.height - 4) / 2.0f;
+//		lep[2].x = -(ts.width - 4) / 2.0f;; lep[2].y = -(ts.height - 4) / 2.0f;
+//		lep[3].x = (ts.width - 4) / 2.0f;;  lep[3].y = -(ts.height - 4) / 2.0f;
+//
+//		cocos2d::Mat4 modelMatrix, rotMatrix;
+//		modelMatrix.m[0] = scaleX;  // 砞﹚ X 禸罽
+//		modelMatrix.m[5] = scaleY;  // 砞﹚ Y 禸罽
+//		cocos2d::Mat4::createRotationZ(angle*M_PI / 180.0f, &rotMatrix);
+//		modelMatrix.multiply(rotMatrix);
+//		modelMatrix.m[3] = loc.x; //砞﹚ Translation克
+//		modelMatrix.m[7] = loc.y; //砞﹚ Translation克
+//		for (size_t j = 0; j < 4; j++)
+//		{
+//			wep[j].x = lep[j].x * modelMatrix.m[0] + lep[j].y * modelMatrix.m[1] + modelMatrix.m[3];
+//			wep[j].y = lep[j].x * modelMatrix.m[4] + lep[j].y * modelMatrix.m[5] + modelMatrix.m[7];
+//		}
+//		b2Vec2 vecs[] = {
+//			b2Vec2(wep[0].x / PTM_RATIO, wep[0].y / PTM_RATIO),
+//			b2Vec2(wep[1].x / PTM_RATIO, wep[1].y / PTM_RATIO),
+//			b2Vec2(wep[2].x / PTM_RATIO, wep[2].y / PTM_RATIO),
+//			b2Vec2(wep[3].x / PTM_RATIO, wep[3].y / PTM_RATIO) };
+//
+//		polyshape.Set(vecs, 4);
+//		if (i == 1)fixtureDef.density = 900;
+//		else fixtureDef.density = 10;
+//		body->CreateFixture(&fixtureDef);
+//	}
+//
+//	auto bornSprite = (Sprite *)_csbRoot->getChildByName("born");
+//	Point pt = bornSprite->getPosition();
+//	bornpt = pt;
+//	auto _born = Sprite::createWithSpriteFrameName("pipe01.png");
+//	_born->setPosition(pt);
+//	this->addChild(_born, 10);
+//	_csbRoot->removeChildByName("born");
+//}
+
+void StartScene::changeView() {
+	if (LV != 0) {
+		this->unschedule(schedule_selector(StartScene::doStep));
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
+		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
+		SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+		TransitionFade *pageTurn;
+		if (LV == 1)pageTurn = TransitionFade::create(1.0F, Level1::createScene(levelball, maxLevel));
+		else if (LV == 2)pageTurn = TransitionFade::create(1.0F, Level2::createScene(levelball, maxLevel));
+		else if (LV == 3)pageTurn = TransitionFade::create(1.0F, Level3::createScene(levelball, maxLevel));
+		else if (LV == 4)pageTurn = TransitionFade::create(1.0F, Level4::createScene(levelball, maxLevel));
+
+		Director::getInstance()->replaceScene(pageTurn);
+	}
 }
 
 void StartScene::doStep(float dt)
@@ -222,9 +303,30 @@ void StartScene::doStep(float dt)
 		if (body->GetUserData() != NULL)
 		{
 			Sprite *ballData = (Sprite*)body->GetUserData();
+			for (int i = 0; i < 3; i++) {
+				if (ballData == _wallR[i]) {
+					body->SetTransform(body->GetPosition(), r[i]*M_PI/180*-1);
+					body->SetFixedRotation(r[i]);
+				}
+			}
+			//Sprite *ballData = (Sprite*)body->GetUserData();
 			ballData->setPosition(body->GetPosition().x*PTM_RATIO, body->GetPosition().y*PTM_RATIO);
 			ballData->setRotation(-1 * CC_RADIANS_TO_DEGREES(body->GetAngle()));
 		}
+	}
+
+	if (_contactListener.level[0] == true) {
+		LV = 1;
+		changeView();
+	}else if (_contactListener.level[1] == true) {
+		LV = 2;
+		changeView();
+	}else if (_contactListener.level[2] == true) {
+		LV = 3;
+		changeView();
+	}else if (_contactListener.level[3] == true) {
+		LV = 4;
+		changeView();
 	}
 
 }
@@ -263,27 +365,36 @@ void  StartScene::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) /
 	if (_blueBtn->touchesEnded(touchLoc))  renderball("ball_03.png", 3);
 
 	if (_LevelBtn[0]->touchesEnded(touchLoc)) {
-		if (_NowLevel != _LevelBtn[0]) _NowLevel->setStatus(false);
+		if (_NowLevel != _LevelBtn[0] && _NowLevel != NULL) _NowLevel->setStatus(false);
+		else if(_NowLevel == _LevelBtn[0]) _NowLevel->setStatus(true);
 		LV = 1;
+		r[0] = -25; r[1] = -45;
 		_NowLevel = _LevelBtn[0];
 	}
 	if (_LevelBtn[1]->touchesEnded(touchLoc)) {
-		if (_NowLevel != _LevelBtn[1]) _NowLevel->setStatus(false);
+		if (_NowLevel != _LevelBtn[1] && _NowLevel != NULL) _NowLevel->setStatus(false);
+		else if (_NowLevel == _LevelBtn[1]) _NowLevel->setStatus(true);
 		LV = 2;
+		r[0] = -25; r[1] = 45;
 		_NowLevel = _LevelBtn[1];
 	}
 	if (_LevelBtn[2]->touchesEnded(touchLoc)) {
-		if (_NowLevel != _LevelBtn[2]) _NowLevel->setStatus(false);
+		if (_NowLevel != _LevelBtn[2] && _NowLevel != NULL) _NowLevel->setStatus(false);
+		else if (_NowLevel == _LevelBtn[2]) _NowLevel->setStatus(true);
 		LV = 3;
+		r[0] = 25; r[2] = -45;
 		_NowLevel = _LevelBtn[2];
 	}
 	if (_LevelBtn[3]->touchesEnded(touchLoc)) {
-		if (_NowLevel != _LevelBtn[3]) _NowLevel->setStatus(false);
+		if (_NowLevel != _LevelBtn[3] && _NowLevel != NULL) _NowLevel->setStatus(false);
+		else if (_NowLevel == _LevelBtn[3]) _NowLevel->setStatus(true);
 		LV = 4;
+		r[0] = 25; r[2] = 45;
 		_NowLevel = _LevelBtn[3];
 	}
 	if (_startBtn->touchesEnded(touchLoc)) {
-		this->unschedule(schedule_selector(StartScene::doStep));
+		changeView();
+		/*this->unschedule(schedule_selector(StartScene::doStep));
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("box2d.plist");
 		SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("UIBTN.plist");
 		SimpleAudioEngine::getInstance()->stopBackgroundMusic();
@@ -293,7 +404,7 @@ void  StartScene::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) /
 		else if (LV == 3)pageTurn = TransitionFade::create(1.0F, Level3::createScene(levelball,maxLevel));
 		else if (LV == 4)pageTurn = TransitionFade::create(1.0F, Level4::createScene(levelball,maxLevel));
 		
-		Director::getInstance()->replaceScene(pageTurn);
+		Director::getInstance()->replaceScene(pageTurn);*/
 	
 
 
