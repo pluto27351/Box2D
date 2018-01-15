@@ -2,7 +2,6 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 #include "Level1Scene.h"
-#include "FixtureCollisionScene.h"
 
 USING_NS_CC;
 using namespace cocostudio::timeline;

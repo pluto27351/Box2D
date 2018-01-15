@@ -4,10 +4,6 @@
     <Group ctype="ResourceGroup">
       <RootFolder Name=".">
         <Folder Name="audio">
-          <Audio Name="born.mp3" />
-          <Audio Name="drop.mp3" />
-          <Audio Name="gear.WAV" />
-          <Audio Name="get.WAV" />
           <Audio Name="bg.mp3" />
         </Folder>
         <PlistImageFolder Image="box2d.png" PListFile="box2d.plist" Name=".box2d_PList.Dir">
@@ -119,16 +115,12 @@
           <PlistImageFile Name="uiBtn03_02.png" Key="uiBtn03_02.png" />
           <PlistImageFile Name="wheel_00.png" Key="wheel_00.png" />
         </PlistImageFolder>
-        <Project Name="FixtureCollision.csd" Type="Scene" />
-        <Project Name="JointScene.csd" Type="Scene" />
         <Project Name="Level1.csd" Type="Scene" />
         <Project Name="Level2.csd" Type="Scene" />
         <Project Name="Level3.csd" Type="Scene" />
         <Project Name="Level4.csd" Type="Scene" />
-        <Project Name="MainScene.csd" Type="Scene" />
         <TTF Name="Marker Felt.ttf" />
         <Project Name="StartScene.csd" Type="Scene" />
-        <Project Name="staticBlocks.csd" Type="Node" />
       </RootFolder>
     </Group>
   </SolutionFolder>

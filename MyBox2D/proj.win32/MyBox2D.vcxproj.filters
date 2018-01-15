@@ -21,25 +21,7 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\B2WorldFrameScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\FixtureCollisionScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\JointScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\StaticDynamicScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Common\CButton.cpp">
-      <Filter>src\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Common\CLight.cpp">
       <Filter>src\Common</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Common\GB2ShapeCache-x.cpp">
@@ -47,9 +29,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Common\GLES-Render.cpp">
       <Filter>src\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\DrawScene.cpp">
-      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Common\CContactListener.cpp">
       <Filter>src\Common</Filter>
@@ -80,25 +59,7 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\B2WorldFrameScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\FixtureCollisionScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\JointScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\StaticDynamicScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Common\CButton.h">
-      <Filter>src\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Common\CLight.h">
       <Filter>src\Common</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Common\GB2ShapeCache-x.h">
@@ -106,9 +67,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Common\GLES-Render.h">
       <Filter>src\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\DrawScene.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Common\CContactListener.h">
       <Filter>src\Common</Filter>
